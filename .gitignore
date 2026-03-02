@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# 模型训练文件（太大，不适合GitHub）
+data/processed/response_generator_adapter/
+data/processed/symptom_classifier_adapter/
+
+# 训练数据（如果敏感）
+# data/processed/*.jsonl

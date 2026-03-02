@@ -1,0 +1,5770 @@
+[
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chen Wei",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sarah Mitchell",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. James Okafor",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Priya Sharma",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. David Park",
+    "department": "Cardiology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Emily Torres",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Raj Patel",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marcus Johnson",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aisha Nkosi",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lucas M\u00fcller",
+    "department": "Neurology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sophie Lee",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Carlos Rivera",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatima Al-Hassan",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Tom Bergmann",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei Zhang",
+    "department": "Dermatology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Oliver Brown",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amara Diallo",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nathan Kim",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Elena Rossi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Samuel Obi",
+    "department": "Gastroenterology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Hannah Schulz",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yusuf Ibrahim",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Claire Dubois",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Kevin Nguyen",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Lena Johansson",
+    "department": "Endocrinology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Michael Adeyemi",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Ingrid Larsen",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Peter Sato",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Grace Owusu",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Anton Petrov",
+    "department": "Pulmonology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Nina Castillo",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Benjamin Asante",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Yulia Ivanova",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Omar Khalid",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chloe Martin",
+    "department": "Infectious Disease",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Robert Tanaka",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Fatou Balde",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Alex Kowalski",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Mei-Ling Hu",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Isaac Ferreira",
+    "department": "Orthopedics",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sandra Mensah",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Viktor Novak",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Aya Yamamoto",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Chidi Eze",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Beatriz Santos",
+    "department": "Urology",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Theo Andersen",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Amina Toure",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Daniel Walsh",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Monday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Tuesday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Sun Li",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Wednesday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "11:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Thursday",
+    "time_slot": "15:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "08:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "09:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "10:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "13:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "14:00",
+    "available": true
+  },
+  {
+    "doctor": "Dr. Marie Leclerc",
+    "department": "General Medicine",
+    "day": "Friday",
+    "time_slot": "15:00",
+    "available": true
+  }
+]
