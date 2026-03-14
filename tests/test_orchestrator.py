@@ -31,9 +31,9 @@ def _make_generator(confirmation="Confirmed.", instructions="Arrive early."):
 
 def test_state_flows_through_all_nodes():
     with (
-        patch("agents.symptom_classifier.agent.run_classifier", side_effect=_make_classifier()),
-        patch("agents.appointment_retriever.agent.run_retriever", side_effect=_make_retriever()),
-        patch("agents.response_generator.agent.run_generator", side_effect=_make_generator()),
+        patch("orchestrator.graph.run_classifier", side_effect=_make_classifier()),
+        patch("orchestrator.graph.run_retriever", side_effect=_make_retriever()),
+        patch("orchestrator.graph.run_generator", side_effect=_make_generator()),
     ):
         from orchestrator.graph import run_pipeline
         result = run_pipeline("chest pain")
@@ -50,9 +50,9 @@ def test_state_flows_through_all_nodes():
 def test_patient_text_preserved_throughout():
     """patient_text must survive all three node transformations."""
     with (
-        patch("agents.symptom_classifier.agent.run_classifier", side_effect=_make_classifier()),
-        patch("agents.appointment_retriever.agent.run_retriever", side_effect=_make_retriever()),
-        patch("agents.response_generator.agent.run_generator", side_effect=_make_generator()),
+        patch("orchestrator.graph.run_classifier", side_effect=_make_classifier()),
+        patch("orchestrator.graph.run_retriever", side_effect=_make_retriever()),
+        patch("orchestrator.graph.run_generator", side_effect=_make_generator()),
     ):
         from orchestrator.graph import run_pipeline
         result = run_pipeline("my unique symptom text")
@@ -62,10 +62,10 @@ def test_patient_text_preserved_throughout():
 
 def test_different_departments_routed():
     with (
-        patch("agents.symptom_classifier.agent.run_classifier",
+        patch("orchestrator.graph.run_classifier",
               side_effect=_make_classifier(department="Neurology", urgency="Urgent")),
-        patch("agents.appointment_retriever.agent.run_retriever", side_effect=_make_retriever()),
-        patch("agents.response_generator.agent.run_generator", side_effect=_make_generator()),
+        patch("orchestrator.graph.run_retriever", side_effect=_make_retriever()),
+        patch("orchestrator.graph.run_generator", side_effect=_make_generator()),
     ):
         from orchestrator.graph import run_pipeline
         result = run_pipeline("I have a severe headache")
