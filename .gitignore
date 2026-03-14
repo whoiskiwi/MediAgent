@@ -1,0 +1,27 @@
+# Training data (too large for GitHub)
+data/processed/*.jsonl
+data/processed/*.json
+
+# Model weights & checkpoints
+data/processed/symptom_classifier_adapter/
+data/processed/response_generator_adapter/
+*.safetensors
+*.pt
+*.pth
+*.bin
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+*.egg-info/
