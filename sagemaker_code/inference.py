@@ -9,7 +9,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
-def model_fn(model_dir: str):
+def model_fn(model_dir: str, context=None):
     """Load tokenizer and model from /opt/ml/model (= the unpacked tar.gz)."""
     tokenizer = AutoTokenizer.from_pretrained(model_dir)
     if tokenizer.pad_token is None:
