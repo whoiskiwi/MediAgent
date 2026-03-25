@@ -1,27 +1,27 @@
-# Training data (too large for GitHub)
-data/processed/*.jsonl
-data/processed/*.json
-
-# Model weights & checkpoints
-data/processed/symptom_classifier_adapter/
-data/processed/response_generator_adapter/
-*.safetensors
-*.pt
-*.pth
-*.bin
-
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
+.pytest_cache/
+
+# Environment
+.env
+.env.*
 
 # macOS
 .DS_Store
 
-# IDE
-.vscode/
-.idea/
+# Claude Code
+.claude/
 
-# Environment
-.env
-*.egg-info/
+# Large model artifacts — adapter weights & checkpoints
+data/processed/response_generator_adapter/
+data/processed/symptom_classifier_adapter/
+
+# Training data (too large for GitHub)
+data/processed/*.jsonl
+data/processed/*.json
+data/raw/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/

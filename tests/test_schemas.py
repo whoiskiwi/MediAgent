@@ -11,7 +11,6 @@ from schemas import (
     ResponseInput,
     ResponseOutput,
     SymptomInput,
-    normalize_urgency,
 )
 
 
@@ -108,21 +107,6 @@ class TestResponseModels:
             instructions="Bring your ID.",
         )
         assert "confirmed" in r.confirmation
-
-
-# ---------------------------------------------------------------------------
-# normalize_urgency
-# ---------------------------------------------------------------------------
-
-class TestNormalizeUrgency:
-    def test_emergency_mapped_to_urgent(self):
-        assert normalize_urgency("Emergency") == "Urgent"
-
-    def test_routine_unchanged(self):
-        assert normalize_urgency("Routine") == "Routine"
-
-    def test_urgent_unchanged(self):
-        assert normalize_urgency("Urgent") == "Urgent"
 
 
 # ---------------------------------------------------------------------------

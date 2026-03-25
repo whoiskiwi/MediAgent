@@ -39,15 +39,10 @@ class AgentState(TypedDict, total=False):
     """LangGraph state passed between all three agents."""
     patient_text: str
     department: str
-    urgency: str
+    urgency: Literal["Routine", "Urgent", "Emergency"]
     doctor: str
     time_slot: str
     confirmation: str
     instructions: str
 
 
-def normalize_urgency(urgency: str) -> str:
-    """Map Emergency → Urgent. Agent 3 only trained on Routine/Urgent."""
-    if urgency == "Emergency":
-        return "Urgent"
-    return urgency
