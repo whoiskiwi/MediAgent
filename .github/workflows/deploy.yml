@@ -36,7 +36,8 @@ jobs:
             fastapi uvicorn pydantic \
             python-dotenv boto3 \
             langgraph langchain \
-            peft transformers
+            peft transformers \
+            "python-jose[cryptography]" "passlib[bcrypt]" email-validator
 
       - name: Run tests
         run: pytest tests/test_agents.py tests/test_orchestrator.py tests/test_api.py -v
