@@ -1,4 +1,11 @@
-from fastapi import APIRouter
+import os
+import uuid
+from datetime import datetime, timezone
+from typing import Optional
+
+import boto3
+from fastapi import APIRouter, Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from schemas import (
     ClassifierOutput,
@@ -8,8 +15,29 @@ from schemas import (
     QueryResponse,
 )
 from orchestrator.graph import run_pipeline
+from auth.dependencies import get_current_user
 
 api_router = APIRouter()
+
+APPOINTMENTS_TABLE = os.getenv("APPOINTMENTS_TABLE", "medi-agent-appointments")
+AWS_REGION         = os.getenv("AWS_REGION", "us-west-2")
+
+_ddb   = boto3.resource("dynamodb", region_name=AWS_REGION)
+_appts = _ddb.Table(APPOINTMENTS_TABLE)
+
+_bearer = HTTPBearer(auto_error=False)
+
+
+def _optional_user(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(_bearer),
+) -> Optional[dict]:
+    """Return JWT payload if a valid token is provided, else None."""
+    if not credentials:
+        return None
+    try:
+        return get_current_user(credentials)
+    except Exception:
+        return None
 
 
 @api_router.get("/health")
@@ -18,10 +46,10 @@ def health():
 
 
 @api_router.post("/query", response_model=QueryResponse)
-def query(req: QueryRequest):
+def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
     state = run_pipeline(req.symptom)
 
-    return QueryResponse(
+    result = QueryResponse(
         agent1=ClassifierOutput(
             department=state.get("department", "General Practice"),
             urgency=state.get("urgency", "Routine"),
@@ -35,3 +63,31 @@ def query(req: QueryRequest):
             instructions=state.get("instructions", ""),
         ),
     )
+
+    # Save to appointment history if user is logged in
+    if user:
+        _appts.put_item(Item={
+            "user_id":      user["sub"],
+            "timestamp":    datetime.now(timezone.utc).isoformat(),
+            "appt_id":      str(uuid.uuid4()),
+            "symptom":      req.symptom,
+            "department":   result.agent1.department,
+            "urgency":      result.agent1.urgency,
+            "doctor":       result.agent2.doctor,
+            "time_slot":    result.agent2.time_slot,
+            "confirmation": result.agent3.confirmation,
+            "instructions": result.agent3.instructions,
+        })
+
+    return result
+
+
+@api_router.get("/appointments")
+def get_appointments(user: dict = Depends(get_current_user)):
+    """Return the current user's appointment history, newest first."""
+    resp = _appts.query(
+        KeyConditionExpression=boto3.dynamodb.conditions.Key("user_id").eq(user["sub"]),
+        ScanIndexForward=False,
+        Limit=20,
+    )
+    return {"appointments": resp.get("Items", [])}

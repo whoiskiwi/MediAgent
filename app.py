@@ -80,7 +80,7 @@ with st.sidebar:
 st.header("Symptom Query")
 
 if not is_logged_in():
-    st.info("Log in to access appointment history. You can also query symptoms without logging in.")
+    st.info("Log in to save and view your appointment history. You can also query without logging in.")
 
 with st.form("query_form"):
     symptom   = st.text_area("Describe your symptoms", placeholder="e.g. I have had a headache and fever for three days...")
@@ -97,13 +97,41 @@ if submitted and symptom.strip():
                 result = resp.json()
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.metric("Department", result.get("department", "-"))
-                    st.metric("Doctor",     result.get("doctor",     "-"))
-                    st.metric("Time Slot",  result.get("time_slot",  "-"))
+                    st.metric("Department", result["agent1"].get("department", "-"))
+                    st.metric("Doctor",     result["agent2"].get("doctor",     "-"))
+                    st.metric("Time Slot",  result["agent2"].get("time_slot",  "-"))
                 with col2:
                     st.subheader("Medical Advice")
-                    st.write(result.get("response", "-"))
+                    st.write(result["agent3"].get("confirmation", "-"))
+                    st.caption(result["agent3"].get("instructions", ""))
             else:
                 st.error(f"Query failed: {resp.text}")
         except Exception as e:
             st.error(f"Request failed: {e}")
+
+# ---------------------------------------------------------------------------
+# Appointment history (logged-in users only)
+# ---------------------------------------------------------------------------
+if is_logged_in():
+    st.divider()
+    st.header("Appointment History")
+
+    try:
+        resp = requests.get(f"{API_BASE}/appointments", headers=auth_headers(), timeout=10)
+        if resp.status_code == 200:
+            appointments = resp.json().get("appointments", [])
+            if not appointments:
+                st.info("No appointment history yet.")
+            else:
+                for appt in appointments:
+                    ts = appt.get("timestamp", "")[:19].replace("T", " ")
+                    with st.expander(f"{ts} — {appt.get('department', '')} | {appt.get('doctor', '')}"):
+                        st.write(f"**Symptom:** {appt.get('symptom', '-')}")
+                        st.write(f"**Urgency:** {appt.get('urgency', '-')}")
+                        st.write(f"**Time Slot:** {appt.get('time_slot', '-')}")
+                        st.write(f"**Confirmation:** {appt.get('confirmation', '-')}")
+                        st.write(f"**Instructions:** {appt.get('instructions', '-')}")
+        else:
+            st.error("Failed to load appointment history.")
+    except Exception as e:
+        st.error(f"Request failed: {e}")
