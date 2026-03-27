@@ -81,7 +81,7 @@ def _get_user_by_email(email: str):
 @router.post("/register")
 def register(body: RegisterRequest):
     if _get_user_by_email(body.email):
-        raise HTTPException(status_code=409, detail="该邮箱已注册")
+        raise HTTPException(status_code=409, detail="Email already registered")
 
     user_id = str(uuid.uuid4())
     now     = datetime.now(timezone.utc).isoformat()
@@ -111,7 +111,7 @@ def register(body: RegisterRequest):
 def login(body: LoginRequest):
     user = _get_user_by_email(body.email)
     if not user or not _pwd.verify(body.password, user["hashed_password"]):
-        raise HTTPException(status_code=401, detail="邮箱或密码错误")
+        raise HTTPException(status_code=401, detail="Invalid email or password")
 
     _table.update_item(
         Key={"user_id": user["user_id"]},
