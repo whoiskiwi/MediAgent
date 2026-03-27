@@ -6,117 +6,34 @@ AgentState TypedDict defined in schemas.py.
 
 from langgraph.graph import END, START, StateGraph
 
-from schemas import (
-    AgentState,
-    AppointmentQuery,
-    ResponseInput,
-    SymptomInput,
-)
+from schemas import AgentState
 
-from agents.symptom_classifier.agent import SymptomClassifierAgent
-from agents.appointment_retriever.agent import AppointmentRetrieverAgent
-from agents.response_generator.agent import ResponseGeneratorAgent
-
-# ---------------------------------------------------------------------------
-# Lazy-initialized singletons — models are loaded once on first invoke
-# ---------------------------------------------------------------------------
-_classifier: SymptomClassifierAgent | None = None
-_retriever: AppointmentRetrieverAgent | None = None
-_generator: ResponseGeneratorAgent | None = None
-
-
-def _get_classifier() -> SymptomClassifierAgent:
-    global _classifier
-    if _classifier is None:
-        _classifier = SymptomClassifierAgent()
-    return _classifier
-
-
-def _get_retriever() -> AppointmentRetrieverAgent:
-    global _retriever
-    if _retriever is None:
-        _retriever = AppointmentRetrieverAgent()
-    return _retriever
-
-
-def _get_generator() -> ResponseGeneratorAgent:
-    global _generator
-    if _generator is None:
-        _generator = ResponseGeneratorAgent()
-    return _generator
-
-
-# ---------------------------------------------------------------------------
-# Node functions — each receives full state, returns partial update dict
-# ---------------------------------------------------------------------------
-
-def classify_symptoms(state: AgentState) -> dict:
-    """Agent 1: classify patient symptoms → department + urgency."""
-    agent = _get_classifier()
-    result = agent.classify(SymptomInput(patient_text=state["patient_text"]))
-    return {
-        "department": result.department,
-        "urgency": result.urgency,
-    }
-
-
-def retrieve_appointment(state: AgentState) -> dict:
-    """Agent 2: query DynamoDB for an available doctor slot."""
-    agent = _get_retriever()
-    result = agent.retrieve(AppointmentQuery(department=state["department"]))
-    return {
-        "doctor": result.doctor,
-        "time_slot": result.time_slot,
-    }
-
-
-def generate_response(state: AgentState) -> dict:
-    """Agent 3: produce appointment confirmation + pre-visit instructions."""
-    agent = _get_generator()
-    result = agent.generate(
-        ResponseInput(
-            patient_text=state["patient_text"],
-            department=state["department"],
-            doctor=state["doctor"],
-            time_slot=state["time_slot"],
-            urgency=state["urgency"],
-        )
-    )
-    return {
-        "confirmation": result.confirmation,
-        "instructions": result.instructions,
-    }
-
+from agents.symptom_classifier.agent import run_classifier
+from agents.appointment_retriever.agent import run_retriever
+from agents.response_generator.agent import run_generator
 
 # ---------------------------------------------------------------------------
 # Build the graph
 # ---------------------------------------------------------------------------
 
-def build_graph() -> StateGraph:
-    """Construct and compile the 3-agent pipeline graph."""
-    workflow = StateGraph(AgentState)
+_builder = StateGraph(AgentState)
 
-    workflow.add_node("classify_symptoms", classify_symptoms)
-    workflow.add_node("retrieve_appointment", retrieve_appointment)
-    workflow.add_node("generate_response", generate_response)
+_builder.add_node("classify",  lambda state: run_classifier(state))
+_builder.add_node("retrieve",  lambda state: run_retriever(state))
+_builder.add_node("generate",  lambda state: run_generator(state))
 
-    workflow.add_edge(START, "classify_symptoms")
-    workflow.add_edge("classify_symptoms", "retrieve_appointment")
-    workflow.add_edge("retrieve_appointment", "generate_response")
-    workflow.add_edge("generate_response", END)
+_builder.add_edge(START,      "classify")
+_builder.add_edge("classify", "retrieve")
+_builder.add_edge("retrieve", "generate")
+_builder.add_edge("generate", END)
 
-    return workflow.compile()
-
-
-# Pre-built compiled graph — import this to run the pipeline
-graph = build_graph()
+graph = _builder.compile()
 
 
 # ---------------------------------------------------------------------------
-# Convenience runner
+# Public API
 # ---------------------------------------------------------------------------
 
 def run_pipeline(patient_text: str) -> AgentState:
-    """Run the full pipeline for a patient symptom description."""
-    result = graph.invoke({"patient_text": patient_text})
-    return result
+    """Run the full three-agent pipeline synchronously."""
+    return graph.invoke({"patient_text": patient_text})
