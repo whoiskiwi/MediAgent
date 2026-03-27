@@ -11,16 +11,17 @@
       "name": "medi-agent",
       "image": "156041402579.dkr.ecr.us-west-2.amazonaws.com/medi-agent:latest",
       "portMappings": [
-        {
-          "containerPort": 8000,
-          "protocol": "tcp"
-        }
+        { "containerPort": 8000, "protocol": "tcp" },
+        { "containerPort": 8501, "protocol": "tcp" }
       ],
       "environment": [
         { "name": "AWS_REGION",             "value": "us-west-2"             },
         { "name": "DDB_TABLE",              "value": "DoctorSchedule"        },
         { "name": "AGENT1_ENDPOINT_NAME",   "value": "medi-agent-classifier" },
-        { "name": "AGENT3_ENDPOINT_NAME",   "value": "medi-agent-generator"  }
+        { "name": "AGENT3_ENDPOINT_NAME",   "value": "medi-agent-generator"  },
+        { "name": "USERS_TABLE",            "value": "medi-agent-users"      },
+        { "name": "API_BASE",               "value": "http://localhost:8000/api/v1" },
+        { "name": "JWT_SECRET",             "value": "8b387383adfb014cb920f59bd9e73f8cf1cc01405d556f2b46f65deb6408b602" }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
