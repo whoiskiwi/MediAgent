@@ -4,9 +4,46 @@ Loaded once when the endpoint starts; predict_fn called for every request.
 """
 import json
 import os
+import re
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# ---------------------------------------------------------------------------
+# Output cleaning — strips medical Q&A sign-offs and doctor signature lines
+# that leak from training data into Agent 3 outputs.
+# ---------------------------------------------------------------------------
+_SIGNOFF_PATTERNS = re.compile(
+    r"(thanks\s+for\s+(posting|your\s+question)"
+    r"|hope\s+i\s+have\s+solved"
+    r"|i\s+will\s+be\s+happy\s+to\s+help"
+    r"|wishing\s+(you\s+)?good\s+health"
+    r"|wish\s+you\s+(good\s+health|well)"
+    r"|feel\s+free\s+to\s+contact"
+    r"|do\s+not\s+hesitate\s+to\s+contact"
+    r"|regards[,.]?\s*$)",
+    re.IGNORECASE,
+)
+_DOCTOR_LINE = re.compile(
+    r"^Dr\.\s+\w[\w\s]+\.\s*(cardiologist|physician|specialist|surgeon|neurologist"
+    r"|dermatologist|gastroenterologist|endocrinologist|pulmonologist"
+    r"|orthopedist|urologist|internist)?\.?\s*$",
+    re.IGNORECASE,
+)
+
+
+def _clean_output(text: str) -> str:
+    """Truncate at first sign-off sentence or doctor-signature line."""
+    if not text:
+        return text
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    kept = []
+    for s in sentences:
+        if _SIGNOFF_PATTERNS.search(s) or _DOCTOR_LINE.match(s.strip()):
+            break
+        kept.append(s)
+    cleaned = " ".join(kept).strip()
+    return cleaned if cleaned else text.split(".")[0].strip()
 
 
 def model_fn(model_dir: str, context=None):
@@ -55,6 +92,11 @@ def predict_fn(data: dict, model_and_tokenizer) -> list:
         output_ids[0][inputs["input_ids"].shape[1]:],
         skip_special_tokens=True,
     )
+
+    # Apply sign-off cleaning only for generator endpoint (longer outputs)
+    if len(generated) > 100:
+        generated = _clean_output(generated)
+
     return [{"generated_text": generated}]
 
 

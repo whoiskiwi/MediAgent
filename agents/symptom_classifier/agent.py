@@ -28,8 +28,8 @@ _sm_runtime = boto3.client("sagemaker-runtime", region_name=AWS_REGION)
 
 DEPARTMENTS = [
     "Cardiology", "Neurology", "Orthopedics", "Gastroenterology",
-    "Pulmonology", "Dermatology", "Endocrinology", "Psychiatry",
-    "General Practice", "Emergency",
+    "Pulmonology", "Dermatology", "Endocrinology", "Infectious Disease",
+    "Urology", "General Medicine",
 ]
 URGENCIES = ["Routine", "Urgent", "Emergency"]
 
