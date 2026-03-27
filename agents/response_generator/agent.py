@@ -1,80 +1,132 @@
-"""Agent 3: Response Generator
-
-Loads LLaMA-3.2-3B-Instruct with the QLoRA adapter (final_adapter)
-and generates appointment confirmations with pre-visit instructions.
 """
+Agent 3 — Response Generator
+Calls the SageMaker endpoint (medi-agent-generator) for inference.
+No local model loading required.
 
+IMPORTANT: Agent 3 was only trained on Routine / Urgent.
+           Emergency is normalised to Urgent via normalize_urgency().
+
+Input : AgentState with patient_text, department, doctor, time_slot, urgency
+Output: AgentState updated with 'confirmation' and 'instructions'
+"""
+import json
+import os
+import re
+import sys
 from pathlib import Path
+from typing import Tuple
 
-import torch
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+import boto3
+from dotenv import load_dotenv
 
-from schemas import BASE_MODEL, ResponseInput, ResponseOutput
-from agents.parsing import parse_response_output
-ADAPTER_PATH = str(
-    Path(__file__).resolve().parents[2]
-    / "data"
-    / "processed"
-    / "response_generator_adapter"
-    / "final_adapter"
+ROOT = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT / ".env")
+
+sys.path.insert(0, str(ROOT))
+from schemas import AgentState, normalize_urgency
+
+AWS_REGION    = os.getenv("AWS_REGION", "us-west-2")
+ENDPOINT_NAME = os.getenv("AGENT3_ENDPOINT_NAME", "medi-agent-generator")
+
+_sm_runtime = boto3.client("sagemaker-runtime", region_name=AWS_REGION)
+
+
+def _build_prompt(
+    patient_text: str,
+    department: str,
+    doctor: str,
+    time_slot: str,
+    urgency: str,
+) -> str:
+    return (
+        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
+        "You are a helpful medical assistant. Generate a warm appointment "
+        "confirmation message and specific pre-visit instructions for the patient.\n"
+        "Respond in exactly two parts separated by '---':\n"
+        "Part 1: Appointment confirmation (2-3 sentences)\n"
+        "Part 2: Pre-visit instructions (3-5 bullet points)\n"
+        "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+        f"Patient complaint: {patient_text}\n"
+        f"Department: {department}\n"
+        f"Doctor: {doctor}\n"
+        f"Time slot: {time_slot}\n"
+        f"Urgency: {urgency}\n"
+        "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
+    )
+
+
+def _call_endpoint(prompt: str) -> str:
+    payload = {
+        "inputs": prompt,
+        "parameters": {
+            "max_new_tokens": 256,
+            "do_sample": True,
+            "temperature": 0.7,
+            "top_p": 0.9,
+        },
+    }
+    response = _sm_runtime.invoke_endpoint(
+        EndpointName=ENDPOINT_NAME,
+        ContentType="application/json",
+        Body=json.dumps(payload),
+    )
+    result = json.loads(response["Body"].read())
+    return result[0]["generated_text"]
+
+
+_SIGNOFF_PATTERNS = re.compile(
+    r"(thanks\s+for\s+(posting|your\s+question)"
+    r"|hope\s+i\s+have\s+solved"
+    r"|i\s+will\s+be\s+happy\s+to\s+help"
+    r"|wishing\s+(you\s+)?good\s+health"
+    r"|wish\s+you\s+(good\s+health|well)"
+    r"|feel\s+free\s+to\s+contact"
+    r"|do\s+not\s+hesitate\s+to\s+contact"
+    r"|regards[,.]?\s*$)",
+    re.IGNORECASE,
+)
+_DOCTOR_LINE = re.compile(
+    r"^Dr\.\s+\w[\w\s]+\.\s*(cardiologist|physician|specialist|surgeon|neurologist"
+    r"|dermatologist|gastroenterologist|endocrinologist|pulmonologist"
+    r"|orthopedist|urologist|internist)?\.?\s*$",
+    re.IGNORECASE,
 )
 
-SYSTEM_PROMPT = (
-    "You are a compassionate medical assistant. A patient has been assigned "
-    "an appointment. Write a warm, clear appointment confirmation and practical "
-    "pre-visit instructions. Keep the tone professional but reassuring. "
-    "Format your response as:\n"
-    "Confirmation: <one sentence confirming the appointment>\n"
-    "Instructions: <2-4 specific pre-visit instructions>"
-)
+
+def _clean(text: str) -> str:
+    """Strip medical Q&A sign-offs and doctor-signature lines."""
+    if not text:
+        return text
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    kept = []
+    for s in sentences:
+        if _SIGNOFF_PATTERNS.search(s) or _DOCTOR_LINE.match(s.strip()):
+            break
+        kept.append(s)
+    cleaned = " ".join(kept).strip()
+    return cleaned if cleaned else text.split(".")[0].strip()
 
 
-class ResponseGeneratorAgent:
-    def __init__(self, device: str = "auto"):
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
-        )
-        self.tokenizer = AutoTokenizer.from_pretrained(ADAPTER_PATH)
-        base_model = AutoModelForCausalLM.from_pretrained(
-            BASE_MODEL,
-            quantization_config=bnb_config,
-            device_map=device,
-        )
-        self.model = PeftModel.from_pretrained(base_model, ADAPTER_PATH)
-        self.model.eval()
+def _parse_output(text: str) -> Tuple[str, str]:
+    if "---" in text:
+        parts = text.split("---", 1)
+        return _clean(parts[0].strip()), _clean(parts[1].strip())
+    return _clean(text.strip()), "Please arrive 15 minutes early and bring a photo ID."
 
-    @torch.inference_mode()
-    def generate(self, response_input: ResponseInput) -> ResponseOutput:
-        user_content = (
-            f"Patient symptoms: {response_input.patient_text}\n"
-            f"Assigned department: {response_input.department}\n"
-            f"Doctor: {response_input.doctor}\n"
-            f"Appointment: {response_input.time_slot}\n"
-            f"Urgency: {response_input.urgency}"
-        )
 
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_content},
-        ]
-        tokenized = self.tokenizer.apply_chat_template(
-            messages, add_generation_prompt=True, return_tensors="pt", return_dict=True,
-        ).to(self.model.device)
+def run_generator(state: AgentState) -> AgentState:
+    """LangGraph node — calls SageMaker, writes 'confirmation' and 'instructions'."""
+    safe_urgency = normalize_urgency(state.get("urgency", "Routine"))
 
-        input_len = tokenized["input_ids"].shape[-1]
-        outputs = self.model.generate(
-            **tokenized,
-            max_new_tokens=512,
-            temperature=0.7,
-            do_sample=True,
-            top_p=0.9,
-            pad_token_id=self.tokenizer.eos_token_id,
-        )
-        generated = self.tokenizer.decode(
-            outputs[0][input_len:], skip_special_tokens=True
-        ).strip()
+    prompt    = _build_prompt(
+        patient_text=state["patient_text"],
+        department=state.get("department", "General Practice"),
+        doctor=state.get("doctor", "your doctor"),
+        time_slot=state.get("time_slot", "your scheduled time"),
+        urgency=safe_urgency,
+    )
+    generated = _call_endpoint(prompt)
+    confirmation, instructions = _parse_output(generated)
 
-        return parse_response_output(generated)
+    print(f"[Agent3] → confirmation generated ({len(confirmation)} chars)")
+    return {**state, "confirmation": confirmation, "instructions": instructions}

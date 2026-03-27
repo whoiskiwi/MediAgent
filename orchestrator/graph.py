@@ -109,17 +109,14 @@ def build_graph() -> StateGraph:
 
 
 # Pre-built compiled graph — import this to run the pipeline
-app = build_graph()
+graph = build_graph()
 
 
 # ---------------------------------------------------------------------------
 # Convenience runner
 # ---------------------------------------------------------------------------
 
-def run(patient_text: str) -> AgentState:
-    """Run the full pipeline for a patient symptom description.
-
-    Returns the final AgentState with all fields populated.
-    """
-    result = app.invoke({"patient_text": patient_text})
+def run_pipeline(patient_text: str) -> AgentState:
+    """Run the full pipeline for a patient symptom description."""
+    result = graph.invoke({"patient_text": patient_text})
     return result

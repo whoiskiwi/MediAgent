@@ -46,3 +46,22 @@ class AgentState(TypedDict, total=False):
     instructions: str
 
 
+def normalize_urgency(urgency: str) -> str:
+    """Map Emergency → Urgent. Agent 3 only trained on Routine/Urgent."""
+    if urgency == "Emergency":
+        return "Urgent"
+    return urgency
+
+
+# ---------------------------------------------------------------------------
+# HTTP API schemas (used by api/v1/router.py)
+# ---------------------------------------------------------------------------
+
+class QueryRequest(BaseModel):
+    symptom: str
+
+
+class QueryResponse(BaseModel):
+    agent1: ClassifierOutput
+    agent2: AppointmentOutput
+    agent3: ResponseOutput
