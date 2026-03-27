@@ -10,6 +10,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 
 import boto3
+from boto3.dynamodb.conditions import Key as DDBKey
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
@@ -67,7 +68,7 @@ def _make_jwt(user_id: str, email: str, name: str) -> str:
 def _get_user_by_email(email: str):
     resp = _table.query(
         IndexName="email-index",
-        KeyConditionExpression=boto3.dynamodb.conditions.Key("email").eq(email),
+        KeyConditionExpression=DDBKey("email").eq(email),
         Limit=1,
     )
     items = resp.get("Items", [])
