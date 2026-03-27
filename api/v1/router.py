@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 import boto3
+from boto3.dynamodb.conditions import Key as DDBKey
 from fastapi import APIRouter, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -86,7 +87,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
 def get_appointments(user: dict = Depends(get_current_user)):
     """Return the current user's appointment history, newest first."""
     resp = _appts.query(
-        KeyConditionExpression=boto3.dynamodb.conditions.Key("user_id").eq(user["sub"]),
+        KeyConditionExpression=DDBKey("user_id").eq(user["sub"]),
         ScanIndexForward=False,
         Limit=20,
     )
