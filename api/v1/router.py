@@ -92,3 +92,30 @@ def get_appointments(user: dict = Depends(get_current_user)):
         Limit=20,
     )
     return {"appointments": resp.get("Items", [])}
+
+
+ADMIN_SECRET = os.getenv("ADMIN_SECRET", "")
+
+@api_router.delete("/admin/appointments")
+def clear_all_appointments(secret: str):
+    """Delete all items in the appointments table. Requires ADMIN_SECRET query param."""
+    if not ADMIN_SECRET or secret != ADMIN_SECRET:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    # Scan and batch delete all items
+    deleted = 0
+    while True:
+        resp = _appts.scan(ProjectionExpression="user_id, #ts",
+                           ExpressionAttributeNames={"#ts": "timestamp"})
+        items = resp.get("Items", [])
+        if not items:
+            break
+        with _appts.batch_writer() as batch:
+            for item in items:
+                batch.delete_item(Key={"user_id": item["user_id"], "timestamp": item["timestamp"]})
+        deleted += len(items)
+        if "LastEvaluatedKey" not in resp:
+            break
+
+    return {"deleted": deleted}

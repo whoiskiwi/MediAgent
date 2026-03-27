@@ -22,7 +22,8 @@
         { "name": "USERS_TABLE",            "value": "medi-agent-users"      },
         { "name": "API_BASE",               "value": "http://localhost:8000/api/v1" },
         { "name": "JWT_SECRET",             "value": "8b387383adfb014cb920f59bd9e73f8cf1cc01405d556f2b46f65deb6408b602" },
-        { "name": "APPOINTMENTS_TABLE",     "value": "medi-agent-appointments"  }
+        { "name": "APPOINTMENTS_TABLE",     "value": "medi-agent-appointments"  },
+        { "name": "ADMIN_SECRET",           "value": "medi-admin-2026"          }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
