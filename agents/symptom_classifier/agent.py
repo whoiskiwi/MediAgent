@@ -34,6 +34,7 @@ DEPARTMENTS = [
 URGENCIES = ["Routine", "Urgent", "Emergency"]
 
 
+
 def _build_prompt(patient_text: str) -> str:
     return (
         "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
@@ -69,7 +70,7 @@ def _parse_output(text: str) -> ClassifierOutput:
     dept_match = re.search(r"Department:\s*([^|]+)", text, re.IGNORECASE)
     urg_match  = re.search(r"Urgency:\s*(\w+)", text, re.IGNORECASE)
 
-    department = "General Practice"
+    department = "General Medicine"
     urgency    = "Routine"
 
     if dept_match:

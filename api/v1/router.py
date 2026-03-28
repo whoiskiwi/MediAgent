@@ -52,7 +52,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
 
     result = QueryResponse(
         agent1=ClassifierOutput(
-            department=state.get("department", "General Practice"),
+            department=state.get("department", "General Medicine"),
             urgency=state.get("urgency", "Routine"),
         ),
         agent2=AppointmentOutput(

@@ -5,9 +5,23 @@ import os
 import requests
 import streamlit as st
 
-API_BASE = os.getenv("API_BASE", "http://localhost:8000/api/v1")
+API_BASE    = os.getenv("API_BASE", "http://localhost:8000/api/v1")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.set_page_config(page_title="MediAgent", page_icon="🏥", layout="centered")
+
+# ---------------------------------------------------------------------------
+# Handle Google OAuth callback token in URL
+# ---------------------------------------------------------------------------
+params = st.query_params
+if "token" in params and not st.session_state.get("jwt_token"):
+    st.session_state["jwt_token"] = params["token"]
+    st.session_state["user_info"] = {
+        "name":  params.get("name", ""),
+        "email": params.get("email", ""),
+    }
+    st.query_params.clear()
+    st.rerun()
 
 # ---------------------------------------------------------------------------
 # Session state helpers
@@ -37,10 +51,12 @@ with st.sidebar:
         tab_login, tab_reg = st.tabs(["Login", "Register"])
 
         with tab_login:
+            st.link_button("Sign in with Google", f"{BACKEND_URL}/api/v1/auth/google", use_container_width=True)
+            st.divider()
             with st.form("login_form"):
                 email    = st.text_input("Email")
                 password = st.text_input("Password", type="password")
-                if st.form_submit_button("Login"):
+                if st.form_submit_button("Login", use_container_width=True):
                     try:
                         resp = requests.post(f"{API_BASE}/auth/login",
                                              json={"email": email, "password": password}, timeout=10)
