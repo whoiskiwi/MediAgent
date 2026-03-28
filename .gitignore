@@ -1,10 +1,30 @@
-.env
+# Python
 __pycache__/
-*.py[cod]
-.pytest_cache/
-*.egg-info/
-.venv/
 venv/
-data/
-tmp_tar/
-*.tar.gz
+.venv/
+env/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Environment
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+
+# Large model artifacts — adapter weights & checkpoints
+data/processed/response_generator_adapter/
+data/processed/symptom_classifier_adapter/
+
+# Training data (too large for GitHub)
+data/processed/*.jsonl
+data/processed/*.json
+data/raw/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/

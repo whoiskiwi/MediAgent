@@ -1,0 +1,151 @@
+doctor,department,day,morning_start,morning_end,afternoon_start,afternoon_end
+Dr. Chen Wei,Cardiology,Monday,08:00,12:00,13:00,16:00
+Dr. Chen Wei,Cardiology,Wednesday,09:00,12:00,13:00,15:00
+Dr. Chen Wei,Cardiology,Friday,08:00,11:00,14:00,16:00
+Dr. Sarah Mitchell,Cardiology,Monday,08:00,11:00,13:00,16:00
+Dr. Sarah Mitchell,Cardiology,Tuesday,09:00,12:00,14:00,16:00
+Dr. Sarah Mitchell,Cardiology,Thursday,08:00,12:00,,
+Dr. James Okafor,Cardiology,Tuesday,08:00,12:00,13:00,15:00
+Dr. James Okafor,Cardiology,Wednesday,09:00,12:00,14:00,16:00
+Dr. James Okafor,Cardiology,Friday,08:00,11:00,13:00,16:00
+Dr. Priya Sharma,Cardiology,Monday,09:00,12:00,13:00,15:00
+Dr. Priya Sharma,Cardiology,Thursday,08:00,12:00,13:00,16:00
+Dr. Priya Sharma,Cardiology,Friday,08:00,11:00,,
+Dr. David Park,Cardiology,Wednesday,08:00,12:00,13:00,16:00
+Dr. David Park,Cardiology,Thursday,09:00,12:00,14:00,16:00
+Dr. David Park,Cardiology,Friday,08:00,12:00,13:00,15:00
+Dr. Emily Torres,Neurology,Monday,08:00,12:00,13:00,16:00
+Dr. Emily Torres,Neurology,Tuesday,09:00,12:00,14:00,16:00
+Dr. Emily Torres,Neurology,Wednesday,08:00,11:00,,
+Dr. Raj Patel,Neurology,Tuesday,08:00,12:00,13:00,15:00
+Dr. Raj Patel,Neurology,Thursday,09:00,12:00,13:00,16:00
+Dr. Raj Patel,Neurology,Friday,08:00,11:00,14:00,16:00
+Dr. Marcus Johnson,Neurology,Monday,09:00,12:00,13:00,16:00
+Dr. Marcus Johnson,Neurology,Wednesday,08:00,12:00,14:00,16:00
+Dr. Marcus Johnson,Neurology,Thursday,08:00,11:00,13:00,15:00
+Dr. Aisha Nkosi,Neurology,Monday,08:00,11:00,13:00,16:00
+Dr. Aisha Nkosi,Neurology,Tuesday,09:00,12:00,13:00,15:00
+Dr. Aisha Nkosi,Neurology,Friday,08:00,12:00,,
+Dr. Lucas Müller,Neurology,Wednesday,08:00,12:00,13:00,16:00
+Dr. Lucas Müller,Neurology,Thursday,09:00,12:00,14:00,16:00
+Dr. Lucas Müller,Neurology,Friday,08:00,11:00,13:00,15:00
+Dr. Sophie Lee,Dermatology,Monday,08:00,12:00,13:00,15:00
+Dr. Sophie Lee,Dermatology,Tuesday,09:00,12:00,14:00,16:00
+Dr. Sophie Lee,Dermatology,Thursday,08:00,11:00,13:00,16:00
+Dr. Carlos Rivera,Dermatology,Tuesday,08:00,12:00,13:00,16:00
+Dr. Carlos Rivera,Dermatology,Wednesday,09:00,12:00,14:00,16:00
+Dr. Carlos Rivera,Dermatology,Friday,08:00,11:00,13:00,15:00
+Dr. Fatima Al-Hassan,Dermatology,Monday,09:00,12:00,13:00,16:00
+Dr. Fatima Al-Hassan,Dermatology,Thursday,08:00,12:00,14:00,16:00
+Dr. Fatima Al-Hassan,Dermatology,Friday,08:00,12:00,13:00,15:00
+Dr. Tom Bergmann,Dermatology,Monday,08:00,11:00,13:00,16:00
+Dr. Tom Bergmann,Dermatology,Wednesday,08:00,12:00,14:00,16:00
+Dr. Tom Bergmann,Dermatology,Thursday,09:00,12:00,,
+Dr. Mei Zhang,Dermatology,Tuesday,08:00,12:00,13:00,16:00
+Dr. Mei Zhang,Dermatology,Thursday,09:00,12:00,14:00,16:00
+Dr. Mei Zhang,Dermatology,Friday,08:00,12:00,13:00,15:00
+Dr. Oliver Brown,Gastroenterology,Monday,08:00,12:00,13:00,16:00
+Dr. Oliver Brown,Gastroenterology,Wednesday,09:00,12:00,14:00,16:00
+Dr. Oliver Brown,Gastroenterology,Friday,08:00,11:00,13:00,15:00
+Dr. Amara Diallo,Gastroenterology,Monday,09:00,12:00,13:00,15:00
+Dr. Amara Diallo,Gastroenterology,Tuesday,08:00,12:00,14:00,16:00
+Dr. Amara Diallo,Gastroenterology,Thursday,08:00,11:00,,
+Dr. Nathan Kim,Gastroenterology,Tuesday,08:00,12:00,13:00,16:00
+Dr. Nathan Kim,Gastroenterology,Wednesday,09:00,12:00,13:00,15:00
+Dr. Nathan Kim,Gastroenterology,Thursday,08:00,11:00,14:00,16:00
+Dr. Elena Rossi,Gastroenterology,Monday,08:00,11:00,13:00,16:00
+Dr. Elena Rossi,Gastroenterology,Thursday,09:00,12:00,14:00,16:00
+Dr. Elena Rossi,Gastroenterology,Friday,08:00,12:00,13:00,16:00
+Dr. Samuel Obi,Gastroenterology,Wednesday,08:00,12:00,13:00,15:00
+Dr. Samuel Obi,Gastroenterology,Thursday,09:00,12:00,14:00,16:00
+Dr. Samuel Obi,Gastroenterology,Friday,08:00,11:00,13:00,16:00
+Dr. Hannah Schulz,Endocrinology,Monday,08:00,12:00,13:00,16:00
+Dr. Hannah Schulz,Endocrinology,Tuesday,09:00,12:00,14:00,16:00
+Dr. Hannah Schulz,Endocrinology,Wednesday,08:00,11:00,,
+Dr. Yusuf Ibrahim,Endocrinology,Tuesday,08:00,12:00,13:00,15:00
+Dr. Yusuf Ibrahim,Endocrinology,Thursday,09:00,12:00,14:00,16:00
+Dr. Yusuf Ibrahim,Endocrinology,Friday,08:00,11:00,13:00,16:00
+Dr. Claire Dubois,Endocrinology,Monday,09:00,12:00,13:00,16:00
+Dr. Claire Dubois,Endocrinology,Wednesday,08:00,12:00,14:00,16:00
+Dr. Claire Dubois,Endocrinology,Thursday,08:00,11:00,13:00,15:00
+Dr. Kevin Nguyen,Endocrinology,Monday,08:00,11:00,13:00,16:00
+Dr. Kevin Nguyen,Endocrinology,Tuesday,08:00,12:00,14:00,16:00
+Dr. Kevin Nguyen,Endocrinology,Friday,09:00,12:00,13:00,16:00
+Dr. Lena Johansson,Endocrinology,Wednesday,08:00,12:00,13:00,15:00
+Dr. Lena Johansson,Endocrinology,Thursday,09:00,12:00,14:00,16:00
+Dr. Lena Johansson,Endocrinology,Friday,08:00,11:00,,
+Dr. Michael Adeyemi,Pulmonology,Monday,08:00,12:00,13:00,16:00
+Dr. Michael Adeyemi,Pulmonology,Wednesday,09:00,12:00,14:00,16:00
+Dr. Michael Adeyemi,Pulmonology,Friday,08:00,11:00,13:00,15:00
+Dr. Ingrid Larsen,Pulmonology,Monday,09:00,12:00,13:00,15:00
+Dr. Ingrid Larsen,Pulmonology,Tuesday,08:00,12:00,14:00,16:00
+Dr. Ingrid Larsen,Pulmonology,Thursday,08:00,11:00,,
+Dr. Peter Sato,Pulmonology,Tuesday,08:00,12:00,13:00,16:00
+Dr. Peter Sato,Pulmonology,Wednesday,09:00,12:00,13:00,15:00
+Dr. Peter Sato,Pulmonology,Friday,08:00,11:00,14:00,16:00
+Dr. Grace Owusu,Pulmonology,Monday,08:00,11:00,13:00,16:00
+Dr. Grace Owusu,Pulmonology,Thursday,09:00,12:00,14:00,16:00
+Dr. Grace Owusu,Pulmonology,Friday,08:00,12:00,,
+Dr. Anton Petrov,Pulmonology,Tuesday,08:00,12:00,13:00,15:00
+Dr. Anton Petrov,Pulmonology,Thursday,08:00,11:00,14:00,16:00
+Dr. Anton Petrov,Pulmonology,Friday,09:00,12:00,13:00,16:00
+Dr. Nina Castillo,Infectious Disease,Monday,08:00,12:00,13:00,16:00
+Dr. Nina Castillo,Infectious Disease,Tuesday,09:00,12:00,14:00,16:00
+Dr. Nina Castillo,Infectious Disease,Wednesday,08:00,11:00,13:00,15:00
+Dr. Benjamin Asante,Infectious Disease,Tuesday,08:00,12:00,13:00,16:00
+Dr. Benjamin Asante,Infectious Disease,Wednesday,09:00,12:00,14:00,16:00
+Dr. Benjamin Asante,Infectious Disease,Thursday,08:00,11:00,,
+Dr. Yulia Ivanova,Infectious Disease,Monday,09:00,12:00,13:00,15:00
+Dr. Yulia Ivanova,Infectious Disease,Thursday,08:00,12:00,14:00,16:00
+Dr. Yulia Ivanova,Infectious Disease,Friday,08:00,12:00,13:00,16:00
+Dr. Omar Khalid,Infectious Disease,Monday,08:00,11:00,13:00,16:00
+Dr. Omar Khalid,Infectious Disease,Wednesday,08:00,12:00,14:00,16:00
+Dr. Omar Khalid,Infectious Disease,Friday,09:00,12:00,13:00,15:00
+Dr. Chloe Martin,Infectious Disease,Wednesday,08:00,12:00,13:00,16:00
+Dr. Chloe Martin,Infectious Disease,Thursday,09:00,12:00,14:00,16:00
+Dr. Chloe Martin,Infectious Disease,Friday,08:00,11:00,13:00,16:00
+Dr. Robert Tanaka,Orthopedics,Monday,08:00,12:00,13:00,15:00
+Dr. Robert Tanaka,Orthopedics,Tuesday,09:00,12:00,14:00,16:00
+Dr. Robert Tanaka,Orthopedics,Thursday,08:00,11:00,13:00,16:00
+Dr. Fatou Balde,Orthopedics,Tuesday,08:00,12:00,13:00,16:00
+Dr. Fatou Balde,Orthopedics,Wednesday,09:00,12:00,14:00,16:00
+Dr. Fatou Balde,Orthopedics,Friday,08:00,11:00,13:00,15:00
+Dr. Alex Kowalski,Orthopedics,Monday,09:00,12:00,13:00,16:00
+Dr. Alex Kowalski,Orthopedics,Wednesday,08:00,12:00,14:00,16:00
+Dr. Alex Kowalski,Orthopedics,Thursday,08:00,11:00,13:00,15:00
+Dr. Mei-Ling Hu,Orthopedics,Monday,08:00,11:00,13:00,16:00
+Dr. Mei-Ling Hu,Orthopedics,Tuesday,08:00,12:00,14:00,16:00
+Dr. Mei-Ling Hu,Orthopedics,Friday,09:00,12:00,13:00,16:00
+Dr. Isaac Ferreira,Orthopedics,Wednesday,08:00,12:00,13:00,15:00
+Dr. Isaac Ferreira,Orthopedics,Thursday,09:00,12:00,14:00,16:00
+Dr. Isaac Ferreira,Orthopedics,Friday,08:00,11:00,,
+Dr. Sandra Mensah,Urology,Monday,08:00,12:00,13:00,16:00
+Dr. Sandra Mensah,Urology,Wednesday,09:00,12:00,14:00,16:00
+Dr. Sandra Mensah,Urology,Friday,08:00,11:00,13:00,15:00
+Dr. Viktor Novak,Urology,Monday,09:00,12:00,13:00,15:00
+Dr. Viktor Novak,Urology,Tuesday,08:00,12:00,14:00,16:00
+Dr. Viktor Novak,Urology,Thursday,08:00,11:00,,
+Dr. Aya Yamamoto,Urology,Tuesday,08:00,12:00,13:00,16:00
+Dr. Aya Yamamoto,Urology,Wednesday,09:00,12:00,13:00,15:00
+Dr. Aya Yamamoto,Urology,Thursday,08:00,11:00,14:00,16:00
+Dr. Chidi Eze,Urology,Monday,08:00,11:00,13:00,16:00
+Dr. Chidi Eze,Urology,Thursday,09:00,12:00,14:00,16:00
+Dr. Chidi Eze,Urology,Friday,08:00,12:00,,
+Dr. Beatriz Santos,Urology,Tuesday,08:00,12:00,13:00,15:00
+Dr. Beatriz Santos,Urology,Thursday,08:00,11:00,14:00,16:00
+Dr. Beatriz Santos,Urology,Friday,09:00,12:00,13:00,16:00
+Dr. Theo Andersen,General Medicine,Monday,08:00,12:00,13:00,16:00
+Dr. Theo Andersen,General Medicine,Tuesday,09:00,12:00,14:00,16:00
+Dr. Theo Andersen,General Medicine,Wednesday,08:00,11:00,13:00,15:00
+Dr. Amina Toure,General Medicine,Tuesday,08:00,12:00,13:00,16:00
+Dr. Amina Toure,General Medicine,Wednesday,09:00,12:00,14:00,16:00
+Dr. Amina Toure,General Medicine,Friday,08:00,11:00,,
+Dr. Daniel Walsh,General Medicine,Monday,09:00,12:00,13:00,16:00
+Dr. Daniel Walsh,General Medicine,Wednesday,08:00,12:00,14:00,16:00
+Dr. Daniel Walsh,General Medicine,Thursday,08:00,11:00,13:00,15:00
+Dr. Sun Li,General Medicine,Monday,08:00,11:00,13:00,16:00
+Dr. Sun Li,General Medicine,Tuesday,08:00,12:00,14:00,16:00
+Dr. Sun Li,General Medicine,Friday,09:00,12:00,13:00,16:00
+Dr. Marie Leclerc,General Medicine,Wednesday,08:00,12:00,13:00,15:00
+Dr. Marie Leclerc,General Medicine,Thursday,09:00,12:00,14:00,16:00
+Dr. Marie Leclerc,General Medicine,Friday,08:00,11:00,13:00,16:00
