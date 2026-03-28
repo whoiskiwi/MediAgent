@@ -147,7 +147,9 @@ def _parse_output(raw: str, prompt_prefix: str = "Confirmation: Your appointment
     if "---" in text:
         parts = text.split("---", 1)
         confirmation = _extract_confirmation(parts[0].strip(), max_sentences=3)
-        instructions = _extract_instructions(parts[1])
+        # Use the post-separator text directly as instructions
+        raw_instructions = parts[1].strip()
+        instructions = raw_instructions if raw_instructions else _extract_instructions(text)
     else:
         confirmation = _extract_confirmation(text, max_sentences=2)
         instructions = _extract_instructions(text)
