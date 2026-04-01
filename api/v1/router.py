@@ -17,6 +17,7 @@ from schemas import (
 )
 from orchestrator.graph import run_pipeline
 from auth.dependencies import get_current_user
+from agents.rag.qa import answer_question
 
 api_router = APIRouter()
 
@@ -120,3 +121,18 @@ def clear_all_appointments(secret: str):
             break
 
     return {"deleted": deleted}
+
+
+# ---------------------------------------------------------------------------
+# Medical Q&A (RAG)
+# ---------------------------------------------------------------------------
+from pydantic import BaseModel
+
+class QARequest(BaseModel):
+    question: str
+
+@api_router.post("/qa")
+def medical_qa(req: QARequest):
+    """Answer a medical question using RAG over MedlinePlus."""
+    result = answer_question(req.question)
+    return result
