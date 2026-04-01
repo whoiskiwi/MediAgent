@@ -120,6 +120,13 @@ if submitted and symptom.strip():
                     st.subheader("Medical Advice")
                     st.write(result["agent3"].get("confirmation", "-"))
                     st.caption(result["agent3"].get("instructions", ""))
+
+                causes = result["agent3"].get("possible_causes", [])
+                if causes:
+                    st.divider()
+                    st.subheader("Possible Causes")
+                    for cause in causes:
+                        st.markdown(f"- {cause}")
             else:
                 st.error(f"Query failed: {resp.text}")
         except Exception as e:

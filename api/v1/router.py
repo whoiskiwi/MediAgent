@@ -62,6 +62,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         agent3=ResponseOutput(
             confirmation=state.get("confirmation", ""),
             instructions=state.get("instructions", ""),
+            possible_causes=state.get("possible_causes", []),
         ),
     )
 

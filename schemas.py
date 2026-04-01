@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Literal, TypedDict
+from typing import Literal, List, TypedDict
 
 BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct"
 
@@ -33,6 +33,7 @@ class ResponseInput(BaseModel):
 class ResponseOutput(BaseModel):
     confirmation: str
     instructions: str
+    possible_causes: List[str] = []
 
 
 class AgentState(TypedDict, total=False):
@@ -44,6 +45,7 @@ class AgentState(TypedDict, total=False):
     time_slot: str
     confirmation: str
     instructions: str
+    possible_causes: List[str]
 
 
 def normalize_urgency(urgency: str) -> str:
