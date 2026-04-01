@@ -26,5 +26,9 @@ data/processed/*.jsonl
 data/processed/*.json
 data/raw/
 
+# RAG knowledge base & vector index (rebuild locally with scripts/build_rag_index.py)
+data/chroma_db/
+data/mplus_topics_*.xml
+
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
