@@ -136,27 +136,17 @@ if submitted and symptom.strip():
                 urgency = result["agent1"].get("urgency", "Routine")
 
                 # Emergency / Urgent first aid alert
+                first_aid = result["agent3"].get("first_aid")
                 if urgency == "Emergency":
-                    st.error("🚨 **EMERGENCY — Call 911 immediately!**")
-                    with st.expander("First Aid Measures", expanded=True):
-                        st.markdown("""
-- **Call emergency services (911) right away** — do not drive yourself
-- Keep the patient calm and still
-- Do not give food or water
-- If unconscious and not breathing: begin CPR
-- If bleeding: apply firm pressure with a clean cloth
-- Stay on the line with the dispatcher until help arrives
-                        """)
+                    st.error("🚨 **EMERGENCY — Seek immediate medical attention or call 911.**")
+                    if first_aid:
+                        with st.expander("Immediate First Aid Steps", expanded=True):
+                            st.write(first_aid)
                 elif urgency == "Urgent":
                     st.warning("⚠️ **Urgent — Seek medical attention as soon as possible.**")
-                    with st.expander("While You Wait", expanded=True):
-                        st.markdown("""
-- Go to an urgent care clinic or emergency room promptly
-- Do not eat or drink anything until evaluated by a doctor
-- Keep track of when symptoms started and how they have changed
-- Bring a list of any medications you are currently taking
-- Have someone accompany you if possible
-                        """)
+                    if first_aid:
+                        with st.expander("While You Wait", expanded=True):
+                            st.write(first_aid)
 
                 col1, col2 = st.columns(2)
                 with col1:
@@ -196,6 +186,8 @@ if is_logged_in():
                         st.write(f"**Time Slot:** {appt.get('time_slot', '-')}")
                         st.write(f"**Confirmation:** {appt.get('confirmation', '-')}")
                         st.write(f"**Instructions:** {appt.get('instructions', '-')}")
+                        if appt.get("first_aid"):
+                            st.write(f"**First Aid:** {appt.get('first_aid')}")
                         if st.button("Cancel Appointment", key=f"cancel_{ts}"):
                             try:
                                 import urllib.parse

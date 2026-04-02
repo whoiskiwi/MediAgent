@@ -157,7 +157,6 @@ def _parse_output(raw: str, prompt_prefix: str = "Confirmation: Your appointment
     if "---" in text:
         parts = text.split("---", 1)
         confirmation = _extract_confirmation(parts[0].strip(), max_sentences=3)
-        # Use the post-separator text directly as instructions
         raw_instructions = parts[1].strip()
         instructions = raw_instructions if raw_instructions else _extract_instructions(text)
     else:
@@ -167,9 +166,35 @@ def _parse_output(raw: str, prompt_prefix: str = "Confirmation: Your appointment
     return confirmation, instructions
 
 
+def _build_first_aid_prompt(patient_text: str, department: str, urgency: str,
+                             user_age: int = None, user_gender: str = None) -> str:
+    context_parts = []
+    if user_age:
+        context_parts.append(f"Age: {user_age}")
+    if user_gender:
+        context_parts.append(f"Gender: {user_gender}")
+    context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
+
+    level = "emergency" if urgency == "Emergency" else "urgent"
+    return (
+        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
+        f"You are a medical first aid advisor. The patient has a {level} condition.\n"
+        "List 3-5 specific, actionable first aid steps the patient or bystander should take RIGHT NOW "
+        "based on the symptoms described, before reaching a doctor.\n"
+        "Be concise and specific to the symptoms. Do not give general advice.\n"
+        "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+        f"{context_line}"
+        f"Symptoms: {patient_text}\n"
+        f"Department: {department}\n"
+        "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
+        "Immediate steps:\n"
+    )
+
+
 def run_generator(state: AgentState) -> AgentState:
-    """LangGraph node — calls SageMaker, writes 'confirmation' and 'instructions'."""
-    safe_urgency = normalize_urgency(state.get("urgency", "Routine"))
+    """LangGraph node — calls SageMaker, writes 'confirmation', 'instructions', and optionally 'first_aid'."""
+    urgency      = state.get("urgency", "Routine")
+    safe_urgency = normalize_urgency(urgency)
 
     prompt    = _build_prompt(
         patient_text=state["patient_text"],
@@ -183,5 +208,17 @@ def run_generator(state: AgentState) -> AgentState:
     generated = _call_endpoint(prompt)
     confirmation, instructions = _parse_output(generated, prompt_prefix="Confirmation: Your appointment with")
 
-    print(f"[Agent3] → confirmation generated ({len(confirmation)} chars)")
-    return {**state, "confirmation": confirmation, "instructions": instructions}
+    first_aid = None
+    if urgency in ("Urgent", "Emergency"):
+        fa_prompt = _build_first_aid_prompt(
+            patient_text=state["patient_text"],
+            department=state.get("department", "General Practice"),
+            urgency=urgency,
+            user_age=state.get("user_age"),
+            user_gender=state.get("user_gender"),
+        )
+        fa_raw   = _call_endpoint(fa_prompt)
+        first_aid = ("Immediate steps:\n" + fa_raw).strip()
+
+    print(f"[Agent3] → confirmation generated ({len(confirmation)} chars), first_aid={'yes' if first_aid else 'no'}")
+    return {**state, "confirmation": confirmation, "instructions": instructions, "first_aid": first_aid}

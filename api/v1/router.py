@@ -64,12 +64,13 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         agent3=ResponseOutput(
             confirmation=state.get("confirmation", ""),
             instructions=state.get("instructions", ""),
+            first_aid=state.get("first_aid"),
         ),
     )
 
     # Save to appointment history if user is logged in
     if user:
-        _appts.put_item(Item={
+        item = {
             "user_id":      user["sub"],
             "timestamp":    datetime.now(timezone.utc).isoformat(),
             "appt_id":      str(uuid.uuid4()),
@@ -80,7 +81,10 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
             "time_slot":    result.agent2.time_slot,
             "confirmation": result.agent3.confirmation,
             "instructions": result.agent3.instructions,
-        })
+        }
+        if result.agent3.first_aid:
+            item["first_aid"] = result.agent3.first_aid
+        _appts.put_item(Item=item)
 
     return result
 

@@ -33,6 +33,7 @@ class ResponseInput(BaseModel):
 class ResponseOutput(BaseModel):
     confirmation: str
     instructions: str
+    first_aid: Optional[str] = None
 
 
 class AgentState(TypedDict, total=False):
