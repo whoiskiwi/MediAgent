@@ -48,7 +48,9 @@ def health():
 
 @api_router.post("/query", response_model=QueryResponse)
 def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
-    state = run_pipeline(req.symptom)
+    age    = user.get("age")    if user else req.user_age
+    gender = user.get("gender") if user else req.user_gender
+    state  = run_pipeline(req.symptom, user_age=age, user_gender=gender)
 
     result = QueryResponse(
         agent1=ClassifierOutput(
@@ -92,6 +94,17 @@ def get_appointments(user: dict = Depends(get_current_user)):
         Limit=20,
     )
     return {"appointments": resp.get("Items", [])}
+
+
+@api_router.delete("/appointments/{timestamp}")
+def cancel_appointment(timestamp: str, user: dict = Depends(get_current_user)):
+    """Cancel (delete) a specific appointment by timestamp."""
+    from fastapi import HTTPException
+    resp = _appts.get_item(Key={"user_id": user["sub"], "timestamp": timestamp})
+    if "Item" not in resp:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    _appts.delete_item(Key={"user_id": user["sub"], "timestamp": timestamp})
+    return {"deleted": True}
 
 
 ADMIN_SECRET = os.getenv("ADMIN_SECRET", "")

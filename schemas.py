@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Literal, TypedDict
+from typing import Literal, Optional, TypedDict
 
 
 class SymptomInput(BaseModel):
@@ -42,6 +42,8 @@ class AgentState(TypedDict, total=False):
     time_slot: str
     confirmation: str
     instructions: str
+    user_age: int
+    user_gender: str
 
 
 def normalize_urgency(urgency: str) -> str:
@@ -57,6 +59,8 @@ def normalize_urgency(urgency: str) -> str:
 
 class QueryRequest(BaseModel):
     symptom: str
+    user_age: Optional[int] = None
+    user_gender: Optional[str] = None
 
 
 class QueryResponse(BaseModel):

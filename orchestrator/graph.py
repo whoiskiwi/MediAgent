@@ -43,21 +43,24 @@ graph = _builder.compile()
 # Public API
 # ---------------------------------------------------------------------------
 
-def run_pipeline(patient_text: str) -> AgentState:
+def run_pipeline(patient_text: str,
+                 user_age: int = None,
+                 user_gender: str = None) -> AgentState:
     """
     Run the full three-agent pipeline synchronously.
 
     Args:
         patient_text: Raw symptom description from the patient.
+        user_age:     Optional patient age for context-aware inference.
+        user_gender:  Optional patient gender for context-aware inference.
 
     Returns:
-        Final AgentState containing all intermediate and final outputs:
-        {
-            patient_text, department, urgency,   # from Agent 1
-            doctor, time_slot,                   # from Agent 2
-            confirmation, instructions           # from Agent 3
-        }
+        Final AgentState containing all intermediate and final outputs.
     """
     initial_state: AgentState = {"patient_text": patient_text}
+    if user_age is not None:
+        initial_state["user_age"] = user_age
+    if user_gender:
+        initial_state["user_gender"] = user_gender
     final_state: AgentState = graph.invoke(initial_state)
     return final_state

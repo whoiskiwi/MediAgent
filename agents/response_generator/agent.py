@@ -36,7 +36,16 @@ def _build_prompt(
     doctor: str,
     time_slot: str,
     urgency: str,
+    user_age: int = None,
+    user_gender: str = None,
 ) -> str:
+    context_parts = []
+    if user_age:
+        context_parts.append(f"Age: {user_age}")
+    if user_gender:
+        context_parts.append(f"Gender: {user_gender}")
+    context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
+
     return (
         "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
         "You are a helpful medical assistant. Generate a warm appointment "
@@ -45,6 +54,7 @@ def _build_prompt(
         "Part 1: Appointment confirmation (2-3 sentences)\n"
         "Part 2: Pre-visit instructions (3-5 bullet points)\n"
         "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+        f"{context_line}"
         f"Patient complaint: {patient_text}\n"
         f"Department: {department}\n"
         f"Doctor: {doctor}\n"
@@ -90,6 +100,8 @@ def run_generator(state: AgentState) -> AgentState:
         doctor=state.get("doctor", "your doctor"),
         time_slot=state.get("time_slot", "your scheduled time"),
         urgency=safe_urgency,
+        user_age=state.get("user_age"),
+        user_gender=state.get("user_gender"),
     )
     generated = _call_endpoint(prompt)
     confirmation, instructions = _parse_output(generated)

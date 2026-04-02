@@ -31,6 +31,15 @@ with st.sidebar:
     if is_logged_in():
         user = st.session_state["user_info"]
         st.success(f"Logged in as: {user.get('name', user.get('email', ''))}")
+        age    = user.get("age")
+        gender = user.get("gender")
+        if age or gender:
+            profile_parts = []
+            if gender:
+                profile_parts.append(gender)
+            if age:
+                profile_parts.append(f"Age {age}")
+            st.caption(" · ".join(profile_parts))
         if st.button("Log out"):
             logout()
     else:
@@ -59,11 +68,18 @@ with st.sidebar:
                 reg_name     = st.text_input("Name")
                 reg_email    = st.text_input("Email")
                 reg_password = st.text_input("Password", type="password")
+                reg_age      = st.number_input("Age", min_value=0, max_value=120, value=0, step=1)
+                reg_gender   = st.selectbox("Gender", ["Prefer not to say", "Male", "Female", "Other"])
                 if st.form_submit_button("Register"):
                     try:
-                        resp = requests.post(f"{API_BASE}/auth/register",
-                                             json={"email": reg_email, "password": reg_password,
-                                                   "name": reg_name}, timeout=10)
+                        payload = {
+                            "email":    reg_email,
+                            "password": reg_password,
+                            "name":     reg_name,
+                            "age":      int(reg_age) if reg_age else None,
+                            "gender":   reg_gender if reg_gender != "Prefer not to say" else None,
+                        }
+                        resp = requests.post(f"{API_BASE}/auth/register", json=payload, timeout=10)
                         if resp.status_code == 200:
                             data = resp.json()
                             st.session_state["jwt_token"] = data["access_token"]
@@ -88,16 +104,48 @@ with st.form("query_form"):
 
 if submitted and symptom.strip():
     headers = auth_headers() if is_logged_in() else {}
+    user_info = st.session_state.get("user_info", {}) if is_logged_in() else {}
+    query_payload = {
+        "symptom":     symptom,
+        "user_age":    user_info.get("age"),
+        "user_gender": user_info.get("gender"),
+    }
     with st.spinner("Analyzing..."):
         try:
             resp = requests.post(f"{API_BASE}/query",
-                                 json={"symptom": symptom},
+                                 json=query_payload,
                                  headers=headers, timeout=60)
             if resp.status_code == 200:
-                result = resp.json()
+                result  = resp.json()
+                urgency = result["agent1"].get("urgency", "Routine")
+
+                # Emergency / Urgent first aid alert
+                if urgency == "Emergency":
+                    st.error("🚨 **EMERGENCY — Call 911 immediately!**")
+                    with st.expander("First Aid Measures", expanded=True):
+                        st.markdown("""
+- **Call emergency services (911) right away** — do not drive yourself
+- Keep the patient calm and still
+- Do not give food or water
+- If unconscious and not breathing: begin CPR
+- If bleeding: apply firm pressure with a clean cloth
+- Stay on the line with the dispatcher until help arrives
+                        """)
+                elif urgency == "Urgent":
+                    st.warning("⚠️ **Urgent — Seek medical attention as soon as possible.**")
+                    with st.expander("While You Wait", expanded=True):
+                        st.markdown("""
+- Go to an urgent care clinic or emergency room promptly
+- Do not eat or drink anything until evaluated by a doctor
+- Keep track of when symptoms started and how they have changed
+- Bring a list of any medications you are currently taking
+- Have someone accompany you if possible
+                        """)
+
                 col1, col2 = st.columns(2)
                 with col1:
                     st.metric("Department", result["agent1"].get("department", "-"))
+                    st.metric("Urgency",    urgency)
                     st.metric("Doctor",     result["agent2"].get("doctor",     "-"))
                     st.metric("Time Slot",  result["agent2"].get("time_slot",  "-"))
                 with col2:
@@ -124,13 +172,29 @@ if is_logged_in():
                 st.info("No appointment history yet.")
             else:
                 for appt in appointments:
-                    ts = appt.get("timestamp", "")[:19].replace("T", " ")
-                    with st.expander(f"{ts} — {appt.get('department', '')} | {appt.get('doctor', '')}"):
+                    ts        = appt.get("timestamp", "")
+                    ts_display = ts[:19].replace("T", " ")
+                    with st.expander(f"{ts_display} — {appt.get('department', '')} | {appt.get('doctor', '')}"):
                         st.write(f"**Symptom:** {appt.get('symptom', '-')}")
                         st.write(f"**Urgency:** {appt.get('urgency', '-')}")
                         st.write(f"**Time Slot:** {appt.get('time_slot', '-')}")
                         st.write(f"**Confirmation:** {appt.get('confirmation', '-')}")
                         st.write(f"**Instructions:** {appt.get('instructions', '-')}")
+                        if st.button("Cancel Appointment", key=f"cancel_{ts}"):
+                            try:
+                                import urllib.parse
+                                encoded_ts = urllib.parse.quote(ts, safe="")
+                                del_resp = requests.delete(
+                                    f"{API_BASE}/appointments/{encoded_ts}",
+                                    headers=auth_headers(), timeout=10
+                                )
+                                if del_resp.status_code == 200:
+                                    st.success("Appointment cancelled.")
+                                    st.rerun()
+                                else:
+                                    st.error("Failed to cancel appointment.")
+                            except Exception as e:
+                                st.error(f"Request failed: {e}")
         else:
             st.error("Failed to load appointment history.")
     except Exception as e:

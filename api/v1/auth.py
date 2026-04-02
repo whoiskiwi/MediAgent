@@ -17,6 +17,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from jose import jwt
 from passlib.context import CryptContext
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 load_dotenv()
@@ -47,6 +48,8 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     password: str
     name: str = ""
+    age: Optional[int] = None
+    gender: Optional[str] = None
 
 class LoginRequest(BaseModel):
     email: EmailStr
@@ -55,12 +58,15 @@ class LoginRequest(BaseModel):
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
-def _make_jwt(user_id: str, email: str, name: str) -> str:
+def _make_jwt(user_id: str, email: str, name: str,
+              age: Optional[int] = None, gender: Optional[str] = None) -> str:
     payload = {
-        "sub":   user_id,
-        "email": email,
-        "name":  name,
-        "exp":   datetime.now(timezone.utc) + timedelta(hours=JWT_EXPIRE_HOURS),
+        "sub":    user_id,
+        "email":  email,
+        "name":   name,
+        "age":    age,
+        "gender": gender,
+        "exp":    datetime.now(timezone.utc) + timedelta(hours=JWT_EXPIRE_HOURS),
     }
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
@@ -87,20 +93,27 @@ def register(body: RegisterRequest):
     now     = datetime.now(timezone.utc).isoformat()
     name    = body.name or body.email.split("@")[0]
 
-    _table.put_item(Item={
+    item = {
         "user_id":         user_id,
         "email":           body.email,
         "name":            name,
         "hashed_password": _pwd.hash(body.password),
         "created_at":      now,
         "last_login":      now,
-    })
+    }
+    if body.age is not None:
+        item["age"] = body.age
+    if body.gender:
+        item["gender"] = body.gender
 
-    token = _make_jwt(user_id, body.email, name)
+    _table.put_item(Item=item)
+
+    token = _make_jwt(user_id, body.email, name, body.age, body.gender)
     return JSONResponse({
         "access_token": token,
         "token_type":   "bearer",
-        "user": {"user_id": user_id, "email": body.email, "name": name},
+        "user": {"user_id": user_id, "email": body.email, "name": name,
+                 "age": body.age, "gender": body.gender},
     })
 
 
@@ -119,11 +132,13 @@ def login(body: LoginRequest):
         ExpressionAttributeValues={":t": datetime.now(timezone.utc).isoformat()},
     )
 
-    token = _make_jwt(user["user_id"], user["email"], user["name"])
+    token = _make_jwt(user["user_id"], user["email"], user["name"],
+                      user.get("age"), user.get("gender"))
     return JSONResponse({
         "access_token": token,
         "token_type":   "bearer",
-        "user": {"user_id": user["user_id"], "email": user["email"], "name": user["name"]},
+        "user": {"user_id": user["user_id"], "email": user["email"], "name": user["name"],
+                 "age": user.get("age"), "gender": user.get("gender")},
     })
 
 

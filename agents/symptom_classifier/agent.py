@@ -34,7 +34,16 @@ DEPARTMENTS = [
 URGENCIES = ["Routine", "Urgent", "Emergency"]
 
 
-def _build_prompt(patient_text: str) -> str:
+def _build_prompt(patient_text: str,
+                  user_age: int = None,
+                  user_gender: str = None) -> str:
+    context_parts = []
+    if user_age:
+        context_parts.append(f"Age: {user_age}")
+    if user_gender:
+        context_parts.append(f"Gender: {user_gender}")
+    context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
+
     return (
         "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
         "You are a medical triage assistant. Given patient symptoms, output "
@@ -43,6 +52,7 @@ def _build_prompt(patient_text: str) -> str:
         f"Valid departments: {', '.join(DEPARTMENTS)}\n"
         f"Valid urgency levels: {', '.join(URGENCIES)}\n"
         "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+        f"{context_line}"
         f"Patient symptoms: {patient_text}\n"
         "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
     )
@@ -89,7 +99,8 @@ def _parse_output(text: str) -> ClassifierOutput:
 
 def run_classifier(state: AgentState) -> AgentState:
     """LangGraph node — calls SageMaker, writes 'department' and 'urgency'."""
-    prompt    = _build_prompt(state["patient_text"])
+    prompt    = _build_prompt(state["patient_text"],
+                              state.get("user_age"), state.get("user_gender"))
     generated = _call_endpoint(prompt)
     result    = _parse_output(generated)
 
