@@ -30,7 +30,7 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 JOBS = [
     {
         "name": "classifier",
-        "adapter": ROOT / "data/processed/symptom_classifier_adapter/checkpoint-1569",
+        "adapter": ROOT / "data/processed/symptom_classifier_adapter/final_adapter",
         "output": ROOT / "data/processed/merged_classifier",
     },
     {

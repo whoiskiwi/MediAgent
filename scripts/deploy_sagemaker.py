@@ -36,11 +36,11 @@ INSTANCE_TYPE = os.getenv("SAGEMAKER_INSTANCE", "ml.g4dn.xlarge")
 # Docker image: GPU or CPU depending on instance type
 _GPU_IMAGE = (
     "763104351884.dkr.ecr.us-west-2.amazonaws.com/"
-    "huggingface-pytorch-inference:2.1.0-transformers4.37.0-gpu-py310-cu118-ubuntu20.04"
+    "huggingface-pytorch-inference:2.6.0-transformers4.49.0-gpu-py312-cu124-ubuntu22.04"
 )
 _CPU_IMAGE = (
     "763104351884.dkr.ecr.us-west-2.amazonaws.com/"
-    "huggingface-pytorch-inference:2.1.0-transformers4.37.0-cpu-py310-ubuntu22.04"
+    "huggingface-pytorch-inference:2.6.0-transformers4.49.0-cpu-py312-ubuntu22.04"
 )
 HF_IMAGE = _CPU_IMAGE if INSTANCE_TYPE.startswith("ml.m") else _GPU_IMAGE
 
@@ -77,6 +77,9 @@ def _make_tarball(model_dir: Path, job_name: str) -> Path:
     code_dir = tmp / "code"
     code_dir.mkdir(exist_ok=True)
     shutil.copy(INFERENCE_SCRIPT, code_dir / "inference.py")
+    req_file = ROOT / "sagemaker_code" / "requirements.txt"
+    if req_file.exists():
+        shutil.copy(req_file, code_dir / "requirements.txt")
 
     tarball = ROOT / "tmp_tar" / f"{job_name}.tar.gz"
     with tarfile.open(tarball, "w:gz") as tar:
@@ -101,65 +104,60 @@ def _deploy(s3_uri: str, endpoint_name: str):
     model_name   = f"{endpoint_name}-model"
     config_name  = f"{endpoint_name}-config"
 
+    # Force delete old model and config to ensure new inference.py is used
+    try:
+        sm.delete_model(ModelName=model_name)
+    except Exception:
+        pass
+    try:
+        sm.delete_endpoint_config(EndpointConfigName=config_name)
+    except Exception:
+        pass
+
     # Create model
     print(f"[deploy] Creating SageMaker model: {model_name}")
-    try:
-        sm.create_model(
-            ModelName=model_name,
-            PrimaryContainer={
-                "Image": HF_IMAGE,
-                "ModelDataUrl": s3_uri,
-                "Environment": {"SAGEMAKER_PROGRAM": "inference.py"},
-            },
-            ExecutionRoleArn=ROLE_ARN,
-        )
-    except sm.exceptions.ClientError as e:
-        if "already exist" in str(e).lower() or "Cannot create already" in str(e):
-            print(f"  (model already exists, skipping)")
-        else:
-            raise
+    sm.create_model(
+        ModelName=model_name,
+        PrimaryContainer={
+            "Image": HF_IMAGE,
+            "ModelDataUrl": s3_uri,
+            "Environment": {"SAGEMAKER_PROGRAM": "inference.py"},
+        },
+        ExecutionRoleArn=ROLE_ARN,
+    )
 
     # Create endpoint config
     print(f"[deploy] Creating endpoint config: {config_name}")
-    try:
-        sm.create_endpoint_config(
-            EndpointConfigName=config_name,
-            ProductionVariants=[{
-                "VariantName":    "AllTraffic",
-                "ModelName":      model_name,
-                "InstanceType":   INSTANCE_TYPE,
-                "InitialInstanceCount": 1,
-            }],
-        )
-    except sm.exceptions.ClientError as e:
-        if "already exist" in str(e).lower() or "Cannot create already" in str(e):
-            print(f"  (config already exists, skipping)")
-        else:
-            raise
+    sm.create_endpoint_config(
+        EndpointConfigName=config_name,
+        ProductionVariants=[{
+            "VariantName":    "AllTraffic",
+            "ModelName":      model_name,
+            "InstanceType":   INSTANCE_TYPE,
+            "InitialInstanceCount": 1,
+        }],
+    )
 
     # Create or update endpoint
-    print(f"[deploy] Creating endpoint: {endpoint_name} (this takes ~10 min) ...")
+    print(f"[deploy] Deploying endpoint: {endpoint_name} (this takes ~10 min) ...")
+    endpoint_exists = False
     try:
+        sm.describe_endpoint(EndpointName=endpoint_name)
+        endpoint_exists = True
+    except Exception:
+        pass
+
+    if endpoint_exists:
+        print(f"  Endpoint exists — updating ...")
+        sm.update_endpoint(
+            EndpointName=endpoint_name,
+            EndpointConfigName=config_name,
+        )
+    else:
         sm.create_endpoint(
             EndpointName=endpoint_name,
             EndpointConfigName=config_name,
         )
-    except sm.exceptions.ClientError as e:
-        err = str(e).lower()
-        if "already exists" in err or "cannot create already" in err:
-            print(f"  Endpoint exists — checking if update needed ...")
-            try:
-                sm.update_endpoint(
-                    EndpointName=endpoint_name,
-                    EndpointConfigName=config_name,
-                )
-            except sm.exceptions.ClientError as e2:
-                if "currently in use" in str(e2).lower():
-                    print(f"  Already using same config, skipping.")
-                else:
-                    raise
-        else:
-            raise
 
     # Wait for InService
     print(f"[deploy] Waiting for {endpoint_name} to be InService ...")
