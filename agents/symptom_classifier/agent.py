@@ -28,8 +28,8 @@ _sm_runtime = boto3.client("sagemaker-runtime", region_name=AWS_REGION)
 
 DEPARTMENTS = [
     "Cardiology", "Neurology", "Orthopedics", "Gastroenterology",
-    "Pulmonology", "Dermatology", "Endocrinology", "Psychiatry",
-    "General Practice", "Emergency",
+    "Pulmonology", "Dermatology", "Endocrinology", "Infectious Disease",
+    "Urology", "General Medicine",
 ]
 URGENCIES = ["Routine", "Urgent", "Emergency"]
 
@@ -79,7 +79,7 @@ def _parse_output(text: str) -> ClassifierOutput:
     dept_match = re.search(r"Department:\s*([^|]+)", text, re.IGNORECASE)
     urg_match  = re.search(r"Urgency:\s*(\w+)", text, re.IGNORECASE)
 
-    department = "General Practice"
+    department = "General Medicine"
     urgency    = "Routine"
 
     if dept_match:

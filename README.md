@@ -9,14 +9,14 @@ An end-to-end LLM-powered multi-agent system for automated hospital appointment 
 ```
 Patient Text (Natural Language)
         ↓
-[Agent 1: Symptom Classifier]   →  Department + Urgency
+[Agent 1: Symptom Classifier]    →  Department + Urgency
         ↓
 [Agent 2: Appointment Retriever] →  Doctor + Time Slot
         ↓
-[Agent 3: Response Generator]   →  Confirmation + Instructions
+[Agent 3: Response Generator]    →  Confirmation + Instructions
 ```
 
-Three specialized agents are wired together in a sequential **LangGraph** pipeline, sharing an `AgentState` TypedDict that each agent enriches before passing to the next.
+Three specialized agents are wired together in a sequential **LangGraph** pipeline, sharing an `AgentState` TypedDict that each agent enriches before passing to the next. Agents 1 and 3 run on **AWS SageMaker** endpoints; Agent 2 queries **AWS DynamoDB** directly.
 
 ### Example
 
@@ -26,14 +26,41 @@ Three specialized agents are wired together in a sequential **LangGraph** pipeli
 ```
 
 **Output:**
+```json
+{
+  "agent1": { "department": "Cardiology", "urgency": "Emergency" },
+  "agent2": { "doctor": "Dr. Chen Wei", "time_slot": "Monday at 08:00" },
+  "agent3": {
+    "confirmation": "Your appointment with Dr. Chen Wei in Cardiology has been confirmed for Monday at 08:00.",
+    "instructions": "Please call emergency services if symptoms worsen. Avoid eating or drinking before your visit. Bring a list of current medications."
+  }
+}
 ```
-Department:    Cardiology
-Urgency:       Emergency
-Doctor:        Dr. Chen Wei
-Time Slot:     Monday at 08:00
-Confirmation:  Your appointment with Dr. Chen Wei in Cardiology has been confirmed for Monday at 08:00. We're here to help with your concerns.
-Instructions:  Please call emergency services if symptoms worsen. Avoid eating or drinking before your visit. Bring a list of current medications. Arrange for someone to drive you.
+
+---
+
+## Architecture
+
 ```
+Browser / Streamlit (app.py)
+        ↓  HTTP
+FastAPI (main.py)
+  ├── POST /api/v1/query       ← calls run_pipeline()
+  ├── POST /api/v1/auth/login
+  ├── POST /api/v1/auth/register
+  └── GET  /api/v1/appointments
+
+LangGraph Orchestrator (orchestrator/graph.py)
+  ├── Agent 1 → SageMaker endpoint (medi-agent-classifier)
+  ├── Agent 2 → DynamoDB (DoctorSchedule)
+  └── Agent 3 → SageMaker endpoint (medi-agent-generator)
+
+AWS DynamoDB
+  ├── DoctorSchedule          ← appointment slots
+  └── medi-agent-appointments ← user appointment history
+```
+
+Deployed via **GitHub Actions → Docker → Amazon ECR → ECS Fargate**.
 
 ---
 
@@ -43,6 +70,7 @@ Instructions:  Please call emergency services if symptoms worsen. Avoid eating o
 
 | | |
 |---|---|
+| **Inference** | AWS SageMaker endpoint (`medi-agent-classifier`) |
 | **Model** | LLaMA-3.2-3B-Instruct + QLoRA adapter |
 | **Input** | Patient symptom description (free text) |
 | **Output** | Department + Urgency (`Routine` / `Urgent` / `Emergency`) |
@@ -52,21 +80,17 @@ Instructions:  Please call emergency services if symptoms worsen. Avoid eating o
 
 **Supported departments:** Cardiology, Neurology, Dermatology, Gastroenterology, Endocrinology, Pulmonology, Infectious Disease, Orthopedics, Urology, General Medicine
 
-Urgency is determined algorithmically during training by summing per-symptom severity weights from the dataset. Scores ≥ 45 or high-risk diseases (e.g. heart attack, stroke) are labeled Emergency; ≥ 20 is Urgent; otherwise Routine.
-
 ---
 
 ### Agent 2 — Appointment Retriever
 
 | | |
 |---|---|
-| **Model** | Deterministic (no ML) |
+| **Inference** | Deterministic (no ML) |
 | **Input** | Department name |
 | **Output** | Doctor name + earliest available time slot |
 | **Backend** | AWS DynamoDB (`DoctorSchedule` table, `us-west-2`) |
 | **Data** | 410 appointment slots across 30+ doctors, Monday–Friday |
-
-Queries DynamoDB for available slots filtered by department, then sorts by `(day_of_week, time)` and returns the earliest one.
 
 **DynamoDB Schema:**
 
@@ -85,6 +109,7 @@ Queries DynamoDB for available slots filtered by department, then sorts by `(day
 
 | | |
 |---|---|
+| **Inference** | AWS SageMaker endpoint (`medi-agent-generator`) |
 | **Model** | LLaMA-3.2-3B-Instruct + QLoRA adapter |
 | **Input** | Patient text, department, doctor, time slot, urgency |
 | **Output** | Appointment confirmation + pre-visit instructions |
@@ -92,7 +117,7 @@ Queries DynamoDB for available slots filtered by department, then sorts by `(day
 | **GPU** | NVIDIA A100, 2 epochs |
 | **Format Compliance** | 100% on evaluation set |
 
-Generates a warm, professional confirmation message and 2–4 specific pre-visit instructions tailored to the patient's situation.
+> `Emergency` urgency is normalised to `Urgent` before calling Agent 3, as the model was only trained on `Routine` / `Urgent`.
 
 ---
 
@@ -101,43 +126,62 @@ Generates a warm, professional confirmation message and 2–4 specific pre-visit
 ```
 medi-agent/
 ├── agents/
-│   ├── parsing.py                          # Regex-based output parsers
-│   ├── symptom_classifier/agent.py         # Agent 1
-│   ├── appointment_retriever/agent.py      # Agent 2
-│   └── response_generator/agent.py         # Agent 3
+│   ├── parsing.py                          # Regex-based output parsers + Q&A sign-off cleaner
+│   ├── symptom_classifier/agent.py         # Agent 1 — calls SageMaker
+│   ├── appointment_retriever/agent.py      # Agent 2 — queries DynamoDB
+│   └── response_generator/agent.py         # Agent 3 — calls SageMaker
 │
 ├── orchestrator/
-│   └── graph.py                            # LangGraph pipeline
+│   └── graph.py                            # LangGraph pipeline (run_pipeline)
+│
+├── api/
+│   └── v1/
+│       ├── router.py                       # /query, /appointments endpoints
+│       └── auth.py                         # /auth/login, /auth/register endpoints
+│
+├── auth/
+│   └── dependencies.py                     # JWT token validation
+│
+├── infrastructure/
+│   └── task-definition.json                # ECS task definition
+│
+├── sagemaker_code/
+│   └── inference.py                        # SageMaker inference handler
+│
+├── scripts/
+│   ├── deploy_sagemaker.py                 # Package adapters → S3 → SageMaker endpoints
+│   ├── merge_adapter.py                    # Merge QLoRA adapter into base model
+│   └── setup_infra.sh                      # AWS infra setup (ECR, ECS, DynamoDB)
 │
 ├── data/
-│   ├── process_symptom_classifier.py       # Agent 1 data processing
-│   ├── process_appointment_retriever.py    # Agent 2 data processing
-│   ├── process_response_generator.py       # Agent 3 data processing
-│   ├── upload_to_dynamodb.py               # Upload schedules to DynamoDB
+│   ├── process_symptom_classifier.py
+│   ├── process_appointment_retriever.py
+│   ├── process_response_generator.py
+│   ├── upload_to_dynamodb.py
 │   ├── raw/                                # Raw input datasets (not tracked)
 │   └── processed/                          # Processed data & adapters (not tracked)
 │
 ├── colab/
 │   ├── train_symptom_classifier.ipynb      # Agent 1 fine-tuning (T4 GPU)
 │   ├── train_response_generator.ipynb      # Agent 3 fine-tuning (A100 GPU)
-│   ├── eval_symptom_classifier.ipynb       # Agent 1 evaluation
-│   ├── eval_response_generator.ipynb       # Agent 3 evaluation
-│   ├── integration_test.ipynb              # End-to-end pipeline test
-│   └── test_dept_fix.ipynb                 # Department mapping debug
+│   ├── eval_symptom_classifier.ipynb
+│   ├── eval_response_generator.ipynb
+│   └── integration_test.ipynb
 │
 ├── tests/
 │   ├── test_schemas.py
 │   ├── test_symptom_classifier.py
 │   ├── test_appointment_retriever.py
 │   ├── test_response_generator.py
-│   ├── test_data_processing.py
-│   ├── eval_symptom_classifier.py
-│   └── eval_response_generator.py
+│   ├── test_agents.py
+│   ├── test_orchestrator.py
+│   └── test_api.py
 │
-├── docs/
-│   └── mediagent_report.md
-│
+├── app.py                                  # Streamlit frontend
+├── main.py                                 # FastAPI entry point
 ├── schemas.py                              # Pydantic models + AgentState
+├── Dockerfile
+├── start.sh
 └── requirements.txt
 ```
 
@@ -156,93 +200,68 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```
+AWS_ACCESS_KEY_ID=your_key
+AWS_SECRET_ACCESS_KEY=your_secret
 AWS_REGION=us-west-2
+AGENT1_ENDPOINT_NAME=medi-agent-classifier
+AGENT3_ENDPOINT_NAME=medi-agent-generator
 DYNAMODB_TABLE_NAME=DoctorSchedule
+APPOINTMENTS_TABLE=medi-agent-appointments
+JWT_SECRET=your_jwt_secret
 ```
 
-Also configure AWS credentials via `~/.aws/credentials` or environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
-
-### 3. Prepare Data
-
-Place the following raw data files:
-
-```
-data/raw/disease_symptom_prediction/
-    dataset.csv
-    Symptom-severity.csv
-    symptom_Description.csv
-    symptom_precaution.csv
-
-data/raw/doctor_schedules/
-    doctors.csv
-```
-
-Then run the data processing scripts in order:
+### 3. Run Locally
 
 ```bash
-# Agent 1: symptom classification data
-python data/process_symptom_classifier.py
+# FastAPI backend
+uvicorn main:app --reload --port 8000
 
-# Agent 2: doctor schedule data
-python data/process_appointment_retriever.py
-
-# Agent 3: response generation data (requires HuggingFace access)
-python data/process_response_generator.py
-
-# Upload doctor schedules to DynamoDB
-python data/upload_to_dynamodb.py
+# Streamlit frontend (separate terminal)
+streamlit run app.py
 ```
 
-### 4. Train the Models
-
-Use the Google Colab notebooks:
-
-| Notebook | GPU | Time |
-|---|---|---|
-| `colab/train_symptom_classifier.ipynb` | Tesla T4 | ~2 hours |
-| `colab/train_response_generator.ipynb` | NVIDIA A100 | ~2–3 hours |
-
-Trained adapters are saved to `data/processed/symptom_classifier_adapter/` and `data/processed/response_generator_adapter/`. These are excluded from git due to file size — store them on Google Drive or HuggingFace Hub.
+Health check: `curl http://localhost:8000/api/v1/health`
 
 ---
 
-## Running the Pipeline
+## API
 
-```python
-from orchestrator.graph import run
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| `GET` | `/api/v1/health` | None | Health check |
+| `POST` | `/api/v1/auth/register` | None | Register new user |
+| `POST` | `/api/v1/auth/login` | None | Login, returns JWT |
+| `POST` | `/api/v1/query` | Optional JWT | Run full pipeline |
+| `GET` | `/api/v1/appointments` | Required JWT | Appointment history |
 
-result = run("I have severe chest pain and shortness of breath")
-
-print(result["department"])    # Cardiology
-print(result["urgency"])       # Emergency
-print(result["doctor"])        # Dr. Chen Wei
-print(result["time_slot"])     # Monday at 08:00
-print(result["confirmation"])  # Your appointment with...
-print(result["instructions"])  # Please arrive 15 minutes early...
+**Query request:**
+```json
+{ "symptom": "I have chest pain and shortness of breath" }
 ```
 
 ---
 
-## Testing
+## CI/CD
 
-```bash
-# Run all unit tests (no GPU or AWS required)
-pytest tests/ -v
+Every push to `main` triggers the GitHub Actions pipeline (`.github/workflows/deploy.yml`):
+
+```
+push to main
+    ↓
+Unit Tests (pytest, no GPU/AWS needed)
+    ↓
+Build Docker image → push to Amazon ECR
+    ↓
+Deploy to ECS Fargate
 ```
 
-Tests cover:
-- Pydantic schema validation (`test_schemas.py`)
-- Output parsing with edge cases (`test_symptom_classifier.py`, `test_response_generator.py`)
-- DynamoDB query logic with mocks (`test_appointment_retriever.py`)
-- Department mapping sanity checks (`test_data_processing.py`)
-
-For full end-to-end testing with all three models loaded, use `colab/integration_test.ipynb`.
+**Required GitHub Secrets:** `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
 
 ---
 
-## Fine-tuning Details
+## Training
 
-Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation) for efficient fine-tuning:
+Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation):
 
 | | Agent 1 (Classifier) | Agent 3 (Generator) |
 |---|---|---|
@@ -253,16 +272,25 @@ Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation) for e
 | Trainable Params | 2.29M (0.07%) | 24.31M (0.75%) |
 | Quantization | 4-bit NF4, float16 | 4-bit NF4, bfloat16 |
 | Epochs | 3 | 2 |
-| Effective Batch Size | 8 | 16 |
+| GPU | Tesla T4 | NVIDIA A100 |
+
+Use the Colab notebooks in `colab/` for training. After training, deploy to SageMaker:
+
+```bash
+python scripts/merge_adapter.py
+python scripts/deploy_sagemaker.py
+```
 
 ---
 
-## Known Limitations
+## Testing
 
-- **Urgency accuracy on free-form text**: ~60% on natural language integration tests. Training urgency labels are derived from statistical symptom severity scores, not clinical triage standards (Manchester Triage System / ESI).
-- **Department accuracy on free-form text**: ~80% on natural language vs. 99.7% on structured symptom lists. Distribution gap between training (structured) and inference (free-form) inputs.
-- **Latency**: 21–87 seconds per request on shared Colab GPU. A dedicated inference endpoint is needed for production use.
-- **No API or frontend** yet — FastAPI and Streamlit integration are planned.
+```bash
+# Unit tests (no GPU or AWS required)
+pytest tests/ -v
+```
+
+For end-to-end testing with live SageMaker endpoints, use `colab/integration_test.ipynb`.
 
 ---
 
@@ -272,7 +300,13 @@ Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation) for e
 |---|---|
 | LLM Fine-tuning | `transformers`, `peft`, `trl`, `bitsandbytes` |
 | Orchestration | `langgraph` |
+| API | `fastapi`, `uvicorn` |
+| Frontend | `streamlit` |
+| Auth | JWT (`python-jose`, `passlib`) |
 | Database | AWS DynamoDB (`boto3`) |
+| Inference | AWS SageMaker |
+| Deployment | Docker, Amazon ECR, ECS Fargate |
+| CI/CD | GitHub Actions |
 | Validation | `pydantic` |
 | Testing | `pytest` |
 | Training Platform | Google Colab (T4 / A100) |

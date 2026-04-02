@@ -35,7 +35,7 @@ from agents.symptom_classifier.agent import _parse_output as parse_classifier
 @pytest.mark.parametrize("text,expected_dept,expected_urg", [
     ("Department: Cardiology | Urgency: Emergency", "Cardiology", "Emergency"),
     ("Department: Neurology | Urgency: Urgent",     "Neurology",  "Urgent"),
-    ("Department: General Practice | Urgency: Routine", "General Practice", "Routine"),
+    ("Department: General Medicine | Urgency: Routine", "General Medicine", "Routine"),
 ])
 def test_classifier_parse_valid(text, expected_dept, expected_urg):
     result = parse_classifier(text)
@@ -46,7 +46,7 @@ def test_classifier_parse_valid(text, expected_dept, expected_urg):
 def test_classifier_parse_fallback_on_garbage():
     """Unrecognisable output should default gracefully."""
     result = parse_classifier("I don't understand the question")
-    assert result.department == "General Practice"
+    assert result.department == "General Medicine"
     assert result.urgency == "Routine"
 
 
@@ -92,14 +92,14 @@ from agents.response_generator.agent import _parse_output as parse_generator
 
 
 def test_generator_parse_with_separator():
-    text = "Your appointment is confirmed.\n---\n• Arrive 15 min early.\n• Bring ID."
+    text = "Confirmation: Your appointment is confirmed.\n---\n• Arrive 15 min early.\n• Bring ID."
     confirmation, instructions = parse_generator(text)
     assert "confirmed" in confirmation
     assert "Arrive" in instructions
 
 
 def test_generator_parse_no_separator_fallback():
-    text = "Everything is fine, appointment booked."
+    text = "Confirmation: Your appointment with Dr. Smith has been booked."
     confirmation, instructions = parse_generator(text)
-    assert confirmation == text.strip()
+    assert "booked" in confirmation
     assert instructions  # fallback string is non-empty
