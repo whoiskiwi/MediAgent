@@ -37,7 +37,8 @@ jobs:
             python-dotenv boto3 \
             langgraph langchain \
             peft transformers \
-            "python-jose[cryptography]" "passlib[bcrypt]" email-validator
+            "python-jose[cryptography]" "passlib[bcrypt]" email-validator \
+            chromadb openai
 
       - name: Run tests
         run: pytest tests/test_agents.py tests/test_orchestrator.py tests/test_api.py -v
