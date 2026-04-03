@@ -17,6 +17,7 @@ from schemas import (
 )
 from orchestrator.graph import run_pipeline
 from auth.dependencies import get_current_user
+from agents.rag.qa import answer_question
 
 api_router = APIRouter()
 
@@ -65,6 +66,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
             confirmation=state.get("confirmation", ""),
             instructions=state.get("instructions", ""),
             first_aid=state.get("first_aid"),
+            possible_causes=state.get("possible_causes", []),
         ),
     )
 
@@ -136,3 +138,34 @@ def clear_all_appointments(secret: str):
             break
 
     return {"deleted": deleted}
+
+
+# ---------------------------------------------------------------------------
+# Medical Q&A (RAG)
+# ---------------------------------------------------------------------------
+from pydantic import BaseModel
+
+class QARequest(BaseModel):
+    question: str
+
+@api_router.post("/qa")
+def medical_qa(req: QARequest):
+    """Answer a medical question using RAG over MedlinePlus."""
+    result = answer_question(req.question)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Drug Query (RAG)
+# ---------------------------------------------------------------------------
+class DrugRequest(BaseModel):
+    drug_name: str
+
+@api_router.post("/drug")
+def drug_query(req: DrugRequest):
+    """Look up drug information from MedlinePlus via RAG."""
+    result = answer_question(
+        f"What is {req.drug_name}? What is it used for, what are the side effects, "
+        f"and what precautions should patients know?"
+    )
+    return result

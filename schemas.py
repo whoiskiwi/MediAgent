@@ -34,19 +34,22 @@ class ResponseOutput(BaseModel):
     confirmation: str
     instructions: str
     first_aid: Optional[str] = None
+    possible_causes: Optional[list] = None
 
 
 class AgentState(TypedDict, total=False):
     """LangGraph state passed between all three agents."""
     patient_text: str
+    user_age: Optional[int]
+    user_gender: Optional[str]
     department: str
     urgency: Literal["Routine", "Urgent", "Emergency"]
     doctor: str
     time_slot: str
     confirmation: str
     instructions: str
-    user_age: int
-    user_gender: str
+    first_aid: Optional[str]
+    possible_causes: Optional[list]
 
 
 def normalize_urgency(urgency: str) -> str:

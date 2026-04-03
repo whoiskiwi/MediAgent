@@ -54,7 +54,7 @@ def _build_prompt(
         "Do NOT sign with a doctor name. Do NOT ask follow-up questions.\n"
         "Output exactly two parts separated by '---':\n"
         "Part 1: One sentence confirming the appointment (doctor, department, time).\n"
-        "Part 2: 3 short pre-visit instructions relevant to the patient's symptoms.\n"
+        "Part 2: 3 short pre-visit instructions relevant to the patient's symptoms and demographics.\n"
         "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
         f"{context_line}"
         f"Symptoms: {patient_text}\n"
