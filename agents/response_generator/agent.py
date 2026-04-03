@@ -37,7 +37,16 @@ def _build_prompt(
     doctor: str,
     time_slot: str,
     urgency: str,
+    age: int = None,
+    gender: str = None,
 ) -> str:
+    demo_parts = []
+    if age is not None:
+        demo_parts.append(f"Age: {age}")
+    if gender:
+        demo_parts.append(f"Gender: {gender}")
+    demo_line = f"Patient: {', '.join(demo_parts)}\n" if demo_parts else ""
+
     return (
         "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
         "You are a clinic scheduling system. Write a brief, formal appointment confirmation.\n"
@@ -45,8 +54,9 @@ def _build_prompt(
         "Do NOT sign with a doctor name. Do NOT ask follow-up questions.\n"
         "Output exactly two parts separated by '---':\n"
         "Part 1: One sentence confirming the appointment (doctor, department, time).\n"
-        "Part 2: 3 short pre-visit instructions relevant to the patient's symptoms.\n"
+        "Part 2: 3 short pre-visit instructions relevant to the patient's symptoms and demographics.\n"
         "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+        f"{demo_line}"
         f"Symptoms: {patient_text}\n"
         f"Department: {department}\n"
         f"Doctor: {doctor}\n"
@@ -167,6 +177,8 @@ def run_generator(state: AgentState) -> AgentState:
         doctor=state.get("doctor", "your doctor"),
         time_slot=state.get("time_slot", "your scheduled time"),
         urgency=safe_urgency,
+        age=state.get("age"),
+        gender=state.get("gender"),
     )
     generated = _call_endpoint(prompt)
     confirmation, instructions = _parse_output(generated, prompt_prefix="Confirmation: Your appointment with")

@@ -38,6 +38,8 @@ class ResponseOutput(BaseModel):
 class AgentState(TypedDict, total=False):
     """LangGraph state passed between all three agents."""
     patient_text: str
+    age: Optional[int]
+    gender: Optional[str]
     department: str
     urgency: Literal["Routine", "Urgent", "Emergency"]
     doctor: str
@@ -59,6 +61,8 @@ def normalize_urgency(urgency: str) -> str:
 
 class QueryRequest(BaseModel):
     symptom: str
+    age: Optional[int] = None
+    gender: Optional[str] = None
 
 
 class QueryResponse(BaseModel):

@@ -34,6 +34,11 @@ graph = _builder.compile()
 # Public API
 # ---------------------------------------------------------------------------
 
-def run_pipeline(patient_text: str) -> AgentState:
+def run_pipeline(patient_text: str, age: int = None, gender: str = None) -> AgentState:
     """Run the full three-agent pipeline synchronously."""
-    return graph.invoke({"patient_text": patient_text})
+    initial: AgentState = {"patient_text": patient_text}
+    if age is not None:
+        initial["age"] = age
+    if gender is not None:
+        initial["gender"] = gender
+    return graph.invoke(initial)
