@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
 from jose import jwt
-from passlib.context import CryptContext
+import bcrypt as _bcrypt
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 
@@ -46,7 +46,14 @@ FRONTEND_URL         = os.getenv("FRONTEND_URL", "http://localhost:8501")
 _ddb   = boto3.resource("dynamodb", region_name=AWS_REGION)
 _table = _ddb.Table(USERS_TABLE)
 
-_pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
+class _pwd:
+    @staticmethod
+    def hash(password: str) -> str:
+        return _bcrypt.hashpw(password.encode()[:72], _bcrypt.gensalt()).decode()
+
+    @staticmethod
+    def verify(password: str, hashed: str) -> bool:
+        return _bcrypt.checkpw(password.encode()[:72], hashed.encode())
 
 # ---------------------------------------------------------------------------
 # Schemas
@@ -139,13 +146,14 @@ def login(body: LoginRequest):
         ExpressionAttributeValues={":t": datetime.now(timezone.utc).isoformat()},
     )
 
+    age = int(user["age"]) if user.get("age") is not None else None
     token = _make_jwt(user["user_id"], user["email"], user["name"],
-                      user.get("age"), user.get("gender"))
+                      age, user.get("gender"))
     return JSONResponse({
         "access_token": token,
         "token_type":   "bearer",
         "user": {"user_id": user["user_id"], "email": user["email"], "name": user["name"],
-                 "age": user.get("age"), "gender": user.get("gender")},
+                 "age": age, "gender": user.get("gender")},
     })
 
 

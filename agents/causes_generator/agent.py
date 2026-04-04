@@ -145,7 +145,7 @@ def run_causes_generator(state: AgentState) -> AgentState:
         print(f"[CausesGenerator] {len(rag_docs)} RAG docs retrieved")
 
     prompt = _build_prompt(patient_text, department, rag_docs,
-                           age=state.get("age"), gender=state.get("gender"))
+                           age=state.get("user_age"), gender=state.get("user_gender"))
     raw    = _call_llm(prompt)
     causes = _parse_output(raw, rag_docs)
 

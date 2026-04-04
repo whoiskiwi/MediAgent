@@ -54,6 +54,61 @@ with st.sidebar:
             if age:
                 profile_parts.append(f"Age {age}")
             st.caption(" · ".join(profile_parts))
+
+        # Patient profile section
+        st.divider()
+        st.subheader("Patient Profile")
+        with st.expander("Edit medical profile", expanded=False):
+            prof = st.session_state.get("patient_profile", {})
+            with st.form("profile_form"):
+                blood_type_input = st.selectbox(
+                    "Blood Type",
+                    ["Not set", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+                    index=0 if not prof.get("blood_type") else
+                          ["Not set","A+","A-","B+","B-","AB+","AB-","O+","O-"].index(prof["blood_type"])
+                          if prof.get("blood_type") in ["A+","A-","B+","B-","AB+","AB-","O+","O-"] else 0,
+                )
+                allergies_input = st.text_input(
+                    "Allergies (comma-separated)",
+                    value=", ".join(prof.get("allergies") or []),
+                    placeholder="e.g. Penicillin, Aspirin",
+                )
+                col_h, col_w = st.columns(2)
+                with col_h:
+                    height_input = st.number_input("Height (cm)", min_value=0, max_value=250,
+                                                    value=int(prof.get("height_cm") or 0), step=1)
+                with col_w:
+                    weight_input = st.number_input("Weight (kg)", min_value=0.0, max_value=300.0,
+                                                    value=float(prof.get("weight_kg") or 0.0), step=0.5)
+                save_profile = st.form_submit_button("Save Profile")
+
+            if save_profile:
+                payload = {
+                    "blood_type": blood_type_input if blood_type_input != "Not set" else None,
+                    "allergies":  [a.strip() for a in allergies_input.split(",") if a.strip()] or None,
+                    "height_cm":  int(height_input) if height_input > 0 else None,
+                    "weight_kg":  float(weight_input) if weight_input > 0 else None,
+                }
+                try:
+                    resp = requests.put(f"{API_BASE}/profile", json=payload,
+                                        headers=auth_headers(), timeout=10)
+                    if resp.status_code == 200:
+                        st.session_state["patient_profile"] = payload
+                        st.success("Profile saved.")
+                    else:
+                        st.error("Failed to save profile.")
+                except Exception as e:
+                    st.error(f"Request failed: {e}")
+
+        # Load profile once per session
+        if "patient_profile" not in st.session_state:
+            try:
+                resp = requests.get(f"{API_BASE}/profile", headers=auth_headers(), timeout=10)
+                if resp.status_code == 200:
+                    st.session_state["patient_profile"] = resp.json()
+            except Exception:
+                st.session_state["patient_profile"] = {}
+
         if st.button("Log out"):
             logout()
     else:
@@ -173,21 +228,24 @@ with tab_symptom:
 
     with st.form("query_form"):
         symptom = st.text_area("Describe your symptoms", placeholder="e.g. I have had a headache and fever for three days...")
-        col_a, col_b = st.columns(2)
-        with col_a:
-            age = st.number_input("Age (optional)", min_value=0, max_value=120, value=0, step=1)
-        with col_b:
-            gender = st.selectbox("Gender (optional)", ["Not specified", "Male", "Female", "Other"])
+        if not is_logged_in():
+            col_a, col_b = st.columns(2)
+            with col_a:
+                age = st.number_input("Age (optional)", min_value=0, max_value=120, value=0, step=1)
+            with col_b:
+                gender = st.selectbox("Gender (optional)", ["Not specified", "Male", "Female", "Other"])
         submitted = st.form_submit_button("Submit")
 
     if submitted and symptom.strip():
         headers = auth_headers() if is_logged_in() else {}
         user_info = st.session_state.get("user_info", {}) if is_logged_in() else {}
-        query_payload = {
-            "symptom":     symptom,
-            "user_age":    user_info.get("age") or (int(age) if age > 0 else None),
-            "user_gender": user_info.get("gender") or (gender if gender != "Not specified" else None),
-        }
+        query_payload: dict = {"symptom": symptom}
+        if is_logged_in():
+            query_payload["user_age"]    = user_info.get("age")
+            query_payload["user_gender"] = user_info.get("gender")
+        else:
+            query_payload["user_age"]    = int(age) if age > 0 else None
+            query_payload["user_gender"] = gender if gender != "Not specified" else None
 
         with st.spinner("Analyzing..."):
             try:

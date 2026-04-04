@@ -36,12 +36,27 @@ URGENCIES = ["Routine", "Urgent", "Emergency"]
 
 def _build_prompt(patient_text: str,
                   user_age: int = None,
-                  user_gender: str = None) -> str:
+                  user_gender: str = None,
+                  blood_type: str = None,
+                  allergies: list = None,
+                  height_cm: int = None,
+                  weight_kg: float = None) -> str:
     context_parts = []
     if user_age:
         context_parts.append(f"Age: {user_age}")
     if user_gender:
         context_parts.append(f"Gender: {user_gender}")
+    if blood_type:
+        context_parts.append(f"Blood type: {blood_type}")
+    if allergies:
+        context_parts.append(f"Allergies: {', '.join(str(a) for a in allergies)}")
+    if height_cm and weight_kg:
+        bmi = round(weight_kg / (height_cm / 100) ** 2, 1)
+        context_parts.append(f"BMI: {bmi} ({height_cm}cm, {weight_kg}kg)")
+    elif height_cm:
+        context_parts.append(f"Height: {height_cm}cm")
+    elif weight_kg:
+        context_parts.append(f"Weight: {weight_kg}kg")
     context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
 
     return (
@@ -59,20 +74,24 @@ def _build_prompt(patient_text: str,
 
 
 def _call_endpoint(prompt: str) -> str:
-    payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 32,
-            "do_sample": False,
-        },
-    }
-    response = _sm_runtime.invoke_endpoint(
-        EndpointName=ENDPOINT_NAME,
-        ContentType="application/json",
-        Body=json.dumps(payload),
-    )
-    result = json.loads(response["Body"].read())
-    return result[0]["generated_text"]
+    params = {"max_new_tokens": 32, "do_sample": False}
+
+    from agents.local_inference import use_local_models, call_local
+    if use_local_models():
+        return call_local("classifier", prompt, params)
+
+    try:
+        payload = {"inputs": prompt, "parameters": params}
+        response = _sm_runtime.invoke_endpoint(
+            EndpointName=ENDPOINT_NAME,
+            ContentType="application/json",
+            Body=json.dumps(payload),
+        )
+        result = json.loads(response["Body"].read())
+        return result[0]["generated_text"]
+    except Exception as e:
+        print(f"[Agent1] SageMaker unavailable ({e}), falling back to local model")
+        return call_local("classifier", prompt, params)
 
 
 def _parse_output(text: str) -> ClassifierOutput:
@@ -99,8 +118,15 @@ def _parse_output(text: str) -> ClassifierOutput:
 
 def run_classifier(state: AgentState) -> AgentState:
     """LangGraph node — calls SageMaker, writes 'department' and 'urgency'."""
-    prompt    = _build_prompt(state["patient_text"],
-                              state.get("user_age"), state.get("user_gender"))
+    prompt    = _build_prompt(
+        state["patient_text"],
+        state.get("user_age"),
+        state.get("user_gender"),
+        state.get("blood_type"),
+        state.get("allergies"),
+        state.get("height_cm"),
+        state.get("weight_kg"),
+    )
     generated = _call_endpoint(prompt)
     result    = _parse_output(generated)
 

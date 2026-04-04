@@ -39,12 +39,27 @@ def _build_prompt(
     urgency: str,
     user_age: int = None,
     user_gender: str = None,
+    blood_type: str = None,
+    allergies: list = None,
+    height_cm: int = None,
+    weight_kg: float = None,
 ) -> str:
     context_parts = []
     if user_age:
         context_parts.append(f"Age: {user_age}")
     if user_gender:
         context_parts.append(f"Gender: {user_gender}")
+    if blood_type:
+        context_parts.append(f"Blood type: {blood_type}")
+    if allergies:
+        context_parts.append(f"Allergies: {', '.join(str(a) for a in allergies)}")
+    if height_cm and weight_kg:
+        bmi = round(weight_kg / (height_cm / 100) ** 2, 1)
+        context_parts.append(f"BMI: {bmi} ({height_cm}cm, {weight_kg}kg)")
+    elif height_cm:
+        context_parts.append(f"Height: {height_cm}cm")
+    elif weight_kg:
+        context_parts.append(f"Weight: {weight_kg}kg")
     context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
 
     return (
@@ -68,26 +83,28 @@ def _build_prompt(
 
 
 def _call_endpoint(prompt: str) -> str:
-    payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 256,
-            "do_sample": True,
-            "temperature": 0.7,
-            "top_p": 0.9,
-        },
-    }
-    response = _sm_runtime.invoke_endpoint(
-        EndpointName=ENDPOINT_NAME,
-        ContentType="application/json",
-        Body=json.dumps(payload),
-    )
-    result = json.loads(response["Body"].read())
-    return result[0]["generated_text"]
+    params = {"max_new_tokens": 256, "do_sample": True, "temperature": 0.7, "top_p": 0.9}
+
+    from agents.local_inference import use_local_models, call_local
+    if use_local_models():
+        return call_local("generator", prompt, params)
+
+    try:
+        payload = {"inputs": prompt, "parameters": params}
+        response = _sm_runtime.invoke_endpoint(
+            EndpointName=ENDPOINT_NAME,
+            ContentType="application/json",
+            Body=json.dumps(payload),
+        )
+        result = json.loads(response["Body"].read())
+        return result[0]["generated_text"]
+    except Exception as e:
+        print(f"[Agent3] SageMaker unavailable ({e}), falling back to local model")
+        return call_local("generator", prompt, params)
 
 
 _STOP_PATTERNS = re.compile(
-    r"(thanks\s+for\s+(posting|your\s+question|writing)"
+    r"(thanks\s+for\s+(posting|your\s+question|writing|asking)"
     r"|hope\s+i\s+have\s+(solved|answered)"
     r"|i\s+will\s+be\s+happy\s+to\s+help"
     r"|wishing\s+(you\s+)?good\s+health"
@@ -98,7 +115,10 @@ _STOP_PATTERNS = re.compile(
     r"|let\s+me\s+know\s+if\s+i\s+can"
     r"|contact\s*:\s*\d"
     r"|regards[,.]"
-    r"|available\s+for\s+direct)",
+    r"|available\s+for\s+direct"
+    r"|healthcaremagic"
+    r"|in\s+(healthcaremagic|hcm)\s+forum"
+    r"|asking\s+in\s+\w+\s+forum)",
     re.IGNORECASE,
 )
 _APPT_KEYWORDS = re.compile(
@@ -167,12 +187,21 @@ def _parse_output(raw: str, prompt_prefix: str = "Confirmation: Your appointment
 
 
 def _build_first_aid_prompt(patient_text: str, department: str, urgency: str,
-                             user_age: int = None, user_gender: str = None) -> str:
+                             user_age: int = None, user_gender: str = None,
+                             blood_type: str = None, allergies: list = None,
+                             height_cm: int = None, weight_kg: float = None) -> str:
     context_parts = []
     if user_age:
         context_parts.append(f"Age: {user_age}")
     if user_gender:
         context_parts.append(f"Gender: {user_gender}")
+    if blood_type:
+        context_parts.append(f"Blood type: {blood_type}")
+    if allergies:
+        context_parts.append(f"Allergies: {', '.join(str(a) for a in allergies)}")
+    if height_cm and weight_kg:
+        bmi = round(weight_kg / (height_cm / 100) ** 2, 1)
+        context_parts.append(f"BMI: {bmi}")
     context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
 
     level = "emergency" if urgency == "Emergency" else "urgent"
@@ -204,6 +233,10 @@ def run_generator(state: AgentState) -> AgentState:
         urgency=safe_urgency,
         user_age=state.get("user_age"),
         user_gender=state.get("user_gender"),
+        blood_type=state.get("blood_type"),
+        allergies=state.get("allergies"),
+        height_cm=state.get("height_cm"),
+        weight_kg=state.get("weight_kg"),
     )
     generated = _call_endpoint(prompt)
     confirmation, instructions = _parse_output(generated, prompt_prefix="Confirmation: Your appointment with")
@@ -216,6 +249,10 @@ def run_generator(state: AgentState) -> AgentState:
             urgency=urgency,
             user_age=state.get("user_age"),
             user_gender=state.get("user_gender"),
+            blood_type=state.get("blood_type"),
+            allergies=state.get("allergies"),
+            height_cm=state.get("height_cm"),
+            weight_kg=state.get("weight_kg"),
         )
         fa_raw   = _call_endpoint(fa_prompt)
         first_aid = ("Immediate steps:\n" + fa_raw).strip()

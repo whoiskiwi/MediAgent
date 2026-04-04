@@ -37,11 +37,23 @@ class ResponseOutput(BaseModel):
     possible_causes: Optional[list] = None
 
 
+class PatientProfile(BaseModel):
+    blood_type:  Optional[str]  = None   # e.g. "A+", "O-"
+    allergies:   Optional[list] = None   # e.g. ["Penicillin", "Peanuts"]
+    height_cm:   Optional[int]  = None
+    weight_kg:   Optional[float] = None
+
+
 class AgentState(TypedDict, total=False):
     """LangGraph state passed between all three agents."""
     patient_text: str
     user_age: Optional[int]
     user_gender: Optional[str]
+    # patient profile fields
+    blood_type: Optional[str]
+    allergies: Optional[list]
+    height_cm: Optional[int]
+    weight_kg: Optional[float]
     department: str
     urgency: Literal["Routine", "Urgent", "Emergency"]
     doctor: str
@@ -67,6 +79,11 @@ class QueryRequest(BaseModel):
     symptom: str
     user_age: Optional[int] = None
     user_gender: Optional[str] = None
+    # passed through when not logged in; ignored server-side when JWT is present
+    blood_type: Optional[str]   = None
+    allergies:  Optional[list]  = None
+    height_cm:  Optional[int]   = None
+    weight_kg:  Optional[float] = None
 
 
 class QueryResponse(BaseModel):
