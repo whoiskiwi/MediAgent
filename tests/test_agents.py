@@ -57,31 +57,36 @@ def test_classifier_parse_case_insensitive():
 
 
 # ---------------------------------------------------------------------------
-# Agent 2: DynamoDB item parsing
+# Agent 2: appointment time slot logic
 # ---------------------------------------------------------------------------
 
-from agents.appointment_retriever.agent import _parse_item
+from datetime import datetime, timezone
+from agents.appointment_retriever.agent import _next_half_hour, _compute_next_slot
 
 
-def test_retriever_parse_sk_format():
-    item = {"department": "Cardiology", "SK": "Dr. Smith#Monday#09:00"}
-    doctor, time_slot = _parse_item(item)
-    assert doctor == "Dr. Smith"
-    assert time_slot == "Monday 09:00"
+def test_next_half_hour_before_30():
+    dt = datetime(2026, 4, 4, 14, 23, 0, tzinfo=timezone.utc)
+    result = _next_half_hour(dt)
+    assert result.hour == 14 and result.minute == 30
 
+def test_next_half_hour_after_30():
+    dt = datetime(2026, 4, 4, 14, 45, 0, tzinfo=timezone.utc)
+    result = _next_half_hour(dt)
+    assert result.hour == 15 and result.minute == 0
 
-def test_retriever_parse_flat_attributes():
-    item = {"doctor": "Dr. Lee", "time_slot": "Tuesday 14:00"}
-    doctor, time_slot = _parse_item(item)
-    assert doctor == "Dr. Lee"
-    assert time_slot == "Tuesday 14:00"
+def test_next_half_hour_exactly_on_boundary():
+    dt = datetime(2026, 4, 4, 14, 30, 0, tzinfo=timezone.utc)
+    result = _next_half_hour(dt)
+    assert result.hour == 15 and result.minute == 0
 
-
-def test_retriever_parse_missing_sk_fallback():
-    item = {"department": "Cardiology"}
-    doctor, time_slot = _parse_item(item)
-    assert doctor == "Unknown Doctor"
-    assert time_slot == "Unknown Slot"
+def test_compute_next_slot_returns_day_and_time(monkeypatch):
+    """_compute_next_slot should return a valid (day_name, HH:MM) tuple."""
+    # Patch _latest_booked_slot to return None (no prior bookings)
+    import agents.appointment_retriever.agent as mod
+    monkeypatch.setattr(mod, "_latest_booked_slot", lambda: None)
+    day, time_str = _compute_next_slot()
+    assert day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    assert len(time_str) == 5 and time_str[2] == ":"
 
 
 # ---------------------------------------------------------------------------
