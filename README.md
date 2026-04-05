@@ -1,28 +1,34 @@
 # MediAgent
 
-An end-to-end LLM-powered multi-agent system for automated hospital appointment scheduling. The system takes a patient's natural language symptom description and returns a complete appointment with an assigned doctor, time slot, and personalized pre-visit instructions — without human intervention.
+An end-to-end LLM-powered multi-agent system for automated hospital appointment scheduling. The system takes a patient's natural language symptom description and returns a complete appointment with an assigned doctor, time slot, personalized pre-visit instructions, and RAG-enhanced possible causes — without human intervention.
 
 ---
 
 ## How It Works
 
 ```
-Patient Text (Natural Language)
+Patient Text + Age (optional) + Gender (optional)
         ↓
-[Agent 1: Symptom Classifier]    →  Department + Urgency
+[Agent 1: Symptom Classifier]      →  Department + Urgency
         ↓
-[Agent 2: Appointment Retriever] →  Doctor + Time Slot
+[Agent 2: Appointment Retriever]   →  Doctor + Time Slot
         ↓
-[Agent 3: Response Generator]    →  Confirmation + Instructions
+[Agent 3: Response Generator]      →  Confirmation + Instructions
+        ↓
+[Agent 4: Causes Generator]        →  Possible Causes (RAG-enhanced)
 ```
 
-Three specialized agents are wired together in a sequential **LangGraph** pipeline, sharing an `AgentState` TypedDict that each agent enriches before passing to the next. Agents 1 and 3 run on **AWS SageMaker** endpoints; Agent 2 queries **AWS DynamoDB** directly.
+Four specialized agents are wired together in a sequential **LangGraph** pipeline, sharing an `AgentState` TypedDict that each agent enriches before passing to the next. Agents 1 and 3 run on **AWS SageMaker** endpoints; Agent 2 queries **AWS DynamoDB**; Agent 4 calls **DeepSeek** (with OpenAI fallback) augmented by **RAG over MedlinePlus**.
 
 ### Example
 
 **Input:**
-```
-"I have severe chest pain and shortness of breath for the past 2 hours."
+```json
+{
+  "symptom": "I have severe chest pain and shortness of breath for the past 2 hours.",
+  "age": 55,
+  "gender": "Male"
+}
 ```
 
 **Output:**
@@ -32,10 +38,19 @@ Three specialized agents are wired together in a sequential **LangGraph** pipeli
   "agent2": { "doctor": "Dr. Chen Wei", "time_slot": "Monday at 08:00" },
   "agent3": {
     "confirmation": "Your appointment with Dr. Chen Wei in Cardiology has been confirmed for Monday at 08:00.",
-    "instructions": "Please call emergency services if symptoms worsen. Avoid eating or drinking before your visit. Bring a list of current medications."
+    "instructions": "Avoid eating or drinking before your visit. Bring a list of current medications.",
+    "possible_causes": [
+      {
+        "cause": "Acute Myocardial Infarction",
+        "reason": "Chest pain with shortness of breath in a 55-year-old male is a classic presentation of heart attack.",
+        "reference": { "title": "Heart Attack", "url": "https://medlineplus.gov/heartattack.html" }
+      }
+    ]
   }
 }
 ```
+
+> When urgency is `Emergency`, the frontend displays a prominent alert to call 911 immediately.
 
 ---
 
@@ -45,22 +60,33 @@ Three specialized agents are wired together in a sequential **LangGraph** pipeli
 Browser / Streamlit (app.py)
         ↓  HTTP
 FastAPI (main.py)
-  ├── POST /api/v1/query       ← calls run_pipeline()
+  ├── POST /api/v1/query             ← full pipeline (age/gender optional)
+  ├── POST /api/v1/qa                ← medical Q&A via RAG
+  ├── POST /api/v1/drug              ← drug lookup via RAG
   ├── POST /api/v1/auth/login
   ├── POST /api/v1/auth/register
+  ├── GET  /api/v1/auth/google       ← Google OAuth
   └── GET  /api/v1/appointments
 
 LangGraph Orchestrator (orchestrator/graph.py)
   ├── Agent 1 → SageMaker endpoint (medi-agent-classifier)
   ├── Agent 2 → DynamoDB (DoctorSchedule)
-  └── Agent 3 → SageMaker endpoint (medi-agent-generator)
+  ├── Agent 3 → SageMaker endpoint (medi-agent-generator)
+  └── Agent 4 → DeepSeek API / OpenAI fallback + ChromaDB RAG
+
+RAG Knowledge Base
+  ├── Source:  MedlinePlus (NIH) — 1,015 English health topics
+  ├── Index:   ChromaDB (local persistent, cosine similarity)
+  └── Embed:   OpenAI text-embedding-3-small
 
 AWS DynamoDB
   ├── DoctorSchedule          ← appointment slots
   └── medi-agent-appointments ← user appointment history
-```
 
-Deployed via **GitHub Actions → Docker → Amazon ECR → ECS Fargate**.
+Auth
+  ├── Email/password (JWT)
+  └── Google OAuth 2.0
+```
 
 ---
 
@@ -92,17 +118,6 @@ Deployed via **GitHub Actions → Docker → Amazon ECR → ECS Fargate**.
 | **Backend** | AWS DynamoDB (`DoctorSchedule` table, `us-west-2`) |
 | **Data** | 410 appointment slots across 30+ doctors, Monday–Friday |
 
-**DynamoDB Schema:**
-
-| Attribute | Type | Role | Example |
-|---|---|---|---|
-| `department` | String | Partition Key | `"Cardiology"` |
-| `sk` | String | Sort Key | `"Dr. Chen Wei#Monday#08:00"` |
-| `doctor` | String | | `"Dr. Chen Wei"` |
-| `day` | String | | `"Monday"` |
-| `time_slot` | String | | `"08:00"` |
-| `available` | Boolean | | `true` |
-
 ---
 
 ### Agent 3 — Response Generator
@@ -111,7 +126,7 @@ Deployed via **GitHub Actions → Docker → Amazon ECR → ECS Fargate**.
 |---|---|
 | **Inference** | AWS SageMaker endpoint (`medi-agent-generator`) |
 | **Model** | LLaMA-3.2-3B-Instruct + QLoRA adapter |
-| **Input** | Patient text, department, doctor, time slot, urgency |
+| **Input** | Patient text, department, doctor, time slot, urgency, age (optional), gender (optional) |
 | **Output** | Appointment confirmation + pre-visit instructions |
 | **Training Data** | 16,604 records from HuggingFace AI Medical Chatbot dataset |
 | **GPU** | NVIDIA A100, 2 epochs |
@@ -121,67 +136,78 @@ Deployed via **GitHub Actions → Docker → Amazon ECR → ECS Fargate**.
 
 ---
 
+### Agent 4 — Causes Generator (RAG-enhanced)
+
+| | |
+|---|---|
+| **Inference** | DeepSeek API (primary) / OpenAI GPT-4o-mini (fallback) |
+| **Input** | Patient text, department, age (optional), gender (optional) |
+| **Output** | 3–5 possible causes, each with a one-sentence reason and MedlinePlus reference |
+| **RAG** | Retrieves top-4 relevant MedlinePlus documents via ChromaDB semantic search |
+| **Knowledge Base** | 1,015 NIH MedlinePlus health topics, embedded with `text-embedding-3-small` |
+
+---
+
+## Frontend Features
+
+| Tab | Description |
+|---|---|
+| **Symptom Query** | Submit symptoms with optional age/gender; shows department, doctor, urgency, medical advice, and RAG-enhanced possible causes with references |
+| **Medical Q&A** | Ask any medical question; answered by DeepSeek using MedlinePlus as context, with source links |
+| **Drug Lookup** | Enter a drug name; returns uses, side effects, and precautions from MedlinePlus |
+
+**Emergency alert:** When urgency = `Emergency`, a red banner prompts the user to call 911 immediately.
+
+---
+
 ## Project Structure
 
 ```
 medi-agent/
 ├── agents/
-│   ├── parsing.py                          # Regex-based output parsers + Q&A sign-off cleaner
-│   ├── symptom_classifier/agent.py         # Agent 1 — calls SageMaker
-│   ├── appointment_retriever/agent.py      # Agent 2 — queries DynamoDB
-│   └── response_generator/agent.py         # Agent 3 — calls SageMaker
+│   ├── parsing.py                          # Regex-based output parsers
+│   ├── symptom_classifier/agent.py         # Agent 1 — SageMaker
+│   ├── appointment_retriever/agent.py      # Agent 2 — DynamoDB
+│   ├── response_generator/agent.py         # Agent 3 — SageMaker
+│   ├── causes_generator/agent.py           # Agent 4 — DeepSeek + RAG
+│   └── rag/
+│       ├── retriever.py                    # ChromaDB semantic search
+│       └── qa.py                           # RAG-powered Q&A
 │
 ├── orchestrator/
-│   └── graph.py                            # LangGraph pipeline (run_pipeline)
+│   └── graph.py                            # LangGraph pipeline
 │
 ├── api/
 │   └── v1/
-│       ├── router.py                       # /query, /appointments endpoints
-│       └── auth.py                         # /auth/login, /auth/register endpoints
+│       ├── router.py                       # /query, /qa, /drug, /appointments
+│       └── auth.py                         # JWT + Google OAuth
 │
 ├── auth/
-│   └── dependencies.py                     # JWT token validation
-│
-├── infrastructure/
-│   └── task-definition.json                # ECS task definition
-│
-├── sagemaker_code/
-│   └── inference.py                        # SageMaker inference handler
+│   └── dependencies.py                     # JWT validation
 │
 ├── scripts/
-│   ├── deploy_sagemaker.py                 # Package adapters → S3 → SageMaker endpoints
-│   ├── merge_adapter.py                    # Merge QLoRA adapter into base model
-│   └── setup_infra.sh                      # AWS infra setup (ECR, ECS, DynamoDB)
+│   ├── build_rag_index.py                  # Parse MedlinePlus XML → ChromaDB
+│   ├── deploy_sagemaker.py
+│   ├── merge_adapter.py
+│   └── setup_infra.sh
 │
 ├── data/
-│   ├── process_symptom_classifier.py
-│   ├── process_appointment_retriever.py
-│   ├── process_response_generator.py
-│   ├── upload_to_dynamodb.py
-│   ├── raw/                                # Raw input datasets (not tracked)
-│   └── processed/                          # Processed data & adapters (not tracked)
+│   ├── raw/                                # Raw datasets (not tracked)
+│   ├── processed/                          # Processed data & adapters (not tracked)
+│   └── chroma_db/                          # Vector index (not tracked, rebuild locally)
 │
 ├── colab/
-│   ├── train_symptom_classifier.ipynb      # Agent 1 fine-tuning (T4 GPU)
-│   ├── train_response_generator.ipynb      # Agent 3 fine-tuning (A100 GPU)
+│   ├── train_symptom_classifier.ipynb
+│   ├── train_response_generator.ipynb
 │   ├── eval_symptom_classifier.ipynb
-│   ├── eval_response_generator.ipynb
-│   └── integration_test.ipynb
+│   └── eval_response_generator.ipynb
 │
 ├── tests/
-│   ├── test_schemas.py
-│   ├── test_symptom_classifier.py
-│   ├── test_appointment_retriever.py
-│   ├── test_response_generator.py
-│   ├── test_agents.py
-│   ├── test_orchestrator.py
-│   └── test_api.py
 │
 ├── app.py                                  # Streamlit frontend
 ├── main.py                                 # FastAPI entry point
 ├── schemas.py                              # Pydantic models + AgentState
 ├── Dockerfile
-├── start.sh
 └── requirements.txt
 ```
 
@@ -192,6 +218,7 @@ medi-agent/
 ### 1. Install Dependencies
 
 ```bash
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -203,20 +230,40 @@ Create a `.env` file in the project root:
 AWS_ACCESS_KEY_ID=your_key
 AWS_SECRET_ACCESS_KEY=your_secret
 AWS_REGION=us-west-2
+
 AGENT1_ENDPOINT_NAME=medi-agent-classifier
 AGENT3_ENDPOINT_NAME=medi-agent-generator
 DYNAMODB_TABLE_NAME=DoctorSchedule
 APPOINTMENTS_TABLE=medi-agent-appointments
+
 JWT_SECRET=your_jwt_secret
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/api/v1/auth/google/callback
+FRONTEND_URL=http://localhost:8501
+
+DEEPSEEK_API_KEY=your_deepseek_key
+OPENAI_API_KEY=your_openai_key
 ```
 
-### 3. Run Locally
+### 3. Build the RAG Index
+
+Download the MedlinePlus XML from [medlineplus.gov](https://medlineplus.gov/xml.html) and place it in `data/`, then run:
 
 ```bash
-# FastAPI backend
-uvicorn main:app --reload --port 8000
+python scripts/build_rag_index.py
+```
 
-# Streamlit frontend (separate terminal)
+This parses 1,015 English health topics and builds a persistent ChromaDB index at `data/chroma_db/`. Only needs to run once.
+
+### 4. Run Locally
+
+```bash
+# Backend
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload --reload-dir . --reload-exclude "venv/*"
+
+# Frontend (separate terminal)
 streamlit run app.py
 ```
 
@@ -231,28 +278,44 @@ Health check: `curl http://localhost:8000/api/v1/health`
 | `GET` | `/api/v1/health` | None | Health check |
 | `POST` | `/api/v1/auth/register` | None | Register new user |
 | `POST` | `/api/v1/auth/login` | None | Login, returns JWT |
+| `GET` | `/api/v1/auth/google` | None | Google OAuth login |
 | `POST` | `/api/v1/query` | Optional JWT | Run full pipeline |
 | `GET` | `/api/v1/appointments` | Required JWT | Appointment history |
+| `POST` | `/api/v1/qa` | None | Medical Q&A (RAG) |
+| `POST` | `/api/v1/drug` | None | Drug lookup (RAG) |
 
 **Query request:**
 ```json
-{ "symptom": "I have chest pain and shortness of breath" }
+{
+  "symptom": "I have chest pain and shortness of breath",
+  "age": 55,
+  "gender": "Male"
+}
 ```
+
+---
+
+## RAG Knowledge Base
+
+| | |
+|---|---|
+| **Source** | NIH MedlinePlus (`mplus_topics_*.xml`) |
+| **Coverage** | 1,015 English health topics across 30+ medical categories |
+| **Vector Store** | ChromaDB (local persistent) |
+| **Embedding Model** | OpenAI `text-embedding-3-small` |
+| **Similarity** | Cosine |
+| **Used by** | Agent 4 (possible causes), `/qa`, `/drug` endpoints |
+
+Top covered categories: Infections (126), Brain & Nerves (102), Cardiology (93), Digestive System (79), Bones & Muscles (78), Oncology (66), Skin (63).
 
 ---
 
 ## CI/CD
 
-Every push to `main` triggers the GitHub Actions pipeline (`.github/workflows/deploy.yml`):
+Every push to `main` triggers the GitHub Actions pipeline:
 
 ```
-push to main
-    ↓
-Unit Tests (pytest, no GPU/AWS needed)
-    ↓
-Build Docker image → push to Amazon ECR
-    ↓
-Deploy to ECS Fargate
+push to main → Unit Tests (pytest) → Docker build → ECR push → ECS Fargate deploy
 ```
 
 **Required GitHub Secrets:** `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
@@ -268,29 +331,10 @@ Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation):
 | Base Model | LLaMA-3.2-3B-Instruct | LLaMA-3.2-3B-Instruct |
 | LoRA Rank | 8 | 16 |
 | LoRA Alpha | 16 | 32 |
-| Target Modules | `q_proj`, `v_proj` | All 7 projection layers |
 | Trainable Params | 2.29M (0.07%) | 24.31M (0.75%) |
 | Quantization | 4-bit NF4, float16 | 4-bit NF4, bfloat16 |
 | Epochs | 3 | 2 |
 | GPU | Tesla T4 | NVIDIA A100 |
-
-Use the Colab notebooks in `colab/` for training. After training, deploy to SageMaker:
-
-```bash
-python scripts/merge_adapter.py
-python scripts/deploy_sagemaker.py
-```
-
----
-
-## Testing
-
-```bash
-# Unit tests (no GPU or AWS required)
-pytest tests/ -v
-```
-
-For end-to-end testing with live SageMaker endpoints, use `colab/integration_test.ipynb`.
 
 ---
 
@@ -302,11 +346,11 @@ For end-to-end testing with live SageMaker endpoints, use `colab/integration_tes
 | Orchestration | `langgraph` |
 | API | `fastapi`, `uvicorn` |
 | Frontend | `streamlit` |
-| Auth | JWT (`python-jose`, `passlib`) |
+| Auth | JWT (`python-jose`, `passlib`), Google OAuth 2.0 |
 | Database | AWS DynamoDB (`boto3`) |
-| Inference | AWS SageMaker |
+| Inference | AWS SageMaker (Agents 1 & 3), DeepSeek API / OpenAI (Agent 4) |
+| RAG | ChromaDB, OpenAI Embeddings, MedlinePlus |
 | Deployment | Docker, Amazon ECR, ECS Fargate |
 | CI/CD | GitHub Actions |
-| Validation | `pydantic` |
 | Testing | `pytest` |
 | Training Platform | Google Colab (T4 / A100) |
