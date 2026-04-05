@@ -112,23 +112,39 @@ def _compute_next_slot() -> Tuple[str, str]:
 # ---------------------------------------------------------------------------
 
 def _query_doctor(department: str) -> Optional[str]:
-    """Return the first available doctor for the given department."""
-    kwargs = {
-        "KeyConditionExpression":    Key("department").eq(department),
-        "FilterExpression":          "available = :t",
-        "ExpressionAttributeValues": {":t": True},
-        "Limit": 1,
-    }
-    resp  = _table.query(**kwargs)
-    items = resp.get("Items", [])
-    if not items:
+    """Return the first available doctor for the given department.
+    Tries local JSON first, falls back to DynamoDB."""
+    import json
+    schedules_path = Path(__file__).resolve().parents[2] / "data" / "processed" / "doctor_schedules.json"
+    try:
+        with open(schedules_path) as f:
+            schedules = json.load(f)
+        for entry in schedules:
+            if entry.get("department") == department and entry.get("available", True):
+                return entry.get("doctor")
+    except Exception as e:
+        print(f"[Agent2] Warning: could not read local doctor schedules: {e}")
+
+    try:
+        kwargs = {
+            "KeyConditionExpression":    Key("department").eq(department),
+            "FilterExpression":          "available = :t",
+            "ExpressionAttributeValues": {":t": True},
+            "Limit": 1,
+        }
+        resp  = _table.query(**kwargs)
+        items = resp.get("Items", [])
+        if not items:
+            return None
+        item   = items[0]
+        doctor = item.get("doctor")
+        if not doctor:
+            sk = item.get("sk", item.get("SK", ""))
+            doctor = sk.split("#")[0] if sk else None
+        return doctor
+    except Exception as e:
+        print(f"[Agent2] DynamoDB unavailable: {e}")
         return None
-    item   = items[0]
-    doctor = item.get("doctor")
-    if not doctor:
-        sk = item.get("sk", item.get("SK", ""))
-        doctor = sk.split("#")[0] if sk else None
-    return doctor
 
 
 # ---------------------------------------------------------------------------
