@@ -262,11 +262,15 @@ with tab_symptom:
                         if first_aid:
                             with st.expander("Immediate First Aid Steps", expanded=True):
                                 st.write(first_aid)
+                        elif not is_logged_in():
+                            st.info("Log in to receive personalized first aid guidance.")
                     elif urgency == "Urgent":
                         st.warning("⚠️ **Urgent — Seek medical attention as soon as possible.**")
                         if first_aid:
                             with st.expander("While You Wait", expanded=True):
                                 st.write(first_aid)
+                        elif not is_logged_in():
+                            st.info("Log in to receive personalized first aid guidance.")
 
                     col1, col2 = st.columns(2)
                     with col1:

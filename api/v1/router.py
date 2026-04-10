@@ -3,8 +3,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
-import boto3
-from boto3.dynamodb.conditions import Key as DDBKey
 from fastapi import APIRouter, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -19,16 +17,17 @@ from schemas import (
 from orchestrator.graph import run_pipeline
 from auth.dependencies import get_current_user
 from agents.rag.qa import answer_question
+from db.backend import (
+    put_appointment,
+    get_appointments_by_user,
+    get_appointment,
+    delete_appointment,
+    delete_all_appointments,
+    get_profile,
+    put_profile,
+)
 
 api_router = APIRouter()
-
-APPOINTMENTS_TABLE = os.getenv("APPOINTMENTS_TABLE", "medi-agent-appointments")
-PROFILES_TABLE     = os.getenv("PROFILES_TABLE", "medi-agent-patient-profiles")
-AWS_REGION         = os.getenv("AWS_REGION", "us-west-2")
-
-_ddb     = boto3.resource("dynamodb", region_name=AWS_REGION)
-_appts   = _ddb.Table(APPOINTMENTS_TABLE)
-_profiles = _ddb.Table(PROFILES_TABLE)
 
 _bearer = HTTPBearer(auto_error=False)
 
@@ -51,10 +50,8 @@ def health():
 
 
 def _get_profile(user_id: str) -> dict:
-    """Fetch patient profile from DynamoDB; return empty dict if not found."""
     try:
-        resp = _profiles.get_item(Key={"user_id": user_id})
-        return resp.get("Item", {})
+        return get_profile(user_id)
     except Exception:
         return {}
 
@@ -77,6 +74,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         allergies=profile.get("allergies")   or req.allergies,
         height_cm=profile.get("height_cm")   or req.height_cm,
         weight_kg=profile.get("weight_kg")   or req.weight_kg,
+        logged_in=user is not None,
     )
 
     result = QueryResponse(
@@ -112,7 +110,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         }
         if result.agent3.first_aid:
             item["first_aid"] = result.agent3.first_aid
-        _appts.put_item(Item=item)
+        put_appointment(item)
 
     return result
 
@@ -120,22 +118,16 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
 @api_router.get("/appointments")
 def get_appointments(user: dict = Depends(get_current_user)):
     """Return the current user's appointment history, newest first."""
-    resp = _appts.query(
-        KeyConditionExpression=DDBKey("user_id").eq(user["sub"]),
-        ScanIndexForward=False,
-        Limit=20,
-    )
-    return {"appointments": resp.get("Items", [])}
+    return {"appointments": get_appointments_by_user(user["sub"])}
 
 
 @api_router.delete("/appointments/{timestamp}")
 def cancel_appointment(timestamp: str, user: dict = Depends(get_current_user)):
     """Cancel (delete) a specific appointment by timestamp."""
     from fastapi import HTTPException
-    resp = _appts.get_item(Key={"user_id": user["sub"], "timestamp": timestamp})
-    if "Item" not in resp:
+    if not get_appointment(user["sub"], timestamp):
         raise HTTPException(status_code=404, detail="Appointment not found")
-    _appts.delete_item(Key={"user_id": user["sub"], "timestamp": timestamp})
+    delete_appointment(user["sub"], timestamp)
     return {"deleted": True}
 
 
@@ -144,7 +136,7 @@ def cancel_appointment(timestamp: str, user: dict = Depends(get_current_user)):
 # ---------------------------------------------------------------------------
 
 @api_router.get("/profile")
-def get_profile(user: dict = Depends(get_current_user)):
+def get_profile_endpoint(user: dict = Depends(get_current_user)):
     """Return the current user's patient profile."""
     item = _get_profile(user["sub"])
     return {
@@ -167,7 +159,7 @@ def update_profile(body: PatientProfile, user: dict = Depends(get_current_user))
         item["height_cm"] = body.height_cm
     if body.weight_kg is not None:
         item["weight_kg"] = body.weight_kg
-    _profiles.put_item(Item=item)
+    put_profile(item)
     return {"saved": True}
 
 
@@ -180,21 +172,7 @@ def clear_all_appointments(secret: str):
         from fastapi import HTTPException
         raise HTTPException(status_code=403, detail="Forbidden")
 
-    # Scan and batch delete all items
-    deleted = 0
-    while True:
-        resp = _appts.scan(ProjectionExpression="user_id, #ts",
-                           ExpressionAttributeNames={"#ts": "timestamp"})
-        items = resp.get("Items", [])
-        if not items:
-            break
-        with _appts.batch_writer() as batch:
-            for item in items:
-                batch.delete_item(Key={"user_id": item["user_id"], "timestamp": item["timestamp"]})
-        deleted += len(items)
-        if "LastEvaluatedKey" not in resp:
-            break
-
+    deleted = delete_all_appointments()
     return {"deleted": deleted}
 
 

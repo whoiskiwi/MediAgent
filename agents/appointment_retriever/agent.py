@@ -20,22 +20,13 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional, Tuple
 
-import boto3
-from boto3.dynamodb.conditions import Key, Attr
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from schemas import AgentState
-
-AWS_REGION        = os.getenv("AWS_REGION", "us-west-2")
-DDB_TABLE         = os.getenv("DDB_TABLE", "DoctorSchedule")
-APPOINTMENTS_TABLE = os.getenv("APPOINTMENTS_TABLE", "medi-agent-appointments")
-
-_ddb    = boto3.resource("dynamodb", region_name=AWS_REGION)
-_table  = _ddb.Table(DDB_TABLE)
-_appts  = _ddb.Table(APPOINTMENTS_TABLE)
+from db.backend import scan_appointments_by_day, get_doctor_by_department
 
 _DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -62,17 +53,12 @@ def _latest_booked_slot() -> Optional[datetime]:
     now = datetime.now(timezone.utc)
     today_name = _DAY_NAMES[now.weekday()]
     try:
-        resp = _appts.scan(
-            FilterExpression=Attr("time_slot").begins_with(today_name),
-            ProjectionExpression="time_slot",
-        )
-        items = resp.get("Items", [])
-        if not items:
+        slots = scan_appointments_by_day(today_name)
+        if not slots:
             return None
         # Parse "Monday 14:30" → datetime today at 14:30
         times = []
-        for item in items:
-            ts = item.get("time_slot", "")
+        for ts in slots:
             parts = ts.split(" ", 1)
             if len(parts) == 2:
                 try:
@@ -113,22 +99,7 @@ def _compute_next_slot() -> Tuple[str, str]:
 
 def _query_doctor(department: str) -> Optional[str]:
     """Return the first available doctor for the given department."""
-    kwargs = {
-        "KeyConditionExpression":    Key("department").eq(department),
-        "FilterExpression":          "available = :t",
-        "ExpressionAttributeValues": {":t": True},
-        "Limit": 1,
-    }
-    resp  = _table.query(**kwargs)
-    items = resp.get("Items", [])
-    if not items:
-        return None
-    item   = items[0]
-    doctor = item.get("doctor")
-    if not doctor:
-        sk = item.get("sk", item.get("SK", ""))
-        doctor = sk.split("#")[0] if sk else None
-    return doctor
+    return get_doctor_by_department(department)
 
 
 # ---------------------------------------------------------------------------

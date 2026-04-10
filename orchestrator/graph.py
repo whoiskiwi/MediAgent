@@ -3,6 +3,7 @@
 Wires the three agents into a sequential StateGraph using the shared
 AgentState TypedDict defined in schemas.py.
 """
+import time
 
 from langgraph.graph import END, START, StateGraph
 
@@ -14,15 +15,35 @@ from agents.response_generator.agent import run_generator
 from agents.causes_generator.agent import run_causes_generator
 
 # ---------------------------------------------------------------------------
+# Instrumentation helper
+# ---------------------------------------------------------------------------
+
+def _timed(component: str, fn):
+    """Wrap an agent function to record per-component latency."""
+    def wrapper(state):
+        start = time.time()
+        success = True
+        try:
+            return fn(state)
+        except Exception:
+            success = False
+            raise
+        finally:
+            from monitoring.tracker import record
+            record(component, latency_ms=(time.time() - start) * 1000, success=success)
+    return wrapper
+
+
+# ---------------------------------------------------------------------------
 # Build the graph
 # ---------------------------------------------------------------------------
 
 _builder = StateGraph(AgentState)
 
-_builder.add_node("classify",        lambda state: run_classifier(state))
-_builder.add_node("retrieve",        lambda state: run_retriever(state))
-_builder.add_node("generate",        lambda state: run_generator(state))
-_builder.add_node("causes",          lambda state: run_causes_generator(state))
+_builder.add_node("classify", _timed("classifier", run_classifier))
+_builder.add_node("retrieve", _timed("retriever",  run_retriever))
+_builder.add_node("generate", _timed("generator",  run_generator))
+_builder.add_node("causes",   _timed("causes",     run_causes_generator))
 
 _builder.add_edge(START,      "classify")
 _builder.add_edge("classify", "retrieve")
@@ -45,9 +66,10 @@ def run_pipeline(
     allergies: list = None,
     height_cm: int = None,
     weight_kg: float = None,
+    logged_in: bool = False,
 ) -> AgentState:
     """Run the full three-agent pipeline synchronously."""
-    initial_state: AgentState = {"patient_text": patient_text}
+    initial_state: AgentState = {"patient_text": patient_text, "logged_in": logged_in}
     if user_age is not None:
         initial_state["user_age"] = user_age
     if user_gender:
@@ -60,4 +82,20 @@ def run_pipeline(
         initial_state["height_cm"] = height_cm
     if weight_kg is not None:
         initial_state["weight_kg"] = weight_kg
-    return graph.invoke(initial_state)
+
+    start = time.time()
+    success = True
+    result = None
+    try:
+        result = graph.invoke(initial_state)
+        return result
+    except Exception:
+        success = False
+        raise
+    finally:
+        from monitoring.tracker import record
+        meta: dict = {}
+        if result is not None:
+            meta["urgency"]    = result.get("urgency", "")
+            meta["department"] = result.get("department", "")
+        record("pipeline", latency_ms=(time.time() - start) * 1000, success=success, **meta)
