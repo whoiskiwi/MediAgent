@@ -21,12 +21,13 @@ from dotenv import load_dotenv
 load_dotenv(ROOT / ".env")
 
 import chromadb
-from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
-XML_PATH   = ROOT / "data" / "mplus_topics_2026-04-01.xml"
-CHROMA_DIR = ROOT / "data" / "chroma_db"
-COLLECTION = "medlineplus"
-BATCH_SIZE = 100
+XML_PATH    = ROOT / "data" / "mplus_topics_2026-04-01.xml"
+CHROMA_DIR  = ROOT / "data" / "chroma_db"
+COLLECTION  = "medlineplus"
+EMBED_MODEL = "BAAI/bge-large-en-v1.5"
+BATCH_SIZE  = 64   # smaller batch — bge-large is heavier than text-embedding-3-small
 
 
 def clean_html(raw: str) -> str:
@@ -78,14 +79,8 @@ def parse_topics(xml_path: Path) -> list[dict]:
 
 
 def build_index(topics: list[dict]):
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY not set — needed for embeddings")
-
-    embed_fn = OpenAIEmbeddingFunction(
-        api_key=api_key,
-        model_name="text-embedding-3-small",
-    )
+    print(f"Loading embedding model: {EMBED_MODEL} (first run downloads ~1.3 GB) ...")
+    embed_fn = SentenceTransformerEmbeddingFunction(model_name=EMBED_MODEL)
 
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 

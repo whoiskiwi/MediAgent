@@ -95,9 +95,11 @@ class QueryRequest(BaseModel):
     allergies:  Optional[list]  = None
     height_cm:  Optional[int]   = None
     weight_kg:  Optional[float] = None
+    conversation_id: Optional[str] = None  # multi-turn session ID
 
 
 class QueryResponse(BaseModel):
     agent1: ClassifierOutput
     agent2: AppointmentOutput
     agent3: ResponseOutput
+    conversation_id: Optional[str] = None  # echoed back for next turn

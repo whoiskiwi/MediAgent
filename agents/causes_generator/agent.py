@@ -29,7 +29,7 @@ def _get_rag_docs(patient_text: str) -> list[dict]:
     """Retrieve relevant MedlinePlus docs. Returns [] if index not ready."""
     try:
         from agents.rag.retriever import get_retriever
-        return get_retriever().query(patient_text, n_results=4)
+        return get_retriever().query(patient_text, n_results=2)  # 2 docs = smaller prompt, faster LLM
     except Exception as e:
         print(f"[CausesGenerator] RAG unavailable: {e}")
         return []
@@ -41,7 +41,7 @@ def _build_prompt(patient_text: str, department: str, rag_docs: list[dict],
     if rag_docs:
         parts = []
         for i, doc in enumerate(rag_docs):
-            parts.append(f"[REF{i+1}] Title: {doc['title']}\n{doc['text'][:500]}")
+            parts.append(f"[REF{i+1}] Title: {doc['title']}\n{doc['text'][:300]}")
         ref_block = (
             "The following MedlinePlus references may be relevant:\n\n"
             + "\n\n".join(parts)
@@ -81,7 +81,7 @@ def _call_llm(prompt: str) -> str:
             resp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=512,
+                max_tokens=350,
                 temperature=0.7,
             )
             return resp.choices[0].message.content.strip()
@@ -93,7 +93,7 @@ def _call_llm(prompt: str) -> str:
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=512,
+            max_tokens=350,
             temperature=0.7,
         )
         return resp.choices[0].message.content.strip()
