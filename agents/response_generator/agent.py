@@ -31,6 +31,21 @@ ENDPOINT_NAME = os.getenv("AGENT3_ENDPOINT_NAME", "medi-agent-generator")
 _sm_runtime = boto3.client("sagemaker-runtime", region_name=AWS_REGION)
 
 
+def _fetch_rag_context(patient_text: str, department: str) -> str:
+    """Retrieve top-2 MedlinePlus snippets relevant to the symptoms. Returns empty string on failure."""
+    try:
+        from agents.rag.retriever import get_retriever
+        query = f"{patient_text} {department}"
+        docs  = get_retriever().query(query, n_results=2)
+        if not docs:
+            return ""
+        lines = [f"- {d['title']}: {d['text'][:200].strip()}" for d in docs]
+        return "Medical references:\n" + "\n".join(lines) + "\n"
+    except Exception as e:
+        print(f"[Agent3] RAG fetch failed (non-critical): {e}")
+        return ""
+
+
 def _build_prompt(
     patient_text: str,
     department: str,
@@ -43,6 +58,7 @@ def _build_prompt(
     allergies: list = None,
     height_cm: int = None,
     weight_kg: float = None,
+    rag_context: str = "",
 ) -> str:
     context_parts = []
     if user_age:
@@ -70,8 +86,10 @@ def _build_prompt(
         "Output exactly two parts separated by '---':\n"
         "Part 1: One sentence confirming the appointment (doctor, department, time).\n"
         "Part 2: 3 short pre-visit instructions relevant to the patient's symptoms and demographics.\n"
+        "Use the medical references below (if provided) to make the instructions more specific and accurate.\n"
         "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
         f"{context_line}"
+        f"{rag_context}"
         f"Symptoms: {patient_text}\n"
         f"Department: {department}\n"
         f"Doctor: {doctor}\n"
@@ -225,6 +243,8 @@ def run_generator(state: AgentState) -> AgentState:
     urgency      = state.get("urgency", "Routine")
     safe_urgency = normalize_urgency(urgency)
 
+    rag_context = _fetch_rag_context(state["patient_text"], state.get("department", ""))
+
     prompt    = _build_prompt(
         patient_text=state["patient_text"],
         department=state.get("department", "General Practice"),
@@ -237,6 +257,7 @@ def run_generator(state: AgentState) -> AgentState:
         allergies=state.get("allergies"),
         height_cm=state.get("height_cm"),
         weight_kg=state.get("weight_kg"),
+        rag_context=rag_context,
     )
     generated = _call_endpoint(prompt)
     confirmation, instructions = _parse_output(generated, prompt_prefix="Confirmation: Your appointment with")
