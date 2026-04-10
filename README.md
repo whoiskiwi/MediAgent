@@ -1,56 +1,66 @@
 # MediAgent
 
-An end-to-end LLM-powered multi-agent system for automated hospital appointment scheduling. The system takes a patient's natural language symptom description and returns a complete appointment with an assigned doctor, time slot, personalized pre-visit instructions, and RAG-enhanced possible causes — without human intervention.
+An end-to-end LLM-powered multi-agent system for intelligent hospital appointment scheduling. Patients interact through a conversational chatbox that guides them through symptom collection, then routes them to the right doctor — with persistent history so the system remembers past consultations.
 
 ---
 
 ## How It Works
 
 ```
-Patient Text + Age (optional) + Gender (optional)
+Patient opens chatbox
         ↓
-[Agent 1: Symptom Classifier]      →  Department + Urgency
+[Chat Guide Agent]  →  Follow-up questions (duration, severity, associated symptoms)
         ↓
-[Agent 2: Appointment Retriever]   →  Doctor + Time Slot
+Patient confirms booking
         ↓
-[Agent 3: Response Generator]      →  Confirmation + Instructions
+[Agent 1: Symptom Classifier]    →  Department + Urgency
         ↓
-[Agent 4: Causes Generator]        →  Possible Causes (RAG-enhanced)
+[Agent 2: Appointment Retriever] →  Doctor + Time Slot
+        ↓
+[Agent 3: Response Generator]    →  Confirmation + Pre-visit Instructions
+        ↓
+[Agent 4: Causes Generator]      →  Possible Causes (RAG-enhanced)
 ```
 
-Four specialized agents are wired together in a sequential **LangGraph** pipeline, sharing an `AgentState` TypedDict that each agent enriches before passing to the next. Agents 1 and 3 run on **AWS SageMaker** endpoints; Agent 2 queries **AWS DynamoDB**; Agent 4 calls **DeepSeek** (with OpenAI fallback) augmented by **RAG over MedlinePlus**.
+Five agents work in sequence. The Chat Guide collects structured information through conversation before handing off to the four-agent booking pipeline. All results stream back to the user in real time — each step is visible as it completes.
 
-### Example
+### Example Conversation
 
-**Input:**
-```json
-{
-  "symptom": "I have severe chest pain and shortness of breath for the past 2 hours.",
-  "age": 55,
-  "gender": "Male"
-}
+```
+🤖  Hello! Please describe your symptoms.
+
+👤  I've been coughing a lot lately.
+
+🤖  How long have you had this symptom?
+    [Less than 1 day]  [1–3 days]  [4–7 days]  [More than a week]
+
+👤  4–7 days
+
+🤖  How would you rate the severity?
+    [Mild]  [Moderate]  [Severe]  [Extreme]
+
+👤  Moderate
+
+🤖  Based on your persistent moderate cough over the past week, I'd recommend
+    seeing a doctor. Would you like me to book an appointment?
+    [Book Appointment]  [Not now]
+
+👤  Book Appointment
+
+🤖  Step 1/4 — Department: Pulmonology | Urgency: Routine
+    Step 2/4 — Doctor: Dr. Li Fang | Slot: Tuesday at 10:00
+    Step 3/4 — Generating medical advice...
+    Step 4/4 — Analyzing possible causes...
+
+    Your appointment with Dr. Li Fang in Pulmonology has been confirmed
+    for Tuesday at 10:00. Avoid smoking and stay hydrated before your visit.
+
+    Possible causes:
+    1. Acute Bronchitis — ...
+    2. Upper Respiratory Infection — ...
 ```
 
-**Output:**
-```json
-{
-  "agent1": { "department": "Cardiology", "urgency": "Emergency" },
-  "agent2": { "doctor": "Dr. Chen Wei", "time_slot": "Monday at 08:00" },
-  "agent3": {
-    "confirmation": "Your appointment with Dr. Chen Wei in Cardiology has been confirmed for Monday at 08:00.",
-    "instructions": "Avoid eating or drinking before your visit. Bring a list of current medications.",
-    "possible_causes": [
-      {
-        "cause": "Acute Myocardial Infarction",
-        "reason": "Chest pain with shortness of breath in a 55-year-old male is a classic presentation of heart attack.",
-        "reference": { "title": "Heart Attack", "url": "https://medlineplus.gov/heartattack.html" }
-      }
-    ]
-  }
-}
-```
-
-> When urgency is `Emergency`, the frontend displays a prominent alert to call 911 immediately.
+> When urgency is `Emergency`, the chat displays a red alert to call 911 immediately.
 
 ---
 
@@ -60,13 +70,23 @@ Four specialized agents are wired together in a sequential **LangGraph** pipelin
 Browser / Streamlit (app.py)
         ↓  HTTP
 FastAPI (main.py)
-  ├── POST /api/v1/query             ← full pipeline (age/gender optional)
-  ├── POST /api/v1/qa                ← medical Q&A via RAG
-  ├── POST /api/v1/drug              ← drug lookup via RAG
+  ├── POST /api/v1/chat/questions      ← generate follow-up questions (Chat Guide)
+  ├── POST /api/v1/chat/summary        ← summarise collected symptoms (Chat Guide)
+  ├── POST /api/v1/query/stream        ← full pipeline, SSE streaming
+  ├── POST /api/v1/query               ← full pipeline, synchronous
+  ├── POST /api/v1/qa                  ← medical Q&A via RAG
+  ├── POST /api/v1/drug                ← drug lookup (FDA → RAG fallback)
   ├── POST /api/v1/auth/login
   ├── POST /api/v1/auth/register
-  ├── GET  /api/v1/auth/google       ← Google OAuth
-  └── GET  /api/v1/appointments
+  ├── GET  /api/v1/auth/google         ← Google OAuth
+  ├── GET  /api/v1/appointments        ← appointment history (per user)
+  ├── DELETE /api/v1/appointments/{ts} ← cancel appointment
+  ├── GET/PUT /api/v1/profile          ← patient profile (blood type, allergies, etc.)
+  └── GET /api/v1/health
+
+Chat Guide Agent (agents/chat_guide/agent.py)
+  ├── generate_questions()  →  1 LLM API call → 3 structured follow-up questions
+  └── generate_summary()    →  1 LLM API call → warm symptom summary
 
 LangGraph Orchestrator (orchestrator/graph.py)
   ├── Agent 1 → SageMaker endpoint (medi-agent-classifier)
@@ -77,14 +97,15 @@ LangGraph Orchestrator (orchestrator/graph.py)
 RAG Knowledge Base
   ├── Source:  MedlinePlus (NIH) — 1,015 English health topics
   ├── Index:   ChromaDB (local persistent, cosine similarity)
-  └── Embed:   OpenAI text-embedding-3-small
+  └── Embed:   BAAI/bge-large-en-v1.5 (local sentence-transformers)
 
 AWS DynamoDB
-  ├── DoctorSchedule          ← appointment slots
-  └── medi-agent-appointments ← user appointment history
+  ├── DoctorSchedule                  ← appointment slots per doctor
+  ├── medi-agent-appointments         ← user appointment history (per user_id)
+  └── medi-agent-patient-profiles     ← patient profiles (per user_id)
 
 Auth
-  ├── Email/password (JWT)
+  ├── Email/password (JWT, bcrypt)
   └── Google OAuth 2.0
 ```
 
@@ -92,13 +113,25 @@ Auth
 
 ## Agents
 
+### Chat Guide Agent
+
+| | |
+|---|---|
+| **Purpose** | Conversational intake — collects structured symptom information before booking |
+| **Step 1** | One LLM call generates 3 follow-up questions with multiple-choice options |
+| **Step 2** | One LLM call produces a warm summary and booking confirmation prompt |
+| **Cost** | 2 LLM API calls total per session (DeepSeek primary / OpenAI fallback) |
+| **Fallback** | Generic questions if LLM is unavailable |
+
+---
+
 ### Agent 1 — Symptom Classifier
 
 | | |
 |---|---|
 | **Inference** | AWS SageMaker endpoint (`medi-agent-classifier`) |
 | **Model** | LLaMA-3.2-3B-Instruct + QLoRA adapter |
-| **Input** | Patient symptom description (free text) |
+| **Input** | Patient symptom description + conversation history (up to last 5 consultations) |
 | **Output** | Department + Urgency (`Routine` / `Urgent` / `Emergency`) |
 | **Training Data** | 15,830 records from Kaggle Disease Symptom Prediction dataset |
 | **GPU** | Tesla T4, 3 epochs |
@@ -126,13 +159,13 @@ Auth
 |---|---|
 | **Inference** | AWS SageMaker endpoint (`medi-agent-generator`) |
 | **Model** | LLaMA-3.2-3B-Instruct + QLoRA adapter |
-| **Input** | Patient text, department, doctor, time slot, urgency, age (optional), gender (optional) |
-| **Output** | Appointment confirmation + pre-visit instructions |
+| **Input** | Patient text, department, doctor, time slot, urgency, age, gender, patient profile |
+| **Output** | Appointment confirmation + pre-visit instructions + first-aid advice |
 | **Training Data** | 16,604 records from HuggingFace AI Medical Chatbot dataset |
 | **GPU** | NVIDIA A100, 2 epochs |
 | **Format Compliance** | 100% on evaluation set |
 
-> `Emergency` urgency is normalised to `Urgent` before calling Agent 3, as the model was only trained on `Routine` / `Urgent`.
+> `Emergency` urgency is normalised to `Urgent` before calling Agent 3, as the model was trained on `Routine` / `Urgent` only.
 
 ---
 
@@ -141,10 +174,10 @@ Auth
 | | |
 |---|---|
 | **Inference** | DeepSeek API (primary) / OpenAI GPT-4o-mini (fallback) |
-| **Input** | Patient text, department, age (optional), gender (optional) |
+| **Input** | Patient text, department, age, gender |
 | **Output** | 3–5 possible causes, each with a one-sentence reason and MedlinePlus reference |
 | **RAG** | Retrieves top-4 relevant MedlinePlus documents via ChromaDB semantic search |
-| **Knowledge Base** | 1,015 NIH MedlinePlus health topics, embedded with `text-embedding-3-small` |
+| **Knowledge Base** | 1,015 NIH MedlinePlus health topics |
 
 ---
 
@@ -152,11 +185,15 @@ Auth
 
 | Tab | Description |
 |---|---|
-| **Symptom Query** | Submit symptoms with optional age/gender; shows department, doctor, urgency, medical advice, and RAG-enhanced possible causes with references |
-| **Medical Q&A** | Ask any medical question; answered by DeepSeek using MedlinePlus as context, with source links |
-| **Drug Lookup** | Enter a drug name; returns uses, side effects, and precautions from MedlinePlus |
+| **Symptom Query** | Conversational chatbox — guides patient through symptom collection, then streams the full booking pipeline step by step |
+| **Medical Q&A** | Ask any medical question — practical advice on relief, prevention, and reducing recurrence, based on MedlinePlus |
+| **Drug Lookup** | Enter a drug name — returns indications, dosage, warnings, and side effects from FDA Drug Label database (MedlinePlus RAG fallback) |
 
-**Emergency alert:** When urgency = `Emergency`, a red banner prompts the user to call 911 immediately.
+**Persistent history:** For logged-in users, the system automatically loads the last 5 consultations from DynamoDB and passes them as context to each new query — so follow-up questions are always answered with full history in mind.
+
+**Patient profile:** Logged-in users can save blood type, allergies, height, and weight. This data is automatically included in every pipeline call.
+
+**Emergency alert:** When urgency = `Emergency`, a red banner in the chat prompts the user to call 911 immediately.
 
 ---
 
@@ -165,36 +202,38 @@ Auth
 ```
 medi-agent/
 ├── agents/
-│   ├── parsing.py                          # Regex-based output parsers
-│   ├── symptom_classifier/agent.py         # Agent 1 — SageMaker
-│   ├── appointment_retriever/agent.py      # Agent 2 — DynamoDB
-│   ├── response_generator/agent.py         # Agent 3 — SageMaker
-│   ├── causes_generator/agent.py           # Agent 4 — DeepSeek + RAG
+│   ├── chat_guide/
+│   │   └── agent.py                    # Chat Guide — question generation & summary
+│   ├── symptom_classifier/agent.py     # Agent 1 — SageMaker
+│   ├── appointment_retriever/agent.py  # Agent 2 — DynamoDB
+│   ├── response_generator/agent.py     # Agent 3 — SageMaker
+│   ├── causes_generator/agent.py       # Agent 4 — DeepSeek + RAG
 │   └── rag/
-│       ├── retriever.py                    # ChromaDB semantic search
-│       └── qa.py                           # RAG-powered Q&A
+│       ├── retriever.py                # ChromaDB semantic search
+│       ├── qa.py                       # RAG-powered Q&A and drug lookup
+│       └── ingest.py                   # PDF ingestion for knowledge base
 │
 ├── orchestrator/
-│   └── graph.py                            # LangGraph pipeline
+│   └── graph.py                        # LangGraph pipeline with MemorySaver
 │
 ├── api/
 │   └── v1/
-│       ├── router.py                       # /query, /qa, /drug, /appointments
-│       └── auth.py                         # JWT + Google OAuth
+│       ├── router.py                   # All API endpoints
+│       └── auth.py                     # JWT + Google OAuth
 │
 ├── auth/
-│   └── dependencies.py                     # JWT validation
+│   └── dependencies.py                 # JWT validation
 │
 ├── scripts/
-│   ├── build_rag_index.py                  # Parse MedlinePlus XML → ChromaDB
+│   ├── build_rag_index.py              # Parse MedlinePlus XML → ChromaDB
 │   ├── deploy_sagemaker.py
 │   ├── merge_adapter.py
 │   └── setup_infra.sh
 │
 ├── data/
-│   ├── raw/                                # Raw datasets (not tracked)
-│   ├── processed/                          # Processed data & adapters (not tracked)
-│   └── chroma_db/                          # Vector index (not tracked, rebuild locally)
+│   ├── raw/                            # Raw datasets (not tracked)
+│   ├── processed/                      # Processed data & adapters (not tracked)
+│   └── chroma_db/                      # Vector index (not tracked, rebuild locally)
 │
 ├── colab/
 │   ├── train_symptom_classifier.ipynb
@@ -204,9 +243,9 @@ medi-agent/
 │
 ├── tests/
 │
-├── app.py                                  # Streamlit frontend
-├── main.py                                 # FastAPI entry point
-├── schemas.py                              # Pydantic models + AgentState
+├── app.py                              # Streamlit frontend
+├── main.py                             # FastAPI entry point
+├── schemas.py                          # Pydantic models + AgentState
 ├── Dockerfile
 └── requirements.txt
 ```
@@ -235,6 +274,7 @@ AGENT1_ENDPOINT_NAME=medi-agent-classifier
 AGENT3_ENDPOINT_NAME=medi-agent-generator
 DYNAMODB_TABLE_NAME=DoctorSchedule
 APPOINTMENTS_TABLE=medi-agent-appointments
+PROFILES_TABLE=medi-agent-patient-profiles
 
 JWT_SECRET=your_jwt_secret
 
@@ -261,7 +301,7 @@ This parses 1,015 English health topics and builds a persistent ChromaDB index a
 
 ```bash
 # Backend
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload --reload-dir . --reload-exclude "venv/*"
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 # Frontend (separate terminal)
 streamlit run app.py
@@ -279,19 +319,32 @@ Health check: `curl http://localhost:8000/api/v1/health`
 | `POST` | `/api/v1/auth/register` | None | Register new user |
 | `POST` | `/api/v1/auth/login` | None | Login, returns JWT |
 | `GET` | `/api/v1/auth/google` | None | Google OAuth login |
-| `POST` | `/api/v1/query` | Optional JWT | Run full pipeline |
-| `GET` | `/api/v1/appointments` | Required JWT | Appointment history |
+| `POST` | `/api/v1/chat/questions` | None | Generate follow-up questions |
+| `POST` | `/api/v1/chat/summary` | None | Generate symptom summary |
+| `POST` | `/api/v1/query/stream` | Optional JWT | Run full pipeline (SSE streaming) |
+| `POST` | `/api/v1/query` | Optional JWT | Run full pipeline (synchronous) |
 | `POST` | `/api/v1/qa` | None | Medical Q&A (RAG) |
-| `POST` | `/api/v1/drug` | None | Drug lookup (RAG) |
+| `POST` | `/api/v1/drug` | None | Drug lookup (FDA → RAG fallback) |
+| `GET` | `/api/v1/appointments` | Required JWT | Appointment history |
+| `DELETE` | `/api/v1/appointments/{ts}` | Required JWT | Cancel appointment |
+| `GET` | `/api/v1/profile` | Required JWT | Get patient profile |
+| `PUT` | `/api/v1/profile` | Required JWT | Update patient profile |
 
-**Query request:**
-```json
-{
-  "symptom": "I have chest pain and shortness of breath",
-  "age": 55,
-  "gender": "Male"
-}
+---
+
+## Persistent Conversation History
+
+For logged-in users, every new query automatically loads the last 5 appointments from DynamoDB and injects them as conversation context:
+
 ```
+Previous consultations:
+  Turn 1: "headache and fever" → General Medicine (Routine)
+  Turn 2: "lower back pain" → Orthopedics (Urgent)
+
+Current concern: I've been coughing for a week
+```
+
+This means the system accumulates knowledge about each patient across sessions — even after logout or server restart.
 
 ---
 
@@ -302,7 +355,7 @@ Health check: `curl http://localhost:8000/api/v1/health`
 | **Source** | NIH MedlinePlus (`mplus_topics_*.xml`) |
 | **Coverage** | 1,015 English health topics across 30+ medical categories |
 | **Vector Store** | ChromaDB (local persistent) |
-| **Embedding Model** | OpenAI `text-embedding-3-small` |
+| **Embedding Model** | `BAAI/bge-large-en-v1.5` (local, via sentence-transformers) |
 | **Similarity** | Cosine |
 | **Used by** | Agent 4 (possible causes), `/qa`, `/drug` endpoints |
 
@@ -348,8 +401,8 @@ Both LLaMA agents use **QLoRA** (4-bit quantization + Low-Rank Adaptation):
 | Frontend | `streamlit` |
 | Auth | JWT (`python-jose`, `passlib`), Google OAuth 2.0 |
 | Database | AWS DynamoDB (`boto3`) |
-| Inference | AWS SageMaker (Agents 1 & 3), DeepSeek API / OpenAI (Agent 4) |
-| RAG | ChromaDB, OpenAI Embeddings, MedlinePlus |
+| Inference | AWS SageMaker (Agents 1 & 3), DeepSeek API / OpenAI (Agent 4 + Chat Guide) |
+| RAG | ChromaDB, `BAAI/bge-large-en-v1.5`, MedlinePlus |
 | Deployment | Docker, Amazon ECR, ECS Fargate |
 | CI/CD | GitHub Actions |
 | Testing | `pytest` |
