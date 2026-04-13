@@ -66,47 +66,63 @@ Five agents work in sequence. The Chat Guide collects structured information thr
 
 ## Architecture
 
-```
-Browser / Streamlit (app.py)
-        ↓  HTTP
-FastAPI (main.py)
-  ├── POST /api/v1/chat/questions      ← generate follow-up questions (Chat Guide)
-  ├── POST /api/v1/chat/summary        ← summarise collected symptoms (Chat Guide)
-  ├── POST /api/v1/query/stream        ← full pipeline, SSE streaming
-  ├── POST /api/v1/query               ← full pipeline, synchronous
-  ├── POST /api/v1/qa                  ← medical Q&A via RAG
-  ├── POST /api/v1/drug                ← drug lookup (FDA → RAG fallback)
-  ├── POST /api/v1/auth/login
-  ├── POST /api/v1/auth/register
-  ├── GET  /api/v1/auth/google         ← Google OAuth
-  ├── GET  /api/v1/appointments        ← appointment history (per user)
-  ├── DELETE /api/v1/appointments/{ts} ← cancel appointment
-  ├── GET/PUT /api/v1/profile          ← patient profile (blood type, allergies, etc.)
-  └── GET /api/v1/health
+```mermaid
+flowchart TD
+    User(["👤 Patient\n(Browser)"])
+    FE["Streamlit Frontend\napp.py"]
+    Auth["Auth Layer\nJWT · Google OAuth 2.0"]
+    API["FastAPI Backend\napi/v1/router.py"]
 
-Chat Guide Agent (agents/chat_guide/agent.py)
-  ├── generate_questions()  →  1 LLM API call → 3 structured follow-up questions
-  └── generate_summary()    →  1 LLM API call → warm symptom summary
+    CG["Chat Guide Agent\nagents/chat_guide/agent.py\n──────────────────────\ngenerate_questions()  1 LLM call\ngenerate_summary()    1 LLM call"]
 
-LangGraph Orchestrator (orchestrator/graph.py)
-  ├── Agent 1 → SageMaker endpoint (medi-agent-classifier)
-  ├── Agent 2 → DynamoDB (DoctorSchedule)
-  ├── Agent 3 → SageMaker endpoint (medi-agent-generator)
-  └── Agent 4 → DeepSeek API / OpenAI fallback + ChromaDB RAG
+    ORC["LangGraph Orchestrator\norchestrator/graph.py\nMemorySaver · thread_id"]
 
-RAG Knowledge Base
-  ├── Source:  MedlinePlus (NIH) — 1,015 English health topics
-  ├── Index:   ChromaDB (local persistent, cosine similarity)
-  └── Embed:   BAAI/bge-large-en-v1.5 (local sentence-transformers)
+    A1["Agent 1 — Symptom Classifier\n──────────────────────\nLLaMA-3.2-3B + QLoRA\nAWS SageMaker\n→ Department + Urgency"]
+    A2["Agent 2 — Appointment Retriever\n──────────────────────\nDeterministic logic\nAWS DynamoDB\n→ Doctor + Time Slot"]
+    A3["Agent 3 — Response Generator\n──────────────────────\nLLaMA-3.2-3B + QLoRA\nAWS SageMaker\n→ Confirmation + Instructions\n→ First Aid (Urgent / Emergency)"]
+    A4["Agent 4 — Causes Generator\n──────────────────────\nDeepSeek Chat API\n(OpenAI gpt-4o-mini fallback)\n→ 3–5 Possible Causes + refs"]
 
-AWS DynamoDB
-  ├── DoctorSchedule                  ← appointment slots per doctor
-  ├── medi-agent-appointments         ← user appointment history (per user_id)
-  └── medi-agent-patient-profiles     ← patient profiles (per user_id)
+    RAG["RAG Knowledge Base\n──────────────────────\nChromaDB (local persistent)\nBAAI/bge-large-en-v1.5\n1,015 MedlinePlus articles"]
 
-Auth
-  ├── Email/password (JWT, bcrypt)
-  └── Google OAuth 2.0
+    DDB["AWS DynamoDB\n──────────────────────\nDoctorSchedule\nmedi-agent-appointments\nmedi-agent-patient-profiles"]
+
+    QA["Medical Q&A\n/qa endpoint"]
+    DRUG["Drug Lookup\n/drug endpoint\nOpenFDA API → RAG fallback"]
+    EXT["External APIs\n──────────────────────\nDeepSeek Chat\nOpenAI gpt-4o-mini\nOpenFDA (no key)"]
+
+    User --> FE
+    FE <-->|"HTTP / SSE streaming"| Auth
+    Auth --> API
+    API -->|"POST /chat/questions\nPOST /chat/summary"| CG
+    API -->|"POST /query/stream\nPOST /query"| ORC
+    API --> QA
+    API --> DRUG
+
+    CG -->|"DeepSeek / OpenAI"| EXT
+
+    ORC --> A1
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 -->|"done"| ORC
+
+    A1 <-->|"SageMaker invoke"| EXT
+    A3 <-->|"SageMaker invoke"| EXT
+    A4 <-->|"DeepSeek API"| EXT
+
+    A2 <-->|"Query by department"| DDB
+    API <-->|"Appointments · Profiles"| DDB
+
+    A3 <-->|"top-2 docs"| RAG
+    A4 <-->|"top-2 docs"| RAG
+    QA <-->|"top-4 docs"| RAG
+    DRUG <-->|"fallback"| RAG
+
+    style User fill:#4A90D9,color:#fff
+    style ORC fill:#7B68EE,color:#fff
+    style RAG fill:#2E8B57,color:#fff
+    style DDB fill:#FF8C00,color:#fff
+    style EXT fill:#DC143C,color:#fff
 ```
 
 ---
