@@ -3,6 +3,7 @@
 Wires the four agents into a sequential StateGraph with MemorySaver for
 multi-turn conversation support.
 """
+import sys
 import time
 
 try:
@@ -47,10 +48,13 @@ _memory = MemorySaver()
 
 _builder = StateGraph(AgentState)
 
-_builder.add_node("classify", _timed("classifier", run_classifier))
-_builder.add_node("retrieve", _timed("retriever",  run_retriever))
-_builder.add_node("generate", _timed("generator",  run_generator))
-_builder.add_node("causes",   _timed("causes",     run_causes_generator))
+# Use module self-reference for late binding so test patches work correctly.
+# _timed() still wraps each call for monitoring.
+_m = sys.modules[__name__]
+_builder.add_node("classify", _timed("classifier", lambda s: _m.run_classifier(s)))
+_builder.add_node("retrieve", _timed("retriever",  lambda s: _m.run_retriever(s)))
+_builder.add_node("generate", _timed("generator",  lambda s: _m.run_generator(s)))
+_builder.add_node("causes",   _timed("causes",     lambda s: _m.run_causes_generator(s)))
 
 _builder.add_edge(START,      "classify")
 _builder.add_edge("classify", "retrieve")
