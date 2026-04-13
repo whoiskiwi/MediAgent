@@ -73,6 +73,7 @@ class AgentState(TypedDict, total=False):
     instructions: str
     first_aid: Optional[str]
     possible_causes: Optional[list]
+    logged_in: bool
 
 
 def normalize_urgency(urgency: str) -> str:

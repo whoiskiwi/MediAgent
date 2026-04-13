@@ -10,10 +10,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 from urllib.parse import urlencode
 
-import boto3
 import httpx
-from boto3.dynamodb.conditions import Key as DDBKey
-from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -25,6 +22,7 @@ from pydantic import BaseModel, EmailStr
 load_dotenv()
 
 from auth.dependencies import get_current_user
+from db.backend import get_user_by_email, put_user, update_user_last_login, update_user_google
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -35,16 +33,10 @@ JWT_SECRET       = os.getenv("JWT_SECRET", "change-me-in-production")
 JWT_ALGORITHM    = "HS256"
 JWT_EXPIRE_HOURS = int(os.getenv("JWT_EXPIRE_HOURS", "72"))
 
-AWS_REGION  = os.getenv("AWS_REGION", "us-west-2")
-USERS_TABLE = os.getenv("USERS_TABLE", "medi-agent-users")
-
 GOOGLE_CLIENT_ID     = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 GOOGLE_REDIRECT_URI  = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:8000/api/v1/auth/google/callback")
 FRONTEND_URL         = os.getenv("FRONTEND_URL", "http://localhost:8501")
-
-_ddb   = boto3.resource("dynamodb", region_name=AWS_REGION)
-_table = _ddb.Table(USERS_TABLE)
 
 class _pwd:
     @staticmethod
@@ -86,13 +78,7 @@ def _make_jwt(user_id: str, email: str, name: str,
 
 
 def _get_user_by_email(email: str):
-    resp = _table.query(
-        IndexName="email-index",
-        KeyConditionExpression=DDBKey("email").eq(email),
-        Limit=1,
-    )
-    items = resp.get("Items", [])
-    return items[0] if items else None
+    return get_user_by_email(email)
 
 
 # ---------------------------------------------------------------------------
@@ -120,7 +106,7 @@ def register(body: RegisterRequest):
     if body.gender:
         item["gender"] = body.gender
 
-    _table.put_item(Item=item)
+    put_user(item)
 
     token = _make_jwt(user_id, body.email, name, body.age, body.gender)
     return JSONResponse({
@@ -140,11 +126,7 @@ def login(body: LoginRequest):
     if not user or not _pwd.verify(body.password, user["hashed_password"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
-    _table.update_item(
-        Key={"user_id": user["user_id"]},
-        UpdateExpression="SET last_login = :t",
-        ExpressionAttributeValues={":t": datetime.now(timezone.utc).isoformat()},
-    )
+    update_user_last_login(user["user_id"], datetime.now(timezone.utc).isoformat())
 
     age = int(user["age"]) if user.get("age") is not None else None
     token = _make_jwt(user["user_id"], user["email"], user["name"],
@@ -221,7 +203,7 @@ async def google_callback(code: str):
 
     if not user:
         user_id = str(uuid.uuid4())
-        _table.put_item(Item={
+        put_user({
             "user_id":         user_id,
             "email":           email,
             "name":            name,
@@ -232,11 +214,7 @@ async def google_callback(code: str):
         })
     else:
         user_id = user["user_id"]
-        _table.update_item(
-            Key={"user_id": user_id},
-            UpdateExpression="SET last_login = :t, google_id = :g",
-            ExpressionAttributeValues={":t": now, ":g": google_id},
-        )
+        update_user_google(user_id, now, google_id)
 
     jwt_token = _make_jwt(user_id, email, name)
     return RedirectResponse(f"{FRONTEND_URL}?token={jwt_token}&name={name}&email={email}")

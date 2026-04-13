@@ -17,9 +17,14 @@ env/
 # Claude Code
 .claude/
 
-# Large model artifacts — adapter weights & checkpoints
+# Large model artifacts — adapter weights, checkpoints & merged models
 data/processed/response_generator_adapter/
 data/processed/symptom_classifier_adapter/
+data/processed/merged_classifier/
+data/processed/merged_generator/
+
+# Local SQLite database (contains user data)
+medi-agent.db
 
 # Training data (too large for GitHub)
 data/processed/*.jsonl

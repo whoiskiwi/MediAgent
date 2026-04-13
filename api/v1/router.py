@@ -4,9 +4,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Dict, List, Optional
 
-import boto3
-from boto3.dynamodb.conditions import Key as DDBKey
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
@@ -22,16 +20,18 @@ from schemas import (
 from orchestrator.graph import run_pipeline, stream_pipeline
 from auth.dependencies import get_current_user
 from agents.rag.qa import answer_question, lookup_drug
+from db.backend import (
+    put_appointment,
+    get_appointments_by_user,
+    get_appointment,
+    delete_appointment,
+    delete_all_appointments,
+    get_profile,
+    put_profile,
+)
 
 api_router = APIRouter()
 
-APPOINTMENTS_TABLE = os.getenv("APPOINTMENTS_TABLE", "medi-agent-appointments")
-PROFILES_TABLE     = os.getenv("PROFILES_TABLE", "medi-agent-patient-profiles")
-AWS_REGION         = os.getenv("AWS_REGION", "us-west-2")
-
-_ddb      = boto3.resource("dynamodb", region_name=AWS_REGION)
-_appts    = _ddb.Table(APPOINTMENTS_TABLE)
-_profiles = _ddb.Table(PROFILES_TABLE)
 
 _bearer = HTTPBearer(auto_error=False)
 
@@ -52,8 +52,7 @@ def _optional_user(
 
 def _get_profile(user_id: str) -> dict:
     try:
-        resp = _profiles.get_item(Key={"user_id": user_id})
-        return resp.get("Item", {})
+        return get_profile(user_id)
     except Exception:
         return {}
 
@@ -76,9 +75,9 @@ def _save_appointment(user: Optional[dict], symptom: str, state: dict):
     if state.get("first_aid"):
         item["first_aid"] = state["first_aid"]
     try:
-        _appts.put_item(Item=item)
+        put_appointment(item)
     except Exception as e:
-        print(f"[router] DynamoDB save failed: {e}")
+        print(f"[router] appointment save failed: {e}")
 
 
 # ---------------------------------------------------------------------------
@@ -105,19 +104,14 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
 
     if user and not history:
         try:
-            resp = _appts.query(
-                KeyConditionExpression=DDBKey("user_id").eq(user["sub"]),
-                ScanIndexForward=False,
-                Limit=5,
-            )
-            db_items = list(reversed(resp.get("Items", [])))
+            db_items = get_appointments_by_user(user["sub"])[:5]
             history = [
                 {
                     "symptom":    item.get("symptom", ""),
                     "department": item.get("department", ""),
                     "urgency":    item.get("urgency", ""),
                 }
-                for item in db_items
+                for item in reversed(db_items)
             ]
             if history:
                 _conv_store[conv_id] = history
@@ -134,6 +128,7 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         weight_kg=profile.get("weight_kg")   or req.weight_kg,
         thread_id=f"{conv_id}_{len(history) + 1}",
         conversation_history=history,
+        logged_in=user is not None,
     )
 
     _save_appointment(user, req.symptom, state)
@@ -162,7 +157,6 @@ def query(req: QueryRequest, user: Optional[dict] = Depends(_optional_user)):
         conversation_id=conv_id,
     )
 
-
 # ---------------------------------------------------------------------------
 # Query (streaming SSE)
 # ---------------------------------------------------------------------------
@@ -177,22 +171,17 @@ def query_stream(req: QueryRequest, user: Optional[dict] = Depends(_optional_use
     conv_id = req.conversation_id or str(uuid.uuid4())
     history = _conv_store.get(conv_id, [])
 
-    # For logged-in users: if no in-memory history yet, seed from DynamoDB appointment history
+    # For logged-in users: if no in-memory history yet, seed from appointment history
     if user and not history:
         try:
-            resp = _appts.query(
-                KeyConditionExpression=DDBKey("user_id").eq(user["sub"]),
-                ScanIndexForward=False,
-                Limit=5,
-            )
-            db_items = list(reversed(resp.get("Items", [])))
+            db_items = get_appointments_by_user(user["sub"])[:5]
             history = [
                 {
                     "symptom":    item.get("symptom", ""),
                     "department": item.get("department", ""),
                     "urgency":    item.get("urgency", ""),
                 }
-                for item in db_items
+                for item in reversed(db_items)
             ]
             if history:
                 _conv_store[conv_id] = history
@@ -219,6 +208,7 @@ def query_stream(req: QueryRequest, user: Optional[dict] = Depends(_optional_use
                 weight_kg=profile.get("weight_kg")   or req.weight_kg,
                 thread_id=f"{conv_id}_{len(history) + 1}",
                 conversation_history=history,
+                logged_in=user is not None,
             ):
                 for node_name, node_updates in update.items():
                     event_name = _node_to_event.get(node_name, node_name)
@@ -247,20 +237,14 @@ def query_stream(req: QueryRequest, user: Optional[dict] = Depends(_optional_use
 
 @api_router.get("/appointments")
 def get_appointments(user: dict = Depends(get_current_user)):
-    resp = _appts.query(
-        KeyConditionExpression=DDBKey("user_id").eq(user["sub"]),
-        ScanIndexForward=False,
-        Limit=20,
-    )
-    return {"appointments": resp.get("Items", [])}
+    return {"appointments": get_appointments_by_user(user["sub"])}
 
 
 @api_router.delete("/appointments/{timestamp}")
 def cancel_appointment(timestamp: str, user: dict = Depends(get_current_user)):
-    resp = _appts.get_item(Key={"user_id": user["sub"], "timestamp": timestamp})
-    if "Item" not in resp:
+    if not get_appointment(user["sub"], timestamp):
         raise HTTPException(status_code=404, detail="Appointment not found")
-    _appts.delete_item(Key={"user_id": user["sub"], "timestamp": timestamp})
+    delete_appointment(user["sub"], timestamp)
     return {"deleted": True}
 
 
@@ -269,7 +253,7 @@ def cancel_appointment(timestamp: str, user: dict = Depends(get_current_user)):
 # ---------------------------------------------------------------------------
 
 @api_router.get("/profile")
-def get_profile(user: dict = Depends(get_current_user)):
+def get_profile_endpoint(user: dict = Depends(get_current_user)):
     item = _get_profile(user["sub"])
     return {
         "blood_type": item.get("blood_type"),
@@ -281,7 +265,6 @@ def get_profile(user: dict = Depends(get_current_user)):
 
 @api_router.put("/profile")
 def update_profile(body: PatientProfile, user: dict = Depends(get_current_user)):
-    from decimal import Decimal
     item = {"user_id": user["sub"]}
     if body.blood_type is not None:
         item["blood_type"] = body.blood_type
@@ -290,8 +273,8 @@ def update_profile(body: PatientProfile, user: dict = Depends(get_current_user))
     if body.height_cm is not None:
         item["height_cm"] = body.height_cm
     if body.weight_kg is not None:
-        item["weight_kg"] = Decimal(str(body.weight_kg))
-    _profiles.put_item(Item=item)
+        item["weight_kg"] = body.weight_kg
+    put_profile(item)
     return {"saved": True}
 
 
@@ -305,21 +288,7 @@ ADMIN_SECRET = os.getenv("ADMIN_SECRET", "")
 def clear_all_appointments(secret: str):
     if not ADMIN_SECRET or secret != ADMIN_SECRET:
         raise HTTPException(status_code=403, detail="Forbidden")
-    deleted = 0
-    while True:
-        resp = _appts.scan(
-            ProjectionExpression="user_id, #ts",
-            ExpressionAttributeNames={"#ts": "timestamp"},
-        )
-        items = resp.get("Items", [])
-        if not items:
-            break
-        with _appts.batch_writer() as batch:
-            for item in items:
-                batch.delete_item(Key={"user_id": item["user_id"], "timestamp": item["timestamp"]})
-        deleted += len(items)
-        if "LastEvaluatedKey" not in resp:
-            break
+    deleted = delete_all_appointments()
     return {"deleted": deleted}
 
 

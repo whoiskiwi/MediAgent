@@ -204,10 +204,13 @@ def _parse_output(raw: str, prompt_prefix: str = "Confirmation: Your appointment
     return confirmation, instructions
 
 
-def _build_first_aid_prompt(patient_text: str, department: str, urgency: str,
-                             user_age: int = None, user_gender: str = None,
-                             blood_type: str = None, allergies: list = None,
-                             height_cm: int = None, weight_kg: float = None) -> str:
+def _call_first_aid_llm(patient_text: str, department: str, urgency: str,
+                         user_age: int = None, user_gender: str = None,
+                         blood_type: str = None, allergies: list = None,
+                         height_cm: int = None, weight_kg: float = None) -> str:
+    """Call DeepSeek (or OpenAI fallback) for first aid steps."""
+    from openai import OpenAI
+
     context_parts = []
     if user_age:
         context_parts.append(f"Age: {user_age}")
@@ -223,19 +226,43 @@ def _build_first_aid_prompt(patient_text: str, department: str, urgency: str,
     context_line = f"Patient info: {', '.join(context_parts)}\n" if context_parts else ""
 
     level = "emergency" if urgency == "Emergency" else "urgent"
-    return (
-        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
-        f"You are a medical first aid advisor. The patient has a {level} condition.\n"
-        "List 3-5 specific, actionable first aid steps the patient or bystander should take RIGHT NOW "
-        "based on the symptoms described, before reaching a doctor.\n"
-        "Be concise and specific to the symptoms. Do not give general advice.\n"
-        "<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+    prompt = (
         f"{context_line}"
         f"Symptoms: {patient_text}\n"
-        f"Department: {department}\n"
-        "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
-        "Immediate steps:\n"
+        f"Department: {department}\n\n"
+        f"The patient has a {level} condition. "
+        "List exactly 3 to 5 specific, actionable first aid steps the patient or bystander "
+        "should take RIGHT NOW, before reaching a doctor. "
+        "Be concise and specific to the symptoms. Do not list diagnostic tests or medications."
     )
+
+    deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+    openai_key   = os.getenv("OPENAI_API_KEY")
+
+    if deepseek_key:
+        try:
+            client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
+            resp = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=256,
+                temperature=0.5,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"[Agent3] DeepSeek first aid failed: {e}, falling back to OpenAI")
+
+    if openai_key:
+        client = OpenAI(api_key=openai_key)
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=256,
+            temperature=0.5,
+        )
+        return resp.choices[0].message.content.strip()
+
+    return "Please seek immediate medical attention."
 
 
 def run_generator(state: AgentState) -> AgentState:
@@ -263,8 +290,8 @@ def run_generator(state: AgentState) -> AgentState:
     confirmation, instructions = _parse_output(generated, prompt_prefix="Confirmation: Your appointment with")
 
     first_aid = None
-    if urgency in ("Urgent", "Emergency"):
-        fa_prompt = _build_first_aid_prompt(
+    if urgency in ("Urgent", "Emergency") and state.get("logged_in"):
+        fa_raw = _call_first_aid_llm(
             patient_text=state["patient_text"],
             department=state.get("department", "General Practice"),
             urgency=urgency,
@@ -275,8 +302,7 @@ def run_generator(state: AgentState) -> AgentState:
             height_cm=state.get("height_cm"),
             weight_kg=state.get("weight_kg"),
         )
-        fa_raw   = _call_endpoint(fa_prompt)
-        first_aid = ("Immediate steps:\n" + fa_raw).strip()
+        first_aid = fa_raw.strip()
 
     print(f"[Agent3] → confirmation generated ({len(confirmation)} chars), first_aid={'yes' if first_aid else 'no'}")
     return {**state, "confirmation": confirmation, "instructions": instructions, "first_aid": first_aid}

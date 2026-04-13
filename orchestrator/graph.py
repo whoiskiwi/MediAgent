@@ -3,6 +3,7 @@
 Wires the four agents into a sequential StateGraph with MemorySaver for
 multi-turn conversation support.
 """
+import time
 
 try:
     from langgraph.checkpoint.memory import MemorySaver
@@ -19,6 +20,26 @@ from agents.response_generator.agent import run_generator
 from agents.causes_generator.agent import run_causes_generator
 
 # ---------------------------------------------------------------------------
+# Instrumentation helper
+# ---------------------------------------------------------------------------
+
+def _timed(component: str, fn):
+    """Wrap an agent function to record per-component latency."""
+    def wrapper(state):
+        start = time.time()
+        success = True
+        try:
+            return fn(state)
+        except Exception:
+            success = False
+            raise
+        finally:
+            from monitoring.tracker import record
+            record(component, latency_ms=(time.time() - start) * 1000, success=success)
+    return wrapper
+
+
+# ---------------------------------------------------------------------------
 # Build the graph
 # ---------------------------------------------------------------------------
 
@@ -26,10 +47,10 @@ _memory = MemorySaver()
 
 _builder = StateGraph(AgentState)
 
-_builder.add_node("classify", lambda state: run_classifier(state))
-_builder.add_node("retrieve", lambda state: run_retriever(state))
-_builder.add_node("generate", lambda state: run_generator(state))
-_builder.add_node("causes",   lambda state: run_causes_generator(state))
+_builder.add_node("classify", _timed("classifier", run_classifier))
+_builder.add_node("retrieve", _timed("retriever",  run_retriever))
+_builder.add_node("generate", _timed("generator",  run_generator))
+_builder.add_node("causes",   _timed("causes",     run_causes_generator))
 
 _builder.add_edge(START,      "classify")
 _builder.add_edge("classify", "retrieve")
@@ -93,6 +114,7 @@ def run_pipeline(
     weight_kg: float = None,
     thread_id: str = None,
     conversation_history: list = None,
+    logged_in: bool = False,
 ) -> AgentState:
     """Run the full pipeline synchronously. Supports multi-turn via thread_id."""
     state = _build_initial_state(
@@ -100,8 +122,25 @@ def run_pipeline(
         blood_type, allergies, height_cm, weight_kg,
         conversation_history or [],
     )
+    state["logged_in"] = logged_in
     config = {"configurable": {"thread_id": thread_id or "anonymous"}}
-    return graph.invoke(state, config=config)
+
+    start = time.time()
+    success = True
+    result = None
+    try:
+        result = graph.invoke(state, config=config)
+        return result
+    except Exception:
+        success = False
+        raise
+    finally:
+        from monitoring.tracker import record
+        meta: dict = {}
+        if result is not None:
+            meta["urgency"]    = result.get("urgency", "")
+            meta["department"] = result.get("department", "")
+        record("pipeline", latency_ms=(time.time() - start) * 1000, success=success, **meta)
 
 
 def stream_pipeline(
@@ -114,6 +153,7 @@ def stream_pipeline(
     weight_kg: float = None,
     thread_id: str = None,
     conversation_history: list = None,
+    logged_in: bool = False,
 ):
     """Stream pipeline updates node-by-node. Yields {node_name: state_updates}."""
     state = _build_initial_state(
@@ -121,5 +161,6 @@ def stream_pipeline(
         blood_type, allergies, height_cm, weight_kg,
         conversation_history or [],
     )
+    state["logged_in"] = logged_in
     config = {"configurable": {"thread_id": thread_id or "anonymous"}}
     yield from graph.stream(state, config=config, stream_mode="updates")
