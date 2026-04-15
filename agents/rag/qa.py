@@ -161,9 +161,10 @@ def _format_fda_summary(drug_name: str, fda: dict) -> str:
 # ---------------------------------------------------------------------------
 
 def _call_llm(prompt: str) -> str:
+    _TIMEOUT = 20
     if DEEPSEEK_API_KEY:
         try:
-            client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
+            client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com", timeout=_TIMEOUT)
             resp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
@@ -175,13 +176,16 @@ def _call_llm(prompt: str) -> str:
             print(f"[QA] DeepSeek failed: {e}, falling back to OpenAI")
 
     if OPENAI_API_KEY:
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=512,
-            temperature=0.3,
-        )
-        return resp.choices[0].message.content.strip()
+        try:
+            client = OpenAI(api_key=OPENAI_API_KEY, timeout=_TIMEOUT)
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=512,
+                temperature=0.3,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"[QA] OpenAI failed: {e}")
 
     return "No LLM available to answer the question."

@@ -93,9 +93,10 @@ def generate_summary(symptom: str, qa_pairs: list) -> str:
 def _call_llm(prompt: str, max_tokens: int = 512) -> str:
     from openai import OpenAI
 
+    _TIMEOUT = 20
     if DEEPSEEK_API_KEY:
         try:
-            client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
+            client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com", timeout=_TIMEOUT)
             resp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
@@ -107,13 +108,16 @@ def _call_llm(prompt: str, max_tokens: int = 512) -> str:
             print(f"[ChatGuide] DeepSeek failed: {e}, falling back to OpenAI")
 
     if OPENAI_API_KEY:
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=max_tokens,
-            temperature=0.3,
-        )
-        return resp.choices[0].message.content.strip()
+        try:
+            client = OpenAI(api_key=OPENAI_API_KEY, timeout=_TIMEOUT)
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=max_tokens,
+                temperature=0.3,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"[ChatGuide] OpenAI failed: {e}")
 
     raise RuntimeError("No LLM API key available")

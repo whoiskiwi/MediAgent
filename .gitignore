@@ -37,3 +37,6 @@ data/mplus_topics_*.xml
 
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
+
+# React+Vite frontend (disabled, kept local for future use)
+frontend/

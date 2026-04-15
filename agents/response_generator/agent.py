@@ -239,9 +239,10 @@ def _call_first_aid_llm(patient_text: str, department: str, urgency: str,
     deepseek_key = os.getenv("DEEPSEEK_API_KEY")
     openai_key   = os.getenv("OPENAI_API_KEY")
 
+    _TIMEOUT = 20
     if deepseek_key:
         try:
-            client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
+            client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com", timeout=_TIMEOUT)
             resp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
@@ -253,14 +254,17 @@ def _call_first_aid_llm(patient_text: str, department: str, urgency: str,
             print(f"[Agent3] DeepSeek first aid failed: {e}, falling back to OpenAI")
 
     if openai_key:
-        client = OpenAI(api_key=openai_key)
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=256,
-            temperature=0.5,
-        )
-        return resp.choices[0].message.content.strip()
+        try:
+            client = OpenAI(api_key=openai_key, timeout=_TIMEOUT)
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=256,
+                temperature=0.5,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"[Agent3] OpenAI failed: {e}")
 
     return "Please seek immediate medical attention."
 

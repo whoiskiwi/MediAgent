@@ -71,12 +71,15 @@ def _build_prompt(patient_text: str, department: str, rag_docs: list[dict],
     )
 
 
+_LLM_TIMEOUT = 20  # seconds
+
 def _call_llm(prompt: str) -> str:
     if DEEPSEEK_API_KEY:
         try:
             client = OpenAI(
                 api_key=DEEPSEEK_API_KEY,
                 base_url="https://api.deepseek.com",
+                timeout=_LLM_TIMEOUT,
             )
             resp = client.chat.completions.create(
                 model="deepseek-chat",
@@ -89,14 +92,17 @@ def _call_llm(prompt: str) -> str:
             print(f"[CausesGenerator] DeepSeek failed: {e}, falling back to OpenAI")
 
     if OPENAI_API_KEY:
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=350,
-            temperature=0.7,
-        )
-        return resp.choices[0].message.content.strip()
+        try:
+            client = OpenAI(api_key=OPENAI_API_KEY, timeout=_LLM_TIMEOUT)
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=350,
+                temperature=0.7,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"[CausesGenerator] OpenAI failed: {e}")
 
     return "[]"
 
